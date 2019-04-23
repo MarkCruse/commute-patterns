@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Commute Lines</title>
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/3.0.0/css/ionicons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
+    <link href="assets/css/theme.css" rel="stylesheet">
+    <link href="assets/css/template.css" rel="stylesheet">
+
+</head>
+  <body data-spy="scroll" data-target="#navbar1" data-offset="60">
+            <!-- Navigation -->
+            <!--<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">-->
+            <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary" id="navbar1">
+            <div class="container">
+
+                    <a class="navbar-brand" href="#">Spatial Patterns in Commute to Workplace</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
+                        aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarResponsive">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item active">
+                                <a class="nav-link" href="#">Home
+                                    <span class="sr-only">(current)</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link"
+                                    href="https://github.com/MarkCruse/NMP-final-project#spatial-patterns-in-commute-to-workplace">About</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Nav-item</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Contact</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+    <!-- Page Content -->
+
+        <section class="container">
+            <div class="container h-100">
+                <!--<div class="row h-100 col-12">-->
+                <!--<div class="col-12">-->
+                <div class="m-0 vh-100 d-flex flex-column justify-content-center text-light">
+                    <div class="padding" id="map-container">
+                        <div class="col-md-12">
+                            <div id="map"></div>
+                        </div>
+                    </div>
+                </div>
+                <!--</div>-->
+                <!--</div>-->
+            </div>
+            <div class="row vh-100">
+                <div class="col-12 my-auto">
+                    <div class="row text-center">
+                        <div class="col-lg-4 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                                    <h1 class="display-2 text-primary"><span class="ion ion-ios-snow-outline"></span>
+                                    </h1>
+                                    <h4 class="card-title text-primary">Keyword1</h4>
+                                    <p class="card-text">Box text here</p>
+                                    <a href="#" class="btn btn-primary mt-auto">Button</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                                    <h1 class="display-2 text-primary"><span
+                                            class="ion ion-ios-tablet-portrait-outline"></span></h1>
+                                    <h4 class="card-title text-primary">Keyword2</h4>
+                                    <p class="card-text">Box text here</p>
+                                    <a href="#" class="btn btn-primary mt-auto">Button</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 mb-4">
+                            <div class="card h-100">
+                                <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                                    <h1 class="display-2 text-primary"><span
+                                            class="ion ion-ios-checkmark-circle-outline"></span></h1>
+                                    <h4 class="card-title text-primary">Keyword3</h4>
+                                    <p class="card-text">Box text here</p>
+                                    <a href="#" class="btn btn-primary mt-auto">Button</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    <!-- Footer-->
+        <footer id="footer" class="bg-dark text-light py-5">
+            <div class="container py-5">
+                <div class="row">
+                    <div class="col-6 col-md-6 col-lg-3 mb-2">
+                        <h6 class="text-uppercase">Tools</h6>
+                        <ul class="nav flex-column">
+
+                        </ul>
+                    </div>
+                    <div class="col-6 col-md-6 col-lg-3 mb-2">
+                        <h6 class="text-uppercase">More</h6>
+                        <ul class="nav flex-column">
+
+                        </ul>
+                    </div>
+                    <div class="col-12 col-md-12 col-lg-6 mb-2 text-right">
+                        <h6 class="text-uppercase">Follow</h6>
+                        <ul class="nav float-right">
+                            <li><a class="text-white mr-2" rel="nofollow" href="https://twitter.com/waywardmark"
+                                    title="Follow on Twitter"><i
+                                        class="h1 fa fa-fw fa-twitter fa-2x ion-logo-twitter"></i></a></li>
+                            <li><a class="text-white mr-2" rel="nofollow" href="https://www.facebook.com/themarkcruse"
+                                    title="Follow on Facebook"><i
+                                        class="h1 fa fa-fw fa-facebook fa-2x ion-logo-facebook"></i></a></li>
+                            <li><a class="text-white mr" rel="nofollow"
+                                    href="https://github.com/markcruse" title="Follow on GitHub"><i
+                                        class="h1 fa fa-fw fa-facebook fa-2x ion-logo-github"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <!--/row-->
+            </div>
+        </footer>
+    <!-- Bootstrap core JavaScript -->
+   <script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.13.0/umd/popper.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+    </script>
+
+    <script src="assets/js/app.js"></script>
+
+</body>
+
+</html>
