@@ -1,7 +1,7 @@
     //** zoom options
     var options = {
         center: [37.645556, -84.769722],
-        zoom: 7.25,
+        zoom: 7,
         minZoom: 5,
         maxZoom: 16,
         maxBounds: [
