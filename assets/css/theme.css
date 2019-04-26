@@ -1,13 +1,7 @@
-/*! Themestr.app `Greyson` Bootstrap 4.3.1 theme */
 @import url(https://fonts.googleapis.com/css?family=Muli:200,300,400,700);
 @import url(https://fonts.googleapis.com/css?family=Oswald:200,300,400,700);
 /*! Import Bootstrap 4 variables */
-/*!
- * Bootstrap v4.1.1 (https://getbootstrap.com/)
- * Copyright 2011-2018 The Bootstrap Authors
- * Copyright 2011-2018 Twitter, Inc.
- * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
- */
+
 :root {
   --blue: #007bff;
   --indigo: #6610f2;
@@ -42,19 +36,6 @@
 *::before,
 *::after {
   box-sizing: border-box; }
-
-#map {
-  position: absolute;
-  width: 100%;
-  height: 600px;
-  top: 0;
-  bottom: 0;
-  margin: 0;
-  padding: 0;
-  border: 1px solid black;
-  border-radius: 8px;
-  background: #343a40;
-}
 
 html {
   font-family: sans-serif;
