@@ -15,38 +15,14 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
     <link href="assets/css/theme.css" rel="stylesheet">
     <link href="assets/css/template.css" rel="stylesheet">
-    <link href="assets/css/simple-sidebar.css" rel="stylesheet">
+    <link href="simple-sidebar.css" rel="stylesheet">
 
 
 </head>
-
   <body data-spy="scroll" data-target="#navbar1" data-offset="60">
-     <div class="d-flex" id="wrapper">
-
-         <!-- Sidebar -->
-         <div class="bg-light border-right" id="sidebar-wrapper">
-             <div class="sidebar-heading">Start Bootstrap </div>
-             <div class="list-group list-group-flush">
-                 <a href="#" class="list-group-item list-group-item-action bg-light">Dashboard</a>
-                 <a href="#" class="list-group-item list-group-item-action bg-light">Shortcuts</a>
-                 <a href="#" class="list-group-item list-group-item-action bg-light">Overview</a>
-                 <a href="#" class="list-group-item list-group-item-action bg-light">Events</a>
-                 <a href="#" class="list-group-item list-group-item-action bg-light">Profile</a>
-                 <a href="#" class="list-group-item list-group-item-action bg-light">Status</a>
-             </div>
-         </div>
-         <!-- /#sidebar-wrapper -->
-
-    <!-- Navigation -->
+            <!-- Navigation -->
             <!--<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">-->
             <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary" id="navbar1">
-                <button class="btn btn-primary" id="menu-toggle">Toggle Menu</button>
-
-                <button class="navbar-toggler" type="button" data-toggle="collapse"
-                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
                 <div class="container">
                     <a class="navbar-brand" href="#">Spatial Patterns in Commute to Workplace Census Data</a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
@@ -77,17 +53,13 @@
                     </div>
                 </div>
             </nav>
-
-
     <!-- Page Content -->
-    
-    <div id="page-content-wrapper">
         <section1 class="container">
             <div class="row vh-50">
- <!--              <div class="col-1 my-auto">
+                <div class="col-2 my-auto">
                     
-                </div>-->
-                <div class="col-11 my-auto">
+                </div>
+                <div class="col-8 my-auto">
                     <div class="vh-100 d-flex flex-column" style="margin-top:80px">
                         <div class="padding" id="map-container">
                             <div class="col-md-12 my-auto">
@@ -176,15 +148,8 @@
                 <!--/row-->
             </div>
         </footer>
-
-        </div>
-        <!-- /#page-content-wrapper -->
-
-        </div>
-        <!-- /#wrapper -->
-
     <!-- Bootstrap core JavaScript -->
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+   <script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.13.0/umd/popper.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
@@ -195,14 +160,6 @@
     </script>
 
     <script src="assets/js/app.js"></script>
-
-    <!-- Menu Toggle Script -->
-    <script>
-        $("#menu-toggle").click(function (e) {
-            e.preventDefault();
-            $("#wrapper").toggleClass("toggled");
-        });
-    </script>
 
 </body>
 
