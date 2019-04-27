@@ -8,44 +8,80 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Commute Lines</title>
+    <title>Map with Slide Sidebar</title>
 
+    <!-- Bootstrap core CSS --> 
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/3.0.0/css/ionicons.css" rel="stylesheet">
+
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
+    <!-- Custom styles for this template -->
     <link href="assets/css/theme.css" rel="stylesheet">
-    <link href="assets/css/template.css" rel="stylesheet">
     <link href="assets/css/map.css" rel="stylesheet">
     <link href="assets/css/simple-sidebar.css" rel="stylesheet">
 
-
 </head>
 
-  <body data-spy="scroll" data-target="#navbar1" data-offset="60">
-     <div class="d-flex" id="wrapper">
+<body>
 
-         <!-- Sidebar -->
-         <div class="bg-light border-right" id="sidebar-wrapper">
-             <div class="sidebar-heading">Start Bootstrap </div>
-             <div class="list-group list-group-flush">
-                 <a href="#" class="list-group-item list-group-item-action bg-light">Dashboard</a>
-                 <a href="#" class="list-group-item list-group-item-action bg-light">Shortcuts</a>
-                 <a href="#" class="list-group-item list-group-item-action bg-light">Overview</a>
-                 <a href="#" class="list-group-item list-group-item-action bg-light">Events</a>
-                 <a href="#" class="list-group-item list-group-item-action bg-light">Profile</a>
-                 <a href="#" class="list-group-item list-group-item-action bg-light">Status</a>
-             </div>
-         </div>
-         <!-- /#sidebar-wrapper -->
+    <div class="d-flex" id="wrapper">
 
-    <!-- Navigation -->
-            <!--<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">-->
-            <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary" id="navbar1">
+        <!-- Sidebar -->
+        <div class="bg-light border-right" id="sidebar-wrapper">
+            <div class="sidebar-heading">Sidebar Heading</div>
+            <div class="list-group list-group-flush">
+                <a href="#" class="list-group-item list-group-item-action bg-light">List item 1</a>
+                <a href="#" class="list-group-item list-group-item-action bg-light">List item 2</a>
+                <a href="#" class="list-group-item list-group-item-action bg-light">List item 3</a>
+                <a href="#" class="list-group-item list-group-item-action bg-light">List item 4</a>
+                <a href="#" class="list-group-item list-group-item-action bg-light">List item 5</a>
+                <a href="#" class="list-group-item list-group-item-action bg-light">List item 6</a>
+            </div>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+<!--
+            <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+                <!--
                 <button class="btn btn-primary" id="menu-toggle">Toggle Menu</button>
 
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
-                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
+                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            -->
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Link</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Dropdown
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="#">Action</a>
+                                <a class="dropdown-item" href="#">Another action</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">Something else here</a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        -->
+            <!-- Navigation -->
+            <!--<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">-->
+            <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary" id="navbar1">
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="container">
@@ -79,123 +115,40 @@
                 </div>
             </nav>
 
+            <div class="container-fluid">
+               <!-- <button class="btn btn-primary" id="menu-toggle">Toggle Menu</button> -->
+<button class="mt-5" id="menu-toggle">Toggle Menu</button>
 
-    <!-- Page Content -->
-    
-    <div id="page-content-wrapper">
-        <section1 class="container">
-            <div class="row vh-50">
- <!--              <div class="col-1 my-auto">
-                    
-                </div>-->
-                <div class="col-11 my-auto">
-                    <div class="vh-100 d-flex flex-column" style="margin-top:80px">
-                        <div class="padding" id="map-container">
-                            <div class="col-md-12 my-auto">
-                                <div id="map"></div>
-                            </div>
-                        </div>
-                    </div>
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <h1 class="mt-4">Sidebar Toggle</h1>
+                <p>The starting state of the menu will appear collapsed on smaller screens, and will appear
+                    non-collapsed on larger screens. When toggled using the button above, the menu will change.</p>
+                <!-- Make sure to keep all page content within the <code>#page-content-wrapper</code>. The top navbar is
+                    optional, and just for demonstration. Just create an element with the <code>#menu-toggle</code> ID
+                    which will toggle the menu when clicked.-->
+                <div class="col-md-12 my-auto">
+                    <div id="map"></div>
                 </div>
             </div>
-
-        </section1>
-
-        <section class="container">
-
-            <div class="row vh-50">
-                <div class="col-12 my-auto">
-                    <div class="row text-center">
-                        <div class="col-lg-4 mb-4">
-                            <div class="card h-100">
-                                <div class="card-body d-flex flex-column justify-content-center align-items-center">
-                                    <h1 class="display-2 text-primary"><span class="ion ion-ios-snow-outline"></span>
-                                    </h1>
-                                    <h4 class="card-title text-primary">Keyword1</h4>
-                                    <p class="card-text">Box text here</p>
-                                    <a href="#" class="btn btn-primary mt-auto">Button</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 mb-4">
-                            <div class="card h-100">
-                                <div class="card-body d-flex flex-column justify-content-center align-items-center">
-                                    <h1 class="display-2 text-primary"><span
-                                            class="ion ion-ios-tablet-portrait-outline"></span></h1>
-                                    <h4 class="card-title text-primary">Keyword2</h4>
-                                    <p class="card-text">Box text here</p>
-                                    <a href="#" class="btn btn-primary mt-auto">Button</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 mb-4">
-                            <div class="card h-100">
-                                <div class="card-body d-flex flex-column justify-content-center align-items-center">
-                                    <h1 class="display-2 text-primary"><span
-                                            class="ion ion-ios-checkmark-circle-outline"></span></h1>
-                                    <h4 class="card-title text-primary">Keyword3</h4>
-                                    <p class="card-text">Box text here</p>
-                                    <a href="#" class="btn btn-primary mt-auto">Button</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- Footer-->
-        <footer id="footer" class="bg-dark text-light py-5">
-            <div class="container py-5">
-                <div class="row">
-                    <div class="col-6 col-md-6 col-lg-3 mb-2">
-                        <h6 class="text-uppercase">Tools</h6>
-                        <ul class="nav flex-column">
-
-                        </ul>
-                    </div>
-                    <div class="col-6 col-md-6 col-lg-3 mb-2">
-                        <h6 class="text-uppercase">More</h6>
-                        <ul class="nav flex-column">
-
-                        </ul>
-                    </div>
-                    <div class="col-12 col-md-12 col-lg-6 mb-2 text-right">
-                        <h6 class="text-uppercase">Follow</h6>
-                        <ul class="nav float-right">
-                            <li><a class="text-white mr-2" rel="nofollow" href="https://twitter.com/waywardmark"
-                                    title="Follow on Twitter"><i
-                                        class="h1 fa fa-fw fa-twitter fa-2x ion-logo-twitter"></i></a></li>
-                            <li><a class="text-white mr-2" rel="nofollow" href="https://www.facebook.com/themarkcruse"
-                                    title="Follow on Facebook"><i
-                                        class="h1 fa fa-fw fa-facebook fa-2x ion-logo-facebook"></i></a></li>
-                            <li><a class="text-white mr" rel="nofollow"
-                                    href="https://github.com/markcruse" title="Follow on GitHub"><i
-                                        class="h1 fa fa-fw fa-facebook fa-2x ion-logo-github"></i></a></li>
-                        </ul>
-                    </div>
-                </div>
-                <!--/row-->
-            </div>
-        </footer>
-
         </div>
         <!-- /#page-content-wrapper -->
 
-        </div>
-        <!-- /#wrapper -->
+    </div>
+    <!-- /#wrapper -->
 
     <!-- Bootstrap core JavaScript -->
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/popper.js/1.13.0/umd/popper.min.js"></script>
+
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
     <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"
-        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous">
     </script>
 
-    <script src="assets/js/app.js"></script>
 
     <!-- Menu Toggle Script -->
     <script>
@@ -204,6 +157,9 @@
             $("#wrapper").toggleClass("toggled");
         });
     </script>
+
+    <script src="assets/js/app.js"></script>
+
 
 </body>
 
