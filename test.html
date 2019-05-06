@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
+  <title>Hello, world!</title>
+  <style>
+    #map {
+      width: 100%;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+    }
+    .routes {
+      fill: none;
+      stroke: #ff6e00;
+      stroke-width: 2;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="map"></div>
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+  </script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+  </script>
+  <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <script src="https://unpkg.com/leaflet.vectorgrid@latest/dist/Leaflet.VectorGrid.bundled.js"></script>
+  <script>
+    var map = L.map('map', {
+      renderer: L.canvas()
+    }).setView([38, -84], 7);
+
+    // L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    //   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    // }).addTo(map);
+
+    // select our div element
+    var mapContainer = d3.select('#map')
+
+    // derive the width and height
+    var width = mapContainer.node().getBoundingClientRect().width,
+      height = mapContainer.node().getBoundingClientRect().height
+
+    // attach a new SVG element and enable pan/zooming
+    var map = mapContainer.append('svg')
+      .attr('width', width)
+      .attr('height', height)
+      .call(d3.zoom().on("zoom", function () {
+        map.attr("transform", d3.event.transform)
+      }))
+      .on("dblclick.zoom", null)
+      .append("g")
+
+    d3.json('data/21_low_income.json').then(ready);
+
+    function ready(data) {
+      // L.geoJson(data).addTo(map);
+      testD3(data);
+
+    }
+
+
+    function testD3(data) {
+
+
+
+      // transverse mercator projection for Atlanta 
+      var projection = d3.geoTransverseMercator()
+        .rotate([83 + 10 / 60, -32])
+        .fitSize([width, height], data) // fit the extend to the urban area data
+
+      // create a path generator
+      var geoPath = d3.geoPath()
+        .projection(projection)
+
+      // append an empty div to the body with class tooltip
+      var div = d3.select("body").append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0) // hide visibility
+
+
+      map.append('g')
+        .selectAll('path')
+        .data(data.features)
+        .enter()
+        .append('path')
+        .attr('d', geoPath)
+        .attr('class', 'routes')
+
+
+
+
+
+
+    }
+  </script>
+</body>
+
+</html>
