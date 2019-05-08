@@ -1,16 +1,7 @@
-    //** zoom options
-    var options = {
-        center: [37.645556, -84.769722],
-        zoom: 7,
-        minZoom: 5,
-        maxZoom: 16,
-        maxBounds: [
-            [36.3678, -89.6569],
-            [39.4965, -81.1776]
-        ]
-    };
-    // create Leaflet map and apply options
-    var map = L.map('map', options);
+    //var map = L.map('map', options);
+    var map = L.map('map', {
+        renderer: L.canvas()
+    }).setView([37.6, -85.5], 7).setMaxZoom(10).setMinZoom(4);
 
     // add labels & tiles to the map
     map.createPane('labels');
@@ -49,28 +40,66 @@
         opacity: 0.2
     }
 
-    // AJAX calls to load data
-    $.when(
-        $.getJSON('data/21_low_income.json'),
-    ).done
+    // D3 calls to load data
 
+    d3.csv("data/21_latlng_low_income.csv", function (d) {
+        return {
+            distance: +d.distance,
+            h_lat: +d.h_lat,
+            h_lon: +d.h_lon,
+            w_lat: +d.w_lat,
+            w_lon: +d.w_lon
+        };
+    }).then(function (data) {
+        data.forEach(function (element) {
+            element.h_lat = element.h_lat.toFixed(2),
+                element.h_lon = element.h_lon.toFixed(2),
+                element.w_lat = element.w_lat.toFixed(2),
+                element.w_lon = element.w_lon.toFixed(2)
+        });
+        //console.log(data[0]);  //this is the data from csv
+        // Call function to build array of lines
+        lineArray = buildLineArray(data);
+        //console.log(lineArray)
+        drawMap(lineArray);
+    });
 
-    (function (commuteLines) {
-        drawMap(commuteLines);
-    })
-    /*
-    var data_filter = commuteLines.filter( element => element.SI01 != 0)
-    console.log(data_filter)
-    */
-    ;
+    // Build an array of arrays start latlng and end latlng of each line
+    function buildLineArray(linedata) {
+        var w_point = new Array();
+        var h_point = new Array();
+        var line = new Array();
+        var lines = new Array();
+        linedata.forEach(function (element) {
+            dist = element.distance;
+            w_point[0] = new Array(element.w_lat, element.w_lon);
+            h_point[0] = new Array(element.h_lat, element.h_lon);
+            line[0] = new Array(w_point[0], h_point[0], element.distance)
+            lines.push(line[0]);
+        })
+        return lines;
+
+    }
 
     // ---------------------------------------------------------------
     function drawMap(commuteLineData) {
         //load the data to the map rendering the color and styles for each in the particular order below
+        //console.log(commuteLineData[0]);
+        var latlngLine = new Array();
+        var mapLines = new Array();
+        commuteLineData.forEach(function (element) {
+            latlngLine[0] = new Array(element[0], element[1]);
+            mapLines.push(latlngLine[0])
+        })
+        console.log(mapLines);
+        var polyline = L.polyline(mapLines, {
+            color: 'white',
+            weight: .5,
+            opacity: 2
+        }).addTo(map); 
+    }
 
-        //display commute lines and the corresponding color basd on distance
-        L.geoJson(commuteLineData, {
-            // style each feature
+    /*            // style each feature
             style: function (feature) {
                 // shortcut to variable
                 var distance = feature.properties.distance;
@@ -80,6 +109,4 @@
                     distance < 50000 ? mediumCommuteOptions : longCommuteOptions;
 
             }
-        }).addTo(map);
-
-    } 
+    */
