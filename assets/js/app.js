@@ -51,62 +51,56 @@
             w_lon: +d.w_lon
         };
     }).then(function (data) {
-        data.forEach(function (element) {
-            element.h_lat = element.h_lat.toFixed(2),
-                element.h_lon = element.h_lon.toFixed(2),
-                element.w_lat = element.w_lat.toFixed(2),
-                element.w_lon = element.w_lon.toFixed(2)
-        });
-        //console.log(data[0]);  //this is the data from csv
         // Call function to build array of lines
-        lineArray = buildLineArray(data);
-        //console.log(lineArray)
+        var lineArray = buildLineArray(data);
         drawMap(lineArray);
     });
 
-    // Build an array of arrays start latlng and end latlng of each line
     function buildLineArray(linedata) {
         var w_point = new Array();
         var h_point = new Array();
-        var line = new Array();
         var lines = new Array();
+
+        var obj = {};
+
         linedata.forEach(function (element) {
-            dist = element.distance;
-            w_point[0] = new Array(element.w_lat, element.w_lon);
-            h_point[0] = new Array(element.h_lat, element.h_lon);
-            line[0] = new Array(w_point[0], h_point[0], element.distance)
-            lines.push(line[0]);
-        })
+            var obj = {};
+            obj['w_point'] = new Array(element.w_lat, element.w_lon);
+            obj['h_point'] = new Array(element.h_lat, element.h_lon);
+            obj['distance'] = element.distance;
+            lines.push(obj);
+        });
         return lines;
 
     }
-
     // ---------------------------------------------------------------
     function drawMap(commuteLineData) {
         //load the data to the map rendering the color and styles for each in the particular order below
-        //console.log(commuteLineData[0]);
-        var latlngLine = new Array();
-        var mapLines = new Array();
         commuteLineData.forEach(function (element) {
-            latlngLine[0] = new Array(element[0], element[1]);
+            var distance = element.distance;
+            var polyline = L.polyline(new Array(element.w_point, element.h_point), {
+                style: function (distance) {
+                    
+                    return distance < 17500 ? shortCommuteOptions :
+                        distance < 50000 ? mediumCommuteOptions : longCommuteOptions;
+
+                }
+            }).addTo(map);
+        });
+
+        /* The next few commented lines are the old way of rendering the map
+        var latlngLine = new Array();
+        var mapLines = new Array();        
+        commuteLineData.forEach(function (element) {
+            latlngLine[0] = new Array(element.w_point, element.h_point);
             mapLines.push(latlngLine[0])
         })
-        console.log(mapLines);
+        
         var polyline = L.polyline(mapLines, {
             color: 'white',
             weight: .5,
             opacity: 2
         }).addTo(map); 
+        */
+
     }
-
-    /*            // style each feature
-            style: function (feature) {
-                // shortcut to variable
-                var distance = feature.properties.distance;
-
-                // assign options
-                return distance < 17500 ? shortCommuteOptions :
-                    distance < 50000 ? mediumCommuteOptions : longCommuteOptions;
-
-            }
-    */
