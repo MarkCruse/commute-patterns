@@ -1,7 +1,7 @@
     //var map = L.map('map', options);
     var map = L.map('map', {
         renderer: L.canvas()
-    }).setView([37.6, -85.5], 7).setMaxZoom(10).setMinZoom(4);
+    }).setView([37.9, -85.5], 8).setMaxZoom(10).setMinZoom(4);
 
     // add labels & tiles to the map
     map.createPane('labels');
@@ -21,27 +21,26 @@
         opacity: .4,
         weight: 0.4
     };
-    // Short commute distance
+    // style for short commute distance
     var shortCommuteOptions = {
         color: 'white',
         weight: .5,
         opacity: 2
     }
-
+    // style for medium commute distance
     var mediumCommuteOptions = {
         color: 'yellow',
         weight: .2,
         opacity: 0.4
     }
-
+    // style for long commute distance
     var longCommuteOptions = {
         color: 'red',
         weight: .2,
         opacity: 0.2
     }
 
-    // D3 calls to load data
-
+    // D3.csv to load data
     d3.csv("data/21_latlng_low_income.csv", function (d) {
         return {
             distance: +d.distance,
@@ -56,18 +55,19 @@
         drawMap(lineArray);
     });
 
+    // ---------------------------------------------------------------
     function buildLineArray(linedata) {
-        var w_point = new Array();
-        var h_point = new Array();
-        var lines = new Array();
-
-        var obj = {};
+        var w_point = [];
+        var h_point = [];
+        var lines = [];
 
         linedata.forEach(function (element) {
+            // create a blank object and fill it
             var obj = {};
-            obj['w_point'] = new Array(element.w_lat, element.w_lon);
-            obj['h_point'] = new Array(element.h_lat, element.h_lon);
+            obj['w_point'] = [element.w_lat, element.w_lon];
+            obj['h_point'] = [element.h_lat, element.h_lon];
             obj['distance'] = element.distance;
+            // append the object to an array
             lines.push(obj);
         });
         return lines;
@@ -78,29 +78,8 @@
         //load the data to the map rendering the color and styles for each in the particular order below
         commuteLineData.forEach(function (element) {
             var distance = element.distance;
-            var polyline = L.polyline(new Array(element.w_point, element.h_point), {
-                style: function (distance) {
-                    
-                    return distance < 17500 ? shortCommuteOptions :
-                        distance < 50000 ? mediumCommuteOptions : longCommuteOptions;
-
-                }
-            }).addTo(map);
+            var style = distance < 17500 ? shortCommuteOptions :
+                distance < 50000 ? mediumCommuteOptions : longCommuteOptions;
+            var polyline = L.polyline([element.w_point, element.h_point], style).addTo(map);
         });
-
-        /* The next few commented lines are the old way of rendering the map
-        var latlngLine = new Array();
-        var mapLines = new Array();        
-        commuteLineData.forEach(function (element) {
-            latlngLine[0] = new Array(element.w_point, element.h_point);
-            mapLines.push(latlngLine[0])
-        })
-        
-        var polyline = L.polyline(mapLines, {
-            color: 'white',
-            weight: .5,
-            opacity: 2
-        }).addTo(map); 
-        */
-
     }
