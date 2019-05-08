@@ -18,6 +18,7 @@
       top: 0;
       bottom: 0;
     }
+
     .routes {
       fill: none;
       stroke: #ff6e00;
@@ -46,69 +47,108 @@
   <script>
     var map = L.map('map', {
       renderer: L.canvas()
-    }).setView([38, -84], 7);
+    }).setView([37.6, -85.5], 7).setMaxZoom(10).setMinZoom(4);
 
     // L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     //   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     // }).addTo(map);
 
     // select our div element
-    var mapContainer = d3.select('#map')
+    //var map = L.map('map', options);
 
-    // derive the width and height
-    var width = mapContainer.node().getBoundingClientRect().width,
-      height = mapContainer.node().getBoundingClientRect().height
-
-    // attach a new SVG element and enable pan/zooming
-    var map = mapContainer.append('svg')
-      .attr('width', width)
-      .attr('height', height)
-      .call(d3.zoom().on("zoom", function () {
-        map.attr("transform", d3.event.transform)
-      }))
-      .on("dblclick.zoom", null)
-      .append("g")
-
-    d3.json('data/21_low_income.json').then(ready);
-
-    function ready(data) {
-      // L.geoJson(data).addTo(map);
-      testD3(data);
-
+    // add labels & tiles to the map
+    map.createPane('labels');
+    map.getPane('labels').style.zIndex = 650;
+    map.getPane('labels').style.pointerEvents = 'none';
+    // **** Options for various layers 
+    // If displaying all lines with not highlight for distance
+    var lineOptions = {
+      fillOpacity: 0,
+      color: '#c7dffc', //lt blue
+      opacity: .4,
+      weight: 0.4
+    };
+    // Short commute distance
+    var shortCommuteOptions = {
+      color: 'white',
+      weight: .5,
+      opacity: 2
     }
 
+    var mediumCommuteOptions = {
+      color: 'yellow',
+      weight: .2,
+      opacity: 0.4
+    }
 
-    function testD3(data) {
+    var longCommuteOptions = {
+      color: 'red',
+      weight: .2,
+      opacity: 0.2
+    }
 
+    // D3 calls to load data
 
+    d3.csv("data/21_latlng_low_income.csv", function (d) {
+      return {
+        distance: +d.distance,
+        h_lat: +d.h_lat,
+        h_lon: +d.h_lon,
+        w_lat: +d.w_lat,
+        w_lon: +d.w_lon
+      };
+    }).then(function (data) {
+      // Call function to build array of lines
+      var lineArray = buildLineArray(data);
+      drawMap(lineArray);
+    });
 
-      // transverse mercator projection for Atlanta 
-      var projection = d3.geoTransverseMercator()
-        .rotate([83 + 10 / 60, -32])
-        .fitSize([width, height], data) // fit the extend to the urban area data
+    function buildLineArray(linedata) {
+      var w_point = new Array();
+      var h_point = new Array();
+      var lines = new Array();
 
-      // create a path generator
-      var geoPath = d3.geoPath()
-        .projection(projection)
+      var obj = {};
 
-      // append an empty div to the body with class tooltip
-      var div = d3.select("body").append("div")
-        .attr("class", "tooltip")
-        .style("opacity", 0) // hide visibility
+      linedata.forEach(function (element) {
+        var obj = {};
+        obj['w_point'] = new Array(element.w_lat, element.w_lon);
+        obj['h_point'] = new Array(element.h_lat, element.h_lon);
+        obj['distance'] = element.distance;
+        lines.push(obj);
+      });
+      return lines;
 
+    }
+    // ---------------------------------------------------------------
+    function drawMap(commuteLineData) {
+      //load the data to the map rendering the color and styles for each in the particular order below
+      commuteLineData.forEach(function (element) {
+        var distance = element.distance;
+        var polyline = L.polyline(new Array(element.w_point, element.h_point), {
+          style: function (distance) {
 
-      map.append('g')
-        .selectAll('path')
-        .data(data.features)
-        .enter()
-        .append('path')
-        .attr('d', geoPath)
-        .attr('class', 'routes')
+            return distance < 17500 ? shortCommuteOptions :
+              distance < 50000 ? mediumCommuteOptions : longCommuteOptions;
 
+          }
+        }).addTo(map);
+      });
 
-
-
-
+      /* The next few commented lines are the old way of rendering the map
+      var latlngLine = new Array();
+      var mapLines = new Array();        
+      commuteLineData.forEach(function (element) {
+          latlngLine[0] = new Array(element.w_point, element.h_point);
+          mapLines.push(latlngLine[0])
+      })
+      
+      var polyline = L.polyline(mapLines, {
+          color: 'white',
+          weight: .5,
+          opacity: 2
+      }).addTo(map); 
+      */
 
     }
   </script>
