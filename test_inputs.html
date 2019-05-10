@@ -30,13 +30,14 @@
 
 <body>
 
-    <button class="button" id='Change' onclick="Change()"  block>Change Color</button>
-    <button class="button2" id='MapLow' onclick="MapLow()"  block>Low Earnings</button>
+  <button type="button" class="btn btn-secondary" id='btn-low' block>Low</button>
+  <button type="button" class="btn btn-secondary" id='btn-medium' block>Medium</button>
+  <button type="button" class="btn btn-secondary" id='btn-high' block>High</button>
 
-    <div id="map"></div>
+  <div id="map"></div>
 
 
-<!------------------------------------------------------------------------------------------>
+  <!------------------------------------------------------------------------------------------>
 
   <!-- Optional JavaScript -->
   <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -90,48 +91,19 @@
     }
 
     var longCommuteOptions = {
-      color: 'red',     
+      color: 'red',
       weight: .2,
       opacity: 0.2
     }
 
-//  --------------------------------------------------------------------------------------
-        function Change() {
-            var btn = document.querySelector('button');
-            console.log(btn);
-            function random(number) {
-            return Math.floor(Math.random()*(number+1));
-            }
+    var dataLayerGroup = L.layerGroup().addTo(map);
 
-            btn.onclick = function() {
-                var rndCol = 'rgb(' + random(255) + ',' + random(255) + ',' + random(255) + ')';
-                console.log(rndCol);
-                document.body.style.backgroundColor = rndCol;
-            }
-        }
-// --------------------------------------------------------------------------------------
+    // create an empty L.geoJson to hold features and reference with variable
+    var lowLayerGroup = L.geoJson().addTo(dataLayerGroup);
+    var mediumLayerGroup = L.geoJson();
+    var highLayerGroup = L.geoJson();
 
- 
-//  --------------------------------------------------------------------------------------
-        function MapLow() {
-            var low = document.querySelector('button2');
-            console.log(low);
-            function random(number) {
-            return Math.floor(Math.random()*(number+1));
-            }
-
-            low.onclick = function() {
-                var rndCol = 'rgb(' + random(255) + ',' + random(255) + ',' + random(255) + ')';
-                console.log(rndCol);
-                document.body.style.backgroundColor = rndCol;
-            }
-        }
-// --------------------------------------------------------------------------------------
-
-    // D3 calls to load data
-
-    d3.csv("data/21_latlng_low_income.csv", function (d) {
-        
+    function convertToNumber(d) {
       return {
         distance: +d.distance,
         h_lat: +d.h_lat,
@@ -139,10 +111,20 @@
         w_lat: +d.w_lat,
         w_lon: +d.w_lon
       };
-    }).then(function (data) {
-      // Call function to build array of lines
-      var lineArray = buildLineArray(data);
-      drawMap(lineArray);
+    }
+
+    var lowData = d3.csv("data/21_latlng_low_income.csv", convertToNumber),
+      mediumData = d3.csv("data/21_latlng_medium_income.csv", convertToNumber),
+      highData = d3.csv("data/21_latlng_high_income.csv", convertToNumber);
+
+
+    Promise.all([lowData, mediumData, highData]).then(function (data) {
+
+      var lowLineArray = buildLineArray(data[0]);
+      var mediumLineArray = buildLineArray(data[1]);
+      var highLineArray = buildLineArray(data[2]);
+
+      drawMap(lowLineArray, mediumLineArray, highLineArray);
     });
 
     function buildLineArray(linedata) {
@@ -163,15 +145,63 @@
 
     }
     // ---------------------------------------------------------------
-    function drawMap(commuteLineData) {
+    function drawMap(lowLineArray, mediumLineArray, highLineArray) {
       //load the data to the map rendering the color and styles for each in the particular order below
-      commuteLineData.forEach(function (element) {
-        var distance = element.distance;
-        var style = distance < 17500 ? shortCommuteOptions :
-            distance < 50000 ? mediumCommuteOptions : longCommuteOptions;
-        var polyline = L.polyline([element.w_point, element.h_point], style).addTo(map);
+
+      var distance, style
+
+      lowLineArray.forEach(function (element) {
+        distance = element.distance;
+        style = distance < 17500 ? shortCommuteOptions :
+          distance < 50000 ? mediumCommuteOptions : longCommuteOptions;
+
+        // create new Leaflet polyline and add to kentucky L.geoJson
+        L.polyline([element.w_point, element.h_point], style).addTo(lowLayerGroup);
       });
+
+      mediumLineArray.forEach(function (element) {
+        distance = element.distance;
+        style = distance < 17500 ? shortCommuteOptions :
+          distance < 50000 ? mediumCommuteOptions : longCommuteOptions;
+
+        // create new Leaflet polyline and add to kentucky L.geoJson
+        L.polyline([element.w_point, element.h_point], style).addTo(mediumLayerGroup);
+      });
+
+      highLineArray.forEach(function (element) {
+        distance = element.distance;
+        style = distance < 17500 ? shortCommuteOptions :
+          distance < 50000 ? mediumCommuteOptions : longCommuteOptions;
+
+        // create new Leaflet polyline and add to kentucky L.geoJson
+        L.polyline([element.w_point, element.h_point], style).addTo(highLayerGroup);
+      });
+
+
     }
+
+    // select the button and wait for a click event
+    d3.select('#btn-low').on('click', function () {
+
+      dataLayerGroup.clearLayers();
+      dataLayerGroup.addLayer(lowLayerGroup);
+
+    });
+
+    // select the button and wait for a click event
+    d3.select('#btn-medium').on('click', function () {
+
+      dataLayerGroup.clearLayers();
+      dataLayerGroup.addLayer(mediumLayerGroup);
+    });
+
+    // select the button and wait for a click event
+    d3.select('#btn-high').on('click', function () {
+
+      dataLayerGroup.clearLayers();
+      dataLayerGroup.addLayer(highLayerGroup);
+
+    });
   </script>
 </body>
 
