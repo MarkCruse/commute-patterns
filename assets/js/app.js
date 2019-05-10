@@ -20,66 +20,148 @@
         color: '#c7dffc', //lt blue
         opacity: .4,
         weight: 0.4
-    };
-    // style for short commute distance
-    var shortCommuteOptions = {
+      };
+      // Short commute distance
+      var shortCommuteOptions = {
         color: 'white',
         weight: .5,
         opacity: 2
-    }
-    // style for medium commute distance
-    var mediumCommuteOptions = {
+      }
+  
+      var mediumCommuteOptions = {
         color: 'yellow',
         weight: .2,
         opacity: 0.4
-    }
-    // style for long commute distance
-    var longCommuteOptions = {
+      }
+  
+      var longCommuteOptions = {
         color: 'red',
         weight: .2,
         opacity: 0.2
-    }
-
-    // D3.csv to load data
-    d3.csv("data/21_latlng_low_income.csv", function (d) {
+      }
+  
+      var dataLayerGroup = L.layerGroup().addTo(map);
+  
+      // create an empty L.geoJson to hold features and reference with variable
+      var allLayerGroup = L.geoJson().addTo(dataLayerGroup);
+      var lowLayerGroup = L.geoJson();
+      var mediumLayerGroup = L.geoJson();
+      var highLayerGroup = L.geoJson();
+  
+      function convertToNumber(d) {
         return {
-            distance: +d.distance,
-            h_lat: +d.h_lat,
-            h_lon: +d.h_lon,
-            w_lat: +d.w_lat,
-            w_lon: +d.w_lon
+          distance: +d.distance,
+          h_lat: +d.h_lat,
+          h_lon: +d.h_lon,
+          w_lat: +d.w_lat,
+          w_lon: +d.w_lon
         };
-    }).then(function (data) {
-        // Call function to build array of lines
-        var lineArray = buildLineArray(data);
-        drawMap(lineArray);
-    });
-
-    // ---------------------------------------------------------------
-    function buildLineArray(linedata) {
+      }
+  
+      var allData = d3.csv("data/21_od_distance_1000_plus.csv", convertToNumber);
+        lowData = d3.csv("data/21_latlng_low_income.csv", convertToNumber),
+        mediumData = d3.csv("data/21_latlng_medium_income.csv", convertToNumber),
+        highData = d3.csv("data/21_latlng_high_income.csv", convertToNumber);
+  
+  
+      Promise.all([allData, lowData, mediumData, highData]).then(function (data) {
+  
+        var allLineArray = buildLineArray(data[0]);
+        var lowLineArray = buildLineArray(data[1]);
+        var mediumLineArray = buildLineArray(data[2]);
+        var highLineArray = buildLineArray(data[3]);
+  
+        drawMap(allLineArray, lowLineArray, mediumLineArray, highLineArray);
+      });
+  
+      function buildLineArray(linedata) {
         var w_point = [];
         var h_point = [];
         var lines = [];
-
+  
+        var obj = {};
+  
         linedata.forEach(function (element) {
-            // create a blank object and fill it
-            var obj = {};
-            obj['w_point'] = [element.w_lat, element.w_lon];
-            obj['h_point'] = [element.h_lat, element.h_lon];
-            obj['distance'] = element.distance;
-            // append the object to an array
-            lines.push(obj);
+          var obj = {};
+          obj['w_point'] = [element.w_lat, element.w_lon];
+          obj['h_point'] = [element.h_lat, element.h_lon];
+          obj['distance'] = element.distance;
+          lines.push(obj);
         });
         return lines;
-
-    }
-    // ---------------------------------------------------------------
-    function drawMap(commuteLineData) {
+  
+      }
+      // ---------------------------------------------------------------
+      function drawMap(allLineArray, lowLineArray, mediumLineArray, highLineArray) {
         //load the data to the map rendering the color and styles for each in the particular order below
-        commuteLineData.forEach(function (element) {
-            var distance = element.distance;
-            var style = distance < 17500 ? shortCommuteOptions :
-                distance < 50000 ? mediumCommuteOptions : longCommuteOptions;
-            var polyline = L.polyline([element.w_point, element.h_point], style).addTo(map);
+  
+        var distance, style
+        
+        allLineArray.forEach(function (element) {
+          distance = element.distance;
+          style = distance < 17500 ? shortCommuteOptions :
+            distance < 50000 ? mediumCommuteOptions : longCommuteOptions;
+  
+          // create new Leaflet polyline and add to kentucky L.geoJson
+          L.polyline([element.w_point, element.h_point], style).addTo(allLayerGroup);
         });
-    }
+  
+        lowLineArray.forEach(function (element) {
+          distance = element.distance;
+          style = distance < 17500 ? shortCommuteOptions :
+            distance < 50000 ? mediumCommuteOptions : longCommuteOptions;
+  
+          // create new Leaflet polyline and add to kentucky L.geoJson
+          L.polyline([element.w_point, element.h_point], style).addTo(lowLayerGroup);
+        });
+  
+        mediumLineArray.forEach(function (element) {
+          distance = element.distance;
+          style = distance < 17500 ? shortCommuteOptions :
+            distance < 50000 ? mediumCommuteOptions : longCommuteOptions;
+  
+          // create new Leaflet polyline and add to kentucky L.geoJson
+          L.polyline([element.w_point, element.h_point], style).addTo(mediumLayerGroup);
+        });
+  
+        highLineArray.forEach(function (element) {
+          distance = element.distance;
+          style = distance < 17500 ? shortCommuteOptions :
+            distance < 50000 ? mediumCommuteOptions : longCommuteOptions;
+  
+          // create new Leaflet polyline and add to kentucky L.geoJson
+          L.polyline([element.w_point, element.h_point], style).addTo(highLayerGroup);
+        });
+  
+      }
+  
+      // select the button and wait for a click event
+      d3.select('#btn-all').on('click', function () {
+  
+        dataLayerGroup.clearLayers();
+        dataLayerGroup.addLayer(allLayerGroup);
+  
+      });
+  
+      // select the button and wait for a click event
+      d3.select('#btn-low').on('click', function () {
+  
+        dataLayerGroup.clearLayers();
+        dataLayerGroup.addLayer(lowLayerGroup);
+  
+      });
+  
+      // select the button and wait for a click event
+      d3.select('#btn-medium').on('click', function () {
+  
+        dataLayerGroup.clearLayers();
+        dataLayerGroup.addLayer(mediumLayerGroup);
+      });
+  
+      // select the button and wait for a click event
+      d3.select('#btn-high').on('click', function () {
+  
+        dataLayerGroup.clearLayers();
+        dataLayerGroup.addLayer(highLayerGroup);
+  
+      });
