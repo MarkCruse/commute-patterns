@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
+  <title>Hello, world!</title>
+  <style>
+    #map {
+      width: 95%;
+      position: absolute;
+      top: 40px;
+      left: 40px;
+      bottom: 0;
+    }
+
+    .routes {
+      fill: none;
+      stroke: #ff6e00;
+      stroke-width: 2;
+    }
+  </style>
+</head>
+
+<body>
+
+    <button class="button" id='Change' onclick="Change()"  block>Change Color</button>
+    <button class="button2" id='MapLow' onclick="MapLow()"  block>Low Earnings</button>
+
+    <div id="map"></div>
+
+
+<!------------------------------------------------------------------------------------------>
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+  </script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+  </script>
+  <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <script src="https://unpkg.com/leaflet.vectorgrid@latest/dist/Leaflet.VectorGrid.bundled.js"></script>
+  <script>
+    var map = L.map('map', {
+      renderer: L.canvas()
+    }).setView([37.6, -85.5], 7).setMaxZoom(10).setMinZoom(4);
+
+    // L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    //   attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    // }).addTo(map);
+
+    // select our div element
+    //var map = L.map('map', options);
+
+    // add labels & tiles to the map
+    map.createPane('labels');
+    map.getPane('labels').style.zIndex = 650;
+    map.getPane('labels').style.pointerEvents = 'none';
+    // **** Options for various layers 
+    // If displaying all lines with not highlight for distance
+    var lineOptions = {
+      fillOpacity: 0,
+      color: '#c7dffc', //lt blue
+      opacity: .4,
+      weight: 0.4
+    };
+    // Short commute distance
+    var shortCommuteOptions = {
+      color: 'white',
+      weight: .5,
+      opacity: 2
+    }
+
+    var mediumCommuteOptions = {
+      color: 'yellow',
+      weight: .2,
+      opacity: 0.4
+    }
+
+    var longCommuteOptions = {
+      color: 'red',     
+      weight: .2,
+      opacity: 0.2
+    }
+
+//  --------------------------------------------------------------------------------------
+        function Change() {
+            var btn = document.querySelector('button');
+            console.log(btn);
+            function random(number) {
+            return Math.floor(Math.random()*(number+1));
+            }
+
+            btn.onclick = function() {
+                var rndCol = 'rgb(' + random(255) + ',' + random(255) + ',' + random(255) + ')';
+                console.log(rndCol);
+                document.body.style.backgroundColor = rndCol;
+            }
+        }
+// --------------------------------------------------------------------------------------
+
+ 
+//  --------------------------------------------------------------------------------------
+        function MapLow() {
+            var low = document.querySelector('button2');
+            console.log(low);
+            function random(number) {
+            return Math.floor(Math.random()*(number+1));
+            }
+
+            low.onclick = function() {
+                var rndCol = 'rgb(' + random(255) + ',' + random(255) + ',' + random(255) + ')';
+                console.log(rndCol);
+                document.body.style.backgroundColor = rndCol;
+            }
+        }
+// --------------------------------------------------------------------------------------
+
+    // D3 calls to load data
+
+    d3.csv("data/21_latlng_low_income.csv", function (d) {
+        
+      return {
+        distance: +d.distance,
+        h_lat: +d.h_lat,
+        h_lon: +d.h_lon,
+        w_lat: +d.w_lat,
+        w_lon: +d.w_lon
+      };
+    }).then(function (data) {
+      // Call function to build array of lines
+      var lineArray = buildLineArray(data);
+      drawMap(lineArray);
+    });
+
+    function buildLineArray(linedata) {
+      var w_point = [];
+      var h_point = [];
+      var lines = [];
+
+      var obj = {};
+
+      linedata.forEach(function (element) {
+        var obj = {};
+        obj['w_point'] = [element.w_lat, element.w_lon];
+        obj['h_point'] = [element.h_lat, element.h_lon];
+        obj['distance'] = element.distance;
+        lines.push(obj);
+      });
+      return lines;
+
+    }
+    // ---------------------------------------------------------------
+    function drawMap(commuteLineData) {
+      //load the data to the map rendering the color and styles for each in the particular order below
+      commuteLineData.forEach(function (element) {
+        var distance = element.distance;
+        var style = distance < 17500 ? shortCommuteOptions :
+            distance < 50000 ? mediumCommuteOptions : longCommuteOptions;
+        var polyline = L.polyline([element.w_point, element.h_point], style).addTo(map);
+      });
+    }
+  </script>
+</body>
+
+</html>
