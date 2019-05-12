@@ -11,34 +11,11 @@
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
   <link href='https://fonts.googleapis.com/css?family=Share+Tech+Mono|Abel' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+  integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
 
   <title>test_1datafile_like_shipmap</title>
   <style>
-    
-    @font-face {
-    font-family: 'GuardianAgateSans1Web';
-    src: url('guardian-fonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Regular.eot');
-    src: url('guardian-fonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Regular.eot?#iefix') format('embedded-opentype'),
-        url('guardian-fonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Regular.woff2') format('woff2'),
-        url('guardian-fonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Regular.woff') format('woff'),
-        url('guardian-fonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Regular.ttf') format('truetype'),
-        url('guardian-fonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Regular.svg#GuardianAgateSans1Web') format('svg');
-    font-weight: 400;
-    font-style: normal;
-    font-stretch: normal;
-    }
-    @font-face {
-    font-family: 'GuardianAgateSans1Web';
-    src: url('guardian-fonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Bold.eot');
-    src: url('guardian-fonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Bold.eot?#iefix') format('embedded-opentype'),
-        url('guardian-fonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Bold.woff2') format('woff2'),
-        url('guardian-fonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Bold.woff') format('woff'),
-        url('guardian-fonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Bold.ttf') format('truetype'),
-        url('guardian-fonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Bold.svg#GuardianAgateSans1Web') format('svg');
-    font-weight: 700;
-    font-style: normal;
-    font-stretch: normal;
-    }
 
         
     * { box-sizing: border-box; }
@@ -51,7 +28,7 @@
     sup { position: relative; vertical-align: baseline; top: -.4em; }
     #map { width: 100%; height: 100%; background: #343a40; }
     #map canvas { position: absolute; }
-    #map .leaflet-control-zoom { top: 25px; position: fixed; }
+    #map .leaflet-control-zoom { bottom: 25px; position: fixed; }
     .leaflet-container { font-family: 'Abel', sans-serif; }
     body.guardian .leaflet-container { font-family: "GuardianAgateSans1Web"; }
     .leaflet-marker-pane { pointer-events: none; display: none; }
@@ -74,7 +51,7 @@
     .btn.selected, .btn.selected:hover { opacity: 1; cursor: default; }
 
     #nav { position: fixed; top: 0px; left: 0px; width: 100%; height: 25px; background: rgba(50,50,50,0.75); z-index: 1001; padding: 3px 15px 0px; }
-    #nav .nav-subhead { font-size: 14px; letter-spacing: 1px; text-transform: uppercase; display: inline-block; vertical-align: top; margin-right: 10px; }
+    #nav .nav-subhead { font-size: 14px; letter-spacing: 1px; display: inline-block; vertical-align: top; margin-right: 10px; }
 
     #info-panel { position: fixed; right: 0; top: 0; font-size: 18px; height: 25px; width: 40px; background: rgba(255,255,255,0.9); overflow: hidden; z-index: 1003; }
     #info-open { color: black; width: 40px; position: absolute; top: 0; right: 0; padding-top: 0.1em; text-align: center; }
@@ -90,8 +67,8 @@
     #iiba-link, #iiba-link:hover { border-bottom: none; }
     #info-panel-inner #iiba { margin-top: 20px; width: 100px; }
 
-    .subscript { font-size: 0.7em; }
-    body.guardian .subscript { font-size: inherit; }
+   * .subscript { font-size: 0.7em; }
+   * body.guardian .subscript { font-size: inherit; }
 
     #dashboard { float: left; width: calc(100% - 340px); top: 0px; left: 0; }
     #dashboard .dashboard-area { display: inline-block; vertical-align: top; text-align: center; }
@@ -111,9 +88,9 @@
 
     #options { display: inline-block; float: right; height: 100%; margin-right: 40px; }
     #options i { width: 1em; text-align: center; display: inline-block; }
-    #options .option { display: inline-block; vertical-align: top; padding: 0 6px 3px; position: relative; font-size: 13px; height: 100%; }
+    #options .option { display: inline-block; vertical-align: top; padding: 0 6px 3px; position: relative; font-size: 9px; height: 100%; }
     #options .option .option-name { height: 100%; width: 60px; }
-    #options .option .option-menu { display: none; position: absolute; background: rgba(50,50,50,0.75); width: 100%; padding: 3px 6px; text-align: left; }
+    #options .option .option-menu { display: none; position: absolute; background: rgba(228, 206, 206, 0.75); width: 100%; padding: 3px 6px; text-align: left; }
     #options .option .option-menu .check.checked i::before { content: "\f00c"; }
     #options.hoverable .option:hover .option-menu,
     #options .option.visible .option-menu { display: block; top: 22px; left: 0; }
@@ -139,8 +116,8 @@
 	<div id="dashboard">
 		<!--<div class="stat" id="time-holder"><span class="result"><span id="timestamp"></span></span></div> -->
 		<div id="carbon" class="dashboard-area">
-			<span class="nav-subhead">Carbon</span>
-			<div class="stat" title="CO₂ released per hour by ships shown"><i class="fa fa-fire"></i> <span class="name">CO<sub>2</sub></span> <div class="result"><span id="stat-co2" class="value"></span> </div></div>
+			<span class="nav-subhead">Spatial Patterns in Commute to Workplace Census Data</span>
+			<!--<div class="stat" title="CO₂ released per hour by ships shown"><i class="fa fa-fire"></i> <span class="name">CO<sub>2</sub></span> <div class="result"><span id="stat-co2" class="value"></span> </div></div>-->
 		</div>
 		<!--<div id="freight" class="dashboard-area">
 			<span class="nav-subhead">Freight</span>
@@ -152,7 +129,7 @@
 		</div>  -->
 	</div>
 	<div id="options" class="hoverable">
-		<span class="nav-subhead">Options</span>
+		<span class="nav-subhead">OPTIONS</span>
 		<div id="togglers" class="option">
 			<div class="option-name">Show <i class="fa fa-chevron-down"></i></div>
 			<div class="option-menu">
@@ -163,7 +140,7 @@
 			</div>
 		</div>
 		<div id="colours" class="option">
-			<div class="option-name">Colours <i class="fa fa-chevron-down"></i></div>
+			<div class="option-name">Colors <i class="fa fa-chevron-down"></i></div>
 			<div class="option-menu">
 				<div data-value="shade-uniform" class="btn radio selected"><i class="fa fa-check"></i> <span class="radio-name">Uniform</span></div>
 				<div data-value="shade-type" class="btn radio"><i class="fa fa-check"></i> <span class="radio-name">Ship type</span></div>
