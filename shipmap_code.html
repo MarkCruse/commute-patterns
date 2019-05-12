@@ -1,0 +1,1679 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<base target="_top">
+
+<meta property="og:title" content="Shipmap.org" />
+<meta property="og:image" content="https://www.shipmap.org/shipmap_image.jpg" />
+<meta property="og:site_name" content="Ship Map" />
+<meta property="og:description" content="An incredible visualisation of global shipping traffic, created by Kiln.digital and the UCL Energy Institute." />
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@k_i_l_n">
+<meta name="twitter:creator" content="@k_i_l_n">
+<meta name="twitter:title" content="Shipmap.org">
+<meta name="twitter:description" content="An incredible visualisation of global shipping traffic, created by Kiln.digital and the UCL Energy Institute.">
+<meta name="twitter:image" content="https://www.shipmap.org/shipmap_image.jpg">
+
+<meta name="Description" content="An incredible animated and interactive visualisation of global commercial shipping, created by Kiln for the UCL Energy Institute.">
+
+<script src="d3.min.js"></script>
+<script src="talkie-1.3.1.min.js"></script>
+<script src="leaflet.js"></script>
+<link rel="stylesheet" type="text/css" href="leaflet.css">
+<link href='https://fonts.googleapis.com/css?family=Share+Tech+Mono|Abel' rel='stylesheet' type='text/css'>
+<link href='font-awesome/font-awesome.min.css' rel='stylesheet' type='text/css'>
+
+<title>Shipmap.org | Visualisation of Global Cargo Ships | By Kiln and UCL</title>
+
+<style>
+
+@font-face {
+font-family: 'GuardianAgateSans1Web';
+src: url('guardian-fonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Regular.eot');
+src: url('guardian-fonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Regular.eot?#iefix') format('embedded-opentype'),
+	 url('guardian-fonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Regular.woff2') format('woff2'),
+	 url('guardian-fonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Regular.woff') format('woff'),
+	 url('guardian-fonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Regular.ttf') format('truetype'),
+	 url('guardian-fonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Regular.svg#GuardianAgateSans1Web') format('svg');
+font-weight: 400;
+font-style: normal;
+font-stretch: normal;
+}
+@font-face {
+font-family: 'GuardianAgateSans1Web';
+src: url('guardian-fonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Bold.eot');
+src: url('guardian-fonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Bold.eot?#iefix') format('embedded-opentype'),
+	 url('guardian-fonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Bold.woff2') format('woff2'),
+	 url('guardian-fonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Bold.woff') format('woff'),
+	 url('guardian-fonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Bold.ttf') format('truetype'),
+	 url('guardian-fonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Bold.svg#GuardianAgateSans1Web') format('svg');
+font-weight: 700;
+font-style: normal;
+font-stretch: normal;
+}
+
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; background: #192E37; font-family: 'Abel', sans-serif; color: white; }
+body.guardian { font-family: "GuardianAgateSans1Web", "Arial Narrow", sans-serif; }
+body.guardian .hide-guardian { display: none; }
+a:link, a:visited { color: #005689; text-decoration: none; border-bottom: 0.0625rem solid #dcdcdc; }
+a:hover, a:active { border-color: #6e99b3; }
+
+sup { position: relative; vertical-align: baseline; top: -.4em; }
+#map { width: 100%; height: 100%; background: #192E37; }
+#map canvas { position: absolute; }
+#map .leaflet-control-zoom { top: 25px; position: fixed; }
+.leaflet-container { font-family: 'Abel', sans-serif; }
+body.guardian .leaflet-container { font-family: "GuardianAgateSans1Web"; }
+.leaflet-marker-pane { pointer-events: none; display: none; }
+
+.port { font-size: 9px; text-shadow: 1px 1px 2px rgba(0,0,0,0.9); border-radius: 50%; background: rgba(255,255,255,0.5); width: 10px!important; height: 10px!important; }
+.port .port-label { position: absolute; width: 200px; }
+
+.port.S { display: none; }
+.zoom-8 .port.S,
+.zoom-9 .port.S { display: block; }
+
+.port.M { display: none; }
+.zoom-6 .port.M,
+.zoom-7 .port.M,
+.zoom-8 .port.M,
+.zoom-9 .port.M { display: block; }
+
+.btn { cursor: pointer; }
+.btn:hover { opacity: 0.5; }
+.btn.selected, .btn.selected:hover { opacity: 1; cursor: default; }
+
+#nav { position: fixed; top: 0px; left: 0px; width: 100%; height: 25px; background: rgba(50,50,50,0.75); z-index: 1001; padding: 3px 15px 0px; }
+#nav .nav-subhead { font-size: 14px; letter-spacing: 1px; text-transform: uppercase; display: inline-block; vertical-align: top; margin-right: 10px; }
+
+#info-panel { position: fixed; right: 0; top: 0; font-size: 18px; height: 25px; width: 40px; background: rgba(255,255,255,0.9); overflow: hidden; z-index: 1003; }
+#info-open { color: black; width: 40px; position: absolute; top: 0; right: 0; padding-top: 0.1em; text-align: center; }
+.info-close { display: none; font-size: 20px; }
+#info-panel.open #info-open i::before { content: "\f00d"; }
+#info-panel.open .info-close { display: block; }
+#info-panel.open .info-close { margin: 30px 0; }
+#info-panel-inner { position: relative; color: black; text-align: left; margin: 50px auto; height: 100%; padding: 20px 20px; max-width: 600px; font-size: 15px; line-height: 1.2; }
+#info-panel-inner h1 { margin: 1em 0 0; }
+#info-panel-inner h2 { margin: 1em 0 0; font-size: 18px; }
+#info-panel-inner p { margin: 0.25em 0; }
+#info-panel-inner input { width: 100%; }
+#iiba-link, #iiba-link:hover { border-bottom: none; }
+#info-panel-inner #iiba { margin-top: 20px; width: 100px; }
+
+.subscript { font-size: 0.7em; }
+body.guardian .subscript { font-size: inherit; }
+
+#dashboard { float: left; width: calc(100% - 340px); top: 0px; left: 0; }
+#dashboard .dashboard-area { display: inline-block; vertical-align: top; text-align: center; }
+#dashboard #carbon { float: left; }
+#dashboard #time-holder { position: fixed; left: 20px; text-shadow: 1px 1px 2px rgb(33,60,71); color: rgb(220,245,255); top: 50%; font-weight: bold; margin-top: -1em; }
+#dashboard #time-holder .result { font-size: 28px; }
+#dashboard #freight { width: calc(100% - 165px); text-align: center; }
+#dashboard .stat, #options .option-name { font-size: 13px; display: inline-block; vertical-align: top; }
+
+#dashboard #freight .stat { margin-left: 8px; }
+#dashboard .stat .value { color: rgb(255,255,175); font-family: 'Share Tech Mono'; letter-spacing: -1px; }
+#dashboard.color-coded .stat .value { color: white; }
+body.guardian #dashboard .stat .value { font-family: inherit; font-weight: bold; letter-spacing: 0; }
+#dashboard .stat #result-vehicles { min-width: 74px; }
+#dashboard .stat .result { display: inline-block; line-height: 1; }
+#dashboard .filter, #dashboard .radio { font-size: 13px; }
+
+#options { display: inline-block; float: right; height: 100%; margin-right: 40px; }
+#options i { width: 1em; text-align: center; display: inline-block; }
+#options .option { display: inline-block; vertical-align: top; padding: 0 6px 3px; position: relative; font-size: 13px; height: 100%; }
+#options .option .option-name { height: 100%; width: 60px; }
+#options .option .option-menu { display: none; position: absolute; background: rgba(50,50,50,0.75); width: 100%; padding: 3px 6px; text-align: left; }
+#options .option .option-menu .check.checked i::before { content: "\f00c"; }
+#options.hoverable .option:hover .option-menu,
+#options .option.visible .option-menu { display: block; top: 22px; left: 0; }
+#options .radio i { visibility: hidden; }
+#options .radio.selected i { visibility: visible; }
+#options .radio-name { display: inline-block; }
+#options #filters .option-menu { width: 90px; }
+
+/* Disable the filters menu if it has the .disabled class */
+#options #filters.disabled .option-name { color: #666; cursor: default; }
+#options.hoverable #filters.disabled:hover .option-menu { color: #999; }
+#options.hoverable #filters.disabled:hover .option-menu .btn:hover { opacity: inherit; cursor: default; }
+#options #colours .option-menu { width: 80px; }
+
+#scrubber { height: 50px; width: 100%; background: rgba(255,255,255,0.1); position: fixed; bottom: -30px; -moz-border-radiuseft: 0; cursor: pointer; }
+#scrubber-inner { height: 30px; position: absolute; }
+#scrubber-inner .month { position: absolute; height: 100%; border-right: 1px white rgba(255,255,255,0.1); }
+#scrubber-inner .month .label { position: absolute; top: -1.25em; left: 3px; font-size: 13px; }
+#scrubber-inner .month .day { background: rgba(255,255,255,0.25); height: 100%; border-right: 1px solid rgba(0,0,0,0.1); }
+#scrubber-inner .month .day.current { background: rgba(255,255,255,1); }
+#scrubber-inner .month .day:hover { background: black; }
+#scrubber-inner .month .day .load-progress { position: absolute; height: 0; bottom: 0; left: 0; background: rgba(255,255,200,0.33); }
+
+#social { position: absolute; right: 30px; bottom: 50px; font-size: 40px;}
+#social i { display: inline-block; border-radius: 50%; overflow: hidden; color: white; width: 1.5em; height: 1.5em; font-size: 0.7em; text-align: center; padding-top: 0.3em; box-shadow: 3px 3px 5px rgba(0,0,0,0.1); cursor: pointer; }
+#social i.fa-twitter { background: #1FB4EB; }
+#social i.fa-facebook { background: #3368A1; }
+#social i.fa-code { background: rgb(255,255,175); color: black; padding-top: 0.2em; }
+#social i:hover { background: #333; color: white-space: normal;; }
+
+#play-button-placeholder { display: none; position: absolute; right: 50%; bottom: 50%; width: 150px; height: 150px; margin-right: -75px; margin-bottom: -75px; }
+#play-button { position: absolute; right: 50%; bottom: 50%; width: 150px; height: 150px; margin-right: -75px; margin-bottom: -75px; opacity: 0.9; z-index: 1002; }
+#play-button:hover { opacity: 1; }
+#play-icon { display: block; stroke: none; fill: white; }
+#pause-icon { display: none; stroke: none; fill: white; }
+#talkie-player-inner { cursor: pointer; }
+#talkie-player-segment { stroke: white; fill: #eee; pointer-events: none; }
+
+#credits { position: fixed; right: 20px; text-shadow: 1px 1px 2px rgb(33,60,71); color: rgb(220,245,255); top: 50%; font-weight: bold; margin-top: -1.5em; text-align: right; line-height: 1.1em; }
+#credits p { margin: 0.1em 0 0; text-shadow: 1px 1px 3px rgba(0,0,0,0.9); text-transform: uppercase; font-size: 0.75em; }
+#credits p a { text-decoration: none; border: none; color: white; font-size: 1.35em; text-transform: none; }
+#credits p a:hover { opacity: 0.8; }
+
+@media only screen and (max-width: 1300px) {
+	#nav .nav-subhead { display: none; }
+	#dashboard { width: auto; }
+	#dashboard #freight { width: auto; text-align: left; }
+	#dashboard #freight .stat { margin-left: 20px; }
+}
+
+@media only screen and (max-width: 1150px) {
+	#scrubber { overflow-x: scroll; padding-top: 20px; height: 80px; background: none; }
+	#scrubber-inner { height: 30px; background: rgba(255,255,255,0.1); }
+	#nav, #info-panel { height: 40px; }
+	#info-panel  #info-open { padding-top: 0.6em; }
+	.option-name { padding-top: 15px; }
+	.option-menu { margin-top: 15px; }
+	#dashboard .stat { text-align: center; }
+	#dashboard .stat .result { display: block; }
+	#map .leaflet-control-zoom { top: 48px; }
+}
+
+@media only screen and (max-width: 820px) {
+	#nav, #info-panel { height: 25px; }
+	#info-panel  #info-open { padding-top: 0.2em; }
+	#options { width: 100%; text-align: center; background: rgba(50,50,50,0.5); float: none; }
+	.option-name { padding-top: 0px; }
+	.option-menu { margin-top: 0px; }
+	#dashboard { position: fixed; width: 160px; margin: -74px 0 0 0; top: 50%; left: auto; right: 0; padding: 5px 10px; border: 1px solid rgba(200,200,200,0.3); border-right: 0; text-align: left; background-clip: default; background: rgba(30,40,50,0.75); }
+	body.guardian #dashboard { width: 170px; } /*To accommodate wider font*/
+	#dashboard .dashboard-area { display: block; }
+	#dashboard .stat { text-align: left; display: block; }
+	#dashboard .stat .result { display: inline-block; }
+	#dashboard #freight .stat { margin: 0; }
+	#dashboard #carbon { float: none; text-align: left; }
+	#dashboard #freight { margin: 0; }
+	#map .leaflet-control-zoom { top: 20px; }
+	#play-button { right: 0!important; bottom: 100%!important; width: 60px!important; height: 60px!important; margin-right: 10px!important; margin-bottom: -100px!important; }
+	#dashboard #time-holder { position: relative; text-shadow: none; color: rgb(200,225,255); left: 0; margin-top: 0; }
+	#dashboard #time-holder .result { font-size: 14px; display: inline-block; }
+	#credits { right: auto;  left: 20px; text-align: left; }
+}
+
+@media only screen and (max-width: 380px) {
+	#credits { display: none; }
+}
+
+</style>
+
+<script>
+// Query string parameters
+var params = {};
+(function (query, re, match) {
+	while (match = re.exec(query)) {
+		params[decodeURIComponent(match[1])] = decodeURIComponent(match[2]);
+	}
+})(window.location.search.substring(1).replace(/\+/g, "%20"), /([^&=]+)=?([^&]*)/g);
+</script>
+
+<script id="shader-vs" type="x-webgl-shader/x-vertex">
+	attribute vec2 aSrcPosition;
+	attribute vec2 aDstPosition;
+	attribute float aVesselType;
+
+	uniform float uPointSize;
+	uniform float uPos;
+	uniform mat3 uTransformToClipSpace;
+	uniform vec3 uColorByType[5];
+	uniform float uAlphaMultByType[5];
+
+	varying lowp vec3 vColor;
+	varying lowp float vAlphaMult;
+
+	void main(void) {
+		float delta_x = aDstPosition.x - aSrcPosition.x;
+		vec2 wrap = (step(32768.0, -delta_x) - step(32768.0, delta_x)) * vec2(65536.0, 0.0);
+
+		vec2 pos = mix(aSrcPosition, aDstPosition + wrap, uPos);
+		vec3 clipspace_pos = uTransformToClipSpace * vec3(pos, 1.0);
+		int vessel_type = int(aVesselType);
+
+		gl_PointSize = uPointSize;
+		gl_Position = vec4(clipspace_pos, 1.0);
+
+		vColor = uColorByType[vessel_type];
+		vAlphaMult = uAlphaMultByType[vessel_type];
+	}
+</script>
+
+<script id="shader-fs" type="x-webgl-shader/x-fragment">
+	varying lowp vec3 vColor;
+	varying lowp float vAlphaMult;
+
+	void main(void) {
+		const lowp float INNER_RADIUS = 0.1;
+		const lowp float OUTER_RADIUS = 0.2;
+
+		const lowp float INNER_ALPHA = 0.75;
+		const lowp float SHADOW_MAX_ALPHA = 0.05;
+
+		lowp vec2 pos = gl_PointCoord - vec2(0.5, 0.5);
+		lowp float dist_squared = dot(pos, pos);
+		lowp float alpha;
+
+		if (dist_squared < INNER_RADIUS*INNER_RADIUS) {
+			alpha = INNER_ALPHA;
+		} else {
+			alpha = SHADOW_MAX_ALPHA * (OUTER_RADIUS*OUTER_RADIUS - dist_squared)
+				/ (OUTER_RADIUS*OUTER_RADIUS - INNER_RADIUS*INNER_RADIUS);
+		}
+
+		gl_FragColor = vec4(vColor, alpha * vAlphaMult);
+	}
+</script>
+</head>
+<body>
+
+<div id="map"></div>
+<div id="nav">
+	<div id="dashboard">
+		<div class="stat" id="time-holder"><span class="result"><span id="timestamp"></span></span></div>
+		<div id="carbon" class="dashboard-area">
+			<span class="nav-subhead">Carbon</span>
+			<div class="stat" title="CO₂ released per hour by ships shown"><i class="fa fa-fire"></i> <span class="name">CO<sub>2</sub></span> <div class="result"><span id="stat-co2" class="value"></span> t</div></div>
+		</div>
+		<div id="freight" class="dashboard-area">
+			<span class="nav-subhead">Freight</span>
+			<div class="stat" data-ship-type="3" title="Total number of containers carried by ships shown"><i class="fa fa-th"></i> <span class="name">Containers</span> <div class="result"><span id="stat-teu" class="color-by-ship-type value"></span></div></div>
+			<div class="stat" data-ship-type="0" title="Total drybulk carried by ships shown, kilotonnes"><i class="fa fa-caret-up"></i> <span class="name">Dry</span> <div class="result"><span id="stat-drybulk" class="color-by-ship-type value"></span> kt</div></div>
+			<div class="stat" data-ship-type="1" title="Total wetbulk carried by ships shown, kilotonnes"><i class="fa fa-tint"></i> <span class="name">Liquids</span> <div class="result"><span id="stat-wetbulk" class="color-by-ship-type value"></span> kt</div></div>
+			<div class="stat" data-ship-type="2" title="Total gas carried by ships shown, cubic meters"><i class="fa fa-fire"></i> <span class="name">Gas</span> <div class="result"><span id="stat-cbm" class="color-by-ship-type value"></span> m<sup>3</sup></div></div>
+			<div class="stat" data-ship-type="4" title="Dead-weight tonnage of vehicle carriers, kilotonnes"><i class="fa fa-car"></i> <span class="name">Vehicles</span> <div class="result" id="result-vehicles "><span id="stat-vehicles" class="color-by-ship-type value"></span> kt</div></div>
+		</div>
+	</div>
+	<div id="options" class="hoverable">
+		<span class="nav-subhead">Options</span>
+		<div id="togglers" class="option">
+			<div class="option-name">Show <i class="fa fa-chevron-down"></i></div>
+			<div class="option-menu">
+				<div id="port-toggler" class="btn check"><i class="fa fa-times"></i> <span class="radio-name">Ports</span></div>
+				<div id="route-toggler" class="btn check"><i class="fa fa-times"></i> <span class="radio-name">Routes</span></div>
+				<div id="ships-toggler" class="btn check checked"><i class="fa fa-times"></i> <span class="radio-name">Ships</span></div>
+				<div id="map-toggler" class="btn check checked"><i class="fa fa-times"></i> <span class="radio-name">Map</span></div>
+			</div>
+		</div>
+		<div id="colours" class="option">
+			<div class="option-name">Colours <i class="fa fa-chevron-down"></i></div>
+			<div class="option-menu">
+				<div data-value="shade-uniform" class="btn radio selected"><i class="fa fa-check"></i> <span class="radio-name">Uniform</span></div>
+				<div data-value="shade-type" class="btn radio"><i class="fa fa-check"></i> <span class="radio-name">Ship type</span></div>
+			</div>
+		</div>
+		<div id="filters" class="option">
+			<div class="option-name">Filters <i class="fa fa-chevron-down"></i></div>
+			<div class="option-menu">
+				<div id="filter-type-3" data-ship-type="3" class="btn check checked filter color"><i class="fa fa-times color-by-ship-type"></i> Container</div>
+				<div id="filter-type-0" data-ship-type="0" class="btn check checked filter color"><i class="fa fa-times color-by-ship-type"></i> Dry bulk</div>
+				<div id="filter-type-1" data-ship-type="1" class="btn check checked filter color"><i class="fa fa-times color-by-ship-type"></i> Tanker</div>
+				<div id="filter-type-2" data-ship-type="2" class="btn check checked filter color"><i class="fa fa-times color-by-ship-type"></i> Gas bulk</div>
+				<div id="filter-type-4" data-ship-type="4" class="btn check checked filter color"><i class="fa fa-times color-by-ship-type"></i> Vehicles</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="scrubber"></div>
+<div id="social">
+	<i class="fa fa-facebook"></i>
+	<i class="fa fa-twitter"></i>
+	<i class="fa fa-code"></i>
+</div>
+<div id="credits">
+	<p id="credit-map">Map: <a href="https://www.kiln.digital">Kiln</a>&nbsp; Research: <a href="http://www.bartlett.ucl.ac.uk/energy">UCL EI</a></p>
+	<p id="credit-data">Data: <a href="http://www.exactearth.com">exactEarth</a> &amp; <a href=" http://www.clarksons.com/services/research/">Clarksons</a></p>
+</div>
+<div id="info-panel">
+	<div id="info-open" class="btn"><i class="fa fa-info"></i></div>
+	<div id="info-panel-inner">
+		<div class="info-close btn"><i class="fa fa-arrow-left"></i> Back to map</div>
+		<h2>Can I embed this map?</h2>
+		<p>Yes. You are welcome to embed this map. Please include a link back to <a href="https://www.kiln.digital">Kiln</a> somewhere in the text of your article. Use the following embed code for a fully responsive embed that will adjust to the width of your website. Feel free to change the height and/or give it a fixed width if you prefer.</p>
+		<input value="&lt;iframe src=&quot;//www.shipmap.org&quot; style=&quot;width: 100%; height: 600px; border: 0&quot; frameborder=&quot;0&quot;&gt;&lt;/iframe&gt;&lt;div style=&quot;width: 100%; font-size: 10px; margin-top: 4px&quot;&gt;Created by &lt;a target=&quot;_top&quot; href=&quot;https://www.kiln.digital/&quot;&gt;London-based data visualisation studio Kiln&lt;/a&gt; and the &lt;a target=&quot;_top&quot; href=&quot;http://www.bartlett.ucl.ac.uk/energy&quot;&gt;UCL Energy Institute&lt;/a&gt;&lt;/div&gt;">
+		<h2>What can I see?</h2>
+		<p>You can see movements of the global merchant fleet over the course of 2012, overlaid on a bathymetric map. You can also see a few statistics such as a counter for emitted CO<span class="subscript">2</span> (in thousand tonnes) and maximum freight carried by represented vessels (varying units).</p>
+		<h2>What can I do?</h2>
+		<p>You can pan and zoom in the usual ways, and skip back and forward in time using the timeline at the bottom of the screen. The controls at the top right let you show and hide different map layers: port names, the background map, routes (a plot of all recorded vessel positions), and the animated ships view. There are also controls for filtering and colouring by vessel type.</p>
+		<h2>What the are types of ships shown?</h2>
+		<p>The merchant fleet is divided into five categories, each of which has a filter and a CO<span class="subscript">2</span> and freight counter for the hour shown on the clock. The ship types and units are as follows:</p>
+		<ul>
+			<li>Container (e.g. manufactured goods): number of container slots equivalent to 20 feet (i.e. a 40-foot container takes two slots)</li>
+			<li>Dry bulk (e.g. coal, aggregates): combined weight of cargo, fuel, water, provisions, passengers and crew a vessel can carry, measured in thousand tonnes</li>
+			<li>Tanker (e.g. oil, chemicals): same as dry bulk</li>
+			<li>Gas bulk (e.g. liquified natural gas): capacity for gases, measured in cubic metres</li>
+			<li>Vehicles (e.g. cars): same as dry bulk</li>
+		</ul>
+		<h2>Why do ships sometimes appear to move across land?</h2>
+		<p>In some cases this is because there are ships navigating via canals or rivers that aren’t visible on the map. Generally, though, this effect is an artefact of animating a ship between two recorded positions with missing data between, especially when the positions are separated by a narrow strip of land. We may develop the map to remove this effect in the future.</p>
+		<h2>Why are there fewer ships visible in the first part of the year?</h2>
+		<p>Unfortunately the data we are using for the map is incomplete for the first few months of the year: roughly January to April.</p>
+		<h2>Who created this map?</h2>
+		<p>The map was created by <a href="https://www.kiln.digital">Kiln</a> based on data from the <a href="http://www.bartlett.ucl.ac.uk/energy">UCL Energy Institute</a> (UCL EI)</p>
+		<p>Website: Duncan Clark &amp; Robin Houston from Kiln</p>
+		<p>Data: Julia Schaumeier &amp; Tristan Smith from the UCL EI</p>
+		<p>Music: Bach Goldberg Variations played by <a href="http://www.opengoldbergvariations.org">Kimiko Ishizaka</a></p>
+		<h2>How was the map created?</h2>
+		<p>UCL EI took data showing location and speed of ships and cross-checked it with another database to get the vessel characteristics, such as engine type and hull measurements. With this information they were able to compute the CO<span class="subscript">2</span> emissions for each observed hour, following the approach laid out in the Third IMO Greenhouse Gas Study 2014. Kiln took the resulting dataset and visualized it with WebGL on top of a specially created base map, which shows bathymetry (ocean depth), based on the <a href="http://www.gebco.net">GEBCO_2014 Grid</a> (version 20150318), as well as continents and major rivers from <a href="http://www.naturalearthdata.com/">Natural Earth</a>.</p>
+		<h2>Where did you get the data and who paid?</h2>
+		<p>Our data sources for shipping positions are <a href="http://www.exactearth.com">exactEarth</a> for AIS data (location/speed) and <a href=" http://www.clarksons.com/services/research/">Clarksons Research UK World Fleet Register</a> (static vessel information). We are very grateful to our funders, the <a href="http://europeanclimate.org/">European Climate Foundation</a>.</p>
+		<h2 class="hide-guardian">I want one too!</h2>
+		<p class="hide-guardian">If you want to have an installation in your foyer, museum, living room, you can contact us at <a href="/cdn-cgi/l/email-protection#e189848d8d8ea18a888d8fcf8895"><span class="__cf_email__" data-cfemail="c8a0ada4a4a788a3a1a4a6e6a1bc">[email&#160;protected]</span></a>. We’d be happy to work on a bespoke version.</p>
+		<a id="iiba-link" href="http://www.informationisbeautifulawards.com/showcase/1580-shipmap-org" target="_top"><img id="iiba" src="images/iiba.png"></a>
+		<div class="info-close btn"><i class="fa fa-arrow-left"></i> Back to map</div>
+	</div>
+</div>
+<audio id="audio">
+	<source src="audio.mp3" type="audio/mpeg">
+</audio>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+// The max x coordinate value (in m) in the Web Mercator projection
+var X_MAX = 20037508.342789244;
+
+// If the previous frame was more than 1/2 a second ago, resume from where
+// we left off rather than continuing.
+var MAX_FRAME_INTERVAL = 500;
+
+// Render ships 100 px outside the visible area (to make panning more seamless)
+var BORDER = new L.Point(100, 100);
+
+var PLACES = {
+	panama: [[ 10.300912, -81.767509 ], [ 7.816627, -77.856377 ]],
+	suez: [[ 34.854732, 26.798337 ], [ 25.567604, 38.707516 ]],
+	china: [[ 38.084670, 106.425483 ], [ 21.884225, 129.672554 ]],
+	englishchannel: [[ 53.549845, -5.448329 ], [ 48.500032, 6.174890 ]],
+	indianocean:  [[ 1.998191, 23.101729 ], [ -43.405712, 152.125171 ]],
+	india: [[ 25.725662, 62.258592 ], [ 5.271454, 94.690232 ]],
+	australia: [[ -6.546046, 102.039022 ], [ -35.649584, 155.476521 ]],
+	seasia: [[ 20.208491, 74.007485 ], [ -20.562955, 144.495762 ]],
+	california: [[ 41.574336, -133.928043 ], [ 14.774850, -80.226873 ]],
+	caribbean: [[ 31.742631, -101.740320 ], [ 6.070073, -62.365322 ]],
+	greatlakes: [[ 51.853838, -98.409965 ], [ 35.305362, -51.915824 ]],
+	amazon: [[ 5.281072, -65.037262 ], [ -8.131267, -46.580230 ]],
+	middleeast: [[ 35.871165, 23.003357 ], [ 6.817254, 67.212341 ]],
+	persiangulf: [[ 30.503496, 47.200846 ], [ 24.435047, 55.396647 ]],
+	world: [[75.468321, -147.017889], [-41.725990, 150.403974]],
+	somalia: [[17.383818, 36.212296], [-6.455440, 60.997452]]
+};
+
+var MONTHS = [
+	{ name: "January", days: 31 },
+	{ name: "February", days: 29 },
+	{ name: "March", days: 31 },
+	{ name: "April", days: 30 },
+	{ name: "May", days: 31 },
+	{ name: "June", days: 30 },
+	{ name: "July", days: 31 },
+	{ name: "August", days: 31 },
+	{ name: "September", days: 30 },
+	{ name: "October", days: 31 },
+	{ name: "November", days: 30 },
+	{ name: "December", days: 31 }
+];
+
+var VESSEL_TYPE_CODES = {
+	"drybulk/tonnes": 0,
+	"wetbulk/tonnes": 1,
+	"gasbulk/cbm": 2,
+	"unitised/teu": 3,
+	"unitised/dwt": 4
+};
+var NUM_VESSEL_TYPES = 5;
+
+var COLORS_BY_TYPE = [
+	0.0, 0.8, 1.0, // drybulk
+	1.0, 0.0, 0.0, // wetbulk
+	0.0, 1.0, 0.0, // gasbulk
+	1.0, 1.0, 0.0, // unitised
+	1.0, 0.0, 1.0  // other
+];
+
+var UNIFORM_COLORS = [
+	1.0, 1.0, 0.7, // drybulk
+	1.0, 1.0, 0.7, // wetbulk
+	1.0, 1.0, 0.7, // gasbulk
+	1.0, 1.0, 0.7, // unitised
+	1.0, 1.0, 0.7  // other
+];
+
+var BASE_SHIP_SIZE = 4;
+
+var type_filter = [ 1.0, 1.0, 1.0, 1.0, 1.0 ];
+
+// Start the animation at midday on the first of May
+var animation_start_day = 121.0;
+
+// Initially each day plays through in five seconds; this is adjusted on zoom
+var day_duration = 5000;
+
+var waiting_for_day;
+
+var num_ships; // Defined by loadData()
+var uPos, uPointSize, uTransformToClipSpace, uColorByType, uAlphaMultByType; // Defined in glInit()
+
+var gl, prog, canvas, map,
+    blank_layer, tile_layer, position_layer, coloured_position_layer; // defined in init()
+
+var min_px, max_px, min_py, max_py, scale;
+var preloaded_day_number, preloaded_positions;
+var first_timestamp, buffer, currently_bound_day;
+var animation_frame, last_frame_timestamp, last_frame_whole_hours;
+
+var cumulative_co2, cumulative_size;
+var stat_teu, stat_drybulk, stat_wetbulk, stat_cbm, stat_co2, stat_vehicles, stat_format;
+
+var prev_t;
+
+var play_button_in_corner = false;
+
+// D3 abbreviations
+var $ = d3.select, $$ = d3.selectAll;
+
+var ports_showing = false,
+    ships_showing = true,
+    map_showing = true,
+    routes_showing = false,
+    shade_type = "uniform";
+
+var audio = document.getElementById("audio");
+
+if (params.guardian) $("body").classed("guardian", true);
+
+function preloadTiles() {
+  var TILES_TO_PRELOAD = [ "tiles/3/4/4", "tiles/3/3/4", "tiles/3/4/5", "tiles/3/4/3", "tiles/3/3/5", "tiles/3/3/3",
+  "tiles/3/2/4", "tiles/3/5/4", "tiles/3/5/3", "tiles/3/5/5", "tiles/3/2/3", "tiles/3/2/5", "tiles/3/6/4",
+  "tiles/3/1/4", "tiles/3/6/5", "tiles/3/1/3", "tiles/3/1/5", "tiles/3/6/3", "tiles/5/8/18", "tiles/5/8/17",
+  "tiles/5/7/18", "tiles/5/9/18", "tiles/5/7/17", "tiles/5/9/17", "tiles/5/8/16", "tiles/5/8/19", "tiles/5/7/19",
+  "tiles/5/9/19", "tiles/5/7/16", "tiles/5/9/16", "tiles/5/10/17", "tiles/5/10/18", "tiles/5/6/18", "tiles/5/6/17",
+  "tiles/5/6/19", "tiles/5/10/19", "tiles/5/6/16", "tiles/5/10/16", "tiles/4/12/8", "tiles/4/13/8", "tiles/4/12/7",
+  "tiles/4/13/7", "tiles/4/14/8", "tiles/4/13/6", "tiles/4/13/9", "tiles/4/12/6", "tiles/4/12/9", "tiles/4/11/7",
+  "tiles/4/11/8", "tiles/4/14/7", "tiles/4/11/9", "tiles/4/14/9", "tiles/4/14/6", "tiles/4/11/6", "tiles/4/15/7",
+  "tiles/4/15/8", "tiles/4/10/8", "tiles/4/10/7", "tiles/4/15/9", "tiles/4/10/6", "tiles/4/10/9", "tiles/4/15/6",
+  "tiles/5/26/19", "tiles/5/26/18", "tiles/5/25/19", "tiles/5/27/19", "tiles/5/25/18", "tiles/5/27/18", "tiles/5/26/17",
+  "tiles/5/26/20", "tiles/5/25/20", "tiles/5/27/20", "tiles/5/25/17", "tiles/5/27/17", "tiles/5/28/18", "tiles/5/28/19",
+  "tiles/5/24/19", "tiles/5/24/18", "tiles/5/24/20", "tiles/5/28/20", "tiles/5/24/17", "tiles/5/28/17", "tiles/2/2/2",
+  "tiles/2/1/2", "tiles/2/2/3", "tiles/2/2/1", "tiles/2/1/3", "tiles/2/1/1", "tiles/2/0/2", "tiles/2/3/2",
+  "tiles/2/3/1", "tiles/2/3/3", "tiles/2/0/1", "tiles/2/0/3", "position-tiles/2/2/1", "position-tiles/2/1/1",
+  "position-tiles/2/2/0", "position-tiles/2/2/2", "position-tiles/2/1/0", "position-tiles/2/1/2",
+  "position-tiles/2/0/1", "position-tiles/2/3/1", "position-tiles/2/3/2", "position-tiles/2/3/0",
+  "position-tiles/2/0/2", "position-tiles/2/0/0", "position-tiles/5/26/12", "position-tiles/5/26/13",
+  "position-tiles/5/25/12", "position-tiles/5/27/12", "position-tiles/5/25/13", "position-tiles/5/27/13",
+  "position-tiles/5/26/14", "position-tiles/5/26/11", "position-tiles/5/25/11", "position-tiles/5/27/11",
+  "position-tiles/5/25/14", "position-tiles/5/27/14", "position-tiles/5/28/13", "position-tiles/5/28/12",
+  "position-tiles/5/24/12", "position-tiles/5/24/13", "position-tiles/5/24/11", "position-tiles/5/28/11",
+  "position-tiles/5/24/14", "position-tiles/5/28/14", "tiles/5/23/18", "tiles/5/23/19", "tiles/5/23/17",
+  "position-tiles/5/23/13", "position-tiles/5/23/12", "position-tiles/5/23/14", "tiles/5/24/16", "tiles/5/23/16",
+  "tiles/5/25/16", "tiles/5/22/18", "tiles/5/22/17", "tiles/5/22/19", "tiles/5/22/16", "tiles/5/26/16",
+  "position-tiles/5/24/15", "position-tiles/5/23/15", "position-tiles/5/25/15", "position-tiles/5/22/13",
+  "position-tiles/5/22/14", "position-tiles/5/22/12", "position-tiles/5/22/15", "position-tiles/5/26/15",
+  "tiles/5/21/17", "tiles/5/21/18", "tiles/5/21/16", "tiles/5/20/17", "tiles/5/20/18", "tiles/5/20/16",
+  "position-tiles/5/21/14", "position-tiles/5/21/13", "position-tiles/5/21/15", "position-tiles/5/20/14",
+  "position-tiles/5/20/13", "position-tiles/5/20/15", "tiles/5/21/15", "tiles/5/22/15", "tiles/5/20/15",
+  "tiles/5/23/15", "tiles/5/19/17", "tiles/5/19/16", "tiles/5/19/18", "tiles/5/19/15", "tiles/5/24/15",
+  "position-tiles/5/21/16", "position-tiles/5/22/16", "position-tiles/5/20/16", "position-tiles/5/23/16",
+  "position-tiles/5/19/14", "position-tiles/5/19/15", "position-tiles/5/19/13", "position-tiles/5/19/16",
+  "position-tiles/5/24/16", "tiles/5/18/17", "tiles/5/18/16", "tiles/5/18/18", "tiles/5/18/15",
+  "position-tiles/5/18/14", "position-tiles/5/18/15", "position-tiles/5/18/13", "position-tiles/5/18/16",
+  "tiles/6/32/42", "tiles/6/31/42", "tiles/6/32/43", "tiles/6/32/41", "tiles/6/31/43", "tiles/6/31/41", "tiles/6/30/42",
+  "tiles/6/33/42", "tiles/6/33/41", "tiles/6/33/43", "tiles/6/30/41", "tiles/6/30/43", "tiles/6/34/42", "tiles/6/29/42",
+  "tiles/6/34/43", "tiles/6/29/41", "tiles/6/29/43", "tiles/6/34/41", "position-tiles/6/32/21",
+  "position-tiles/6/31/21", "position-tiles/6/32/20", "position-tiles/6/32/22", "position-tiles/6/31/20",
+  "position-tiles/6/31/22", "position-tiles/6/30/21", "position-tiles/6/33/21", "position-tiles/6/33/22",
+  "position-tiles/6/33/20", "position-tiles/6/30/22", "position-tiles/6/30/20", "position-tiles/6/34/21",
+  "position-tiles/6/29/21", "position-tiles/6/34/20", "position-tiles/6/29/22", "position-tiles/6/29/20",
+  "position-tiles/6/34/22", "tiles/8/71/134", "tiles/8/71/133", "tiles/8/70/134", "tiles/8/71/135", "tiles/8/72/134",
+  "tiles/8/72/133", "tiles/8/72/135", "tiles/8/70/133", "tiles/8/70/135", "tiles/8/73/134", "tiles/8/69/134",
+  "tiles/8/73/135", "tiles/8/69/135", "tiles/8/69/133", "tiles/8/73/133", "position-tiles/8/71/121",
+  "position-tiles/8/71/122", "position-tiles/8/70/121", "position-tiles/8/71/120", "position-tiles/8/72/121",
+  "position-tiles/8/72/122", "position-tiles/8/72/120", "position-tiles/8/70/122", "position-tiles/8/70/120",
+  "position-tiles/8/73/121", "position-tiles/8/69/121", "position-tiles/8/73/120", "position-tiles/8/69/120",
+  "position-tiles/8/69/122", "position-tiles/8/73/122", "tiles/6/37/37", "tiles/6/37/36", "tiles/6/36/37",
+  "tiles/6/37/38", "tiles/6/38/37", "tiles/6/38/36", "tiles/6/38/38", "tiles/6/36/36", "tiles/6/36/38", "tiles/6/39/37",
+  "tiles/6/35/37", "tiles/6/39/38", "tiles/6/35/38", "tiles/6/35/36", "tiles/6/39/36", "position-tiles/6/37/26",
+  "position-tiles/6/37/27", "position-tiles/6/36/26", "position-tiles/6/37/25", "position-tiles/6/38/26",
+  "position-tiles/6/38/27", "position-tiles/6/38/25", "position-tiles/6/36/27", "position-tiles/6/36/25",
+  "position-tiles/6/39/26", "position-tiles/6/35/26", "position-tiles/6/39/25", "position-tiles/6/35/25",
+  "position-tiles/6/35/27", "position-tiles/6/39/27", "tiles/6/34/37", "tiles/6/34/36", "tiles/6/35/35",
+  "tiles/6/36/35", "tiles/6/34/38", "tiles/6/34/35", "tiles/6/37/35", "tiles/6/33/37", "tiles/6/33/36", "tiles/6/33/35",
+  "tiles/6/33/38", "tiles/6/38/35", "position-tiles/6/34/26", "position-tiles/6/34/27", "position-tiles/6/35/28",
+  "position-tiles/6/36/28", "position-tiles/6/34/25", "position-tiles/6/34/28", "position-tiles/6/37/28",
+  "position-tiles/6/33/26", "position-tiles/6/33/27", "position-tiles/6/33/28", "position-tiles/6/33/25",
+  "position-tiles/6/38/28", "tiles/6/32/35", "tiles/6/32/36", "tiles/6/31/35", "tiles/6/32/34", "tiles/6/31/36",
+  "tiles/6/31/34", "tiles/6/33/34", "tiles/6/30/35", "tiles/6/30/34", "tiles/6/30/36", "tiles/6/34/34",
+  "position-tiles/6/32/28", "position-tiles/6/32/27", "position-tiles/6/31/28", "position-tiles/6/32/29",
+  "position-tiles/6/31/27", "position-tiles/6/31/29", "position-tiles/6/33/29", "position-tiles/6/30/28",
+  "position-tiles/6/30/29", "position-tiles/6/30/27", "position-tiles/6/34/29", "tiles/6/28/34", "tiles/6/28/33",
+  "tiles/6/27/33", "tiles/6/27/34", "tiles/6/29/34", "tiles/6/29/33", "tiles/6/28/32", "tiles/6/28/35", "tiles/6/27/35",
+  "tiles/6/29/35", "tiles/6/29/32", "tiles/6/27/32", "tiles/6/30/33", "tiles/6/26/34", "tiles/6/26/33", "tiles/6/26/32",
+  "tiles/6/26/35", "tiles/6/30/32", "position-tiles/6/28/29", "position-tiles/6/28/30", "position-tiles/6/27/30",
+  "position-tiles/6/27/29", "position-tiles/6/29/29", "position-tiles/6/29/30", "position-tiles/6/28/31",
+  "position-tiles/6/28/28", "position-tiles/6/27/28", "position-tiles/6/29/28", "position-tiles/6/29/31",
+  "position-tiles/6/27/31", "position-tiles/6/30/30", "position-tiles/6/26/29", "position-tiles/6/26/30",
+  "position-tiles/6/26/31", "position-tiles/6/26/28", "position-tiles/6/30/31", "tiles/6/25/33", "tiles/6/25/34",
+  "tiles/6/25/32", "tiles/6/24/33", "tiles/6/24/34", "tiles/6/24/32", "position-tiles/6/25/30",
+  "position-tiles/6/25/29", "position-tiles/6/25/31", "position-tiles/6/24/30", "position-tiles/6/24/29",
+  "position-tiles/6/24/31", "tiles/6/23/32", "tiles/6/24/31", "tiles/6/23/33", "tiles/6/23/31", "tiles/6/25/31",
+  "tiles/6/22/32", "tiles/6/22/33", "tiles/6/22/31", "tiles/6/26/31", "position-tiles/6/23/31",
+  "position-tiles/6/24/32", "position-tiles/6/23/30", "position-tiles/6/23/32", "position-tiles/6/25/32",
+  "position-tiles/6/22/31", "position-tiles/6/22/30", "position-tiles/6/22/32", "position-tiles/6/26/32",
+  "tiles/6/21/31", "tiles/6/21/32", "tiles/6/22/30", "tiles/6/21/33", "tiles/6/21/30", "tiles/6/23/30", "tiles/6/20/32",
+  "tiles/6/20/31", "tiles/6/20/30", "tiles/6/20/33", "tiles/6/24/30", "position-tiles/6/21/32",
+  "position-tiles/6/21/31", "position-tiles/6/22/33", "position-tiles/6/21/30", "position-tiles/6/21/33",
+  "position-tiles/6/23/33", "position-tiles/6/20/31", "position-tiles/6/20/32", "position-tiles/6/20/33",
+  "position-tiles/6/20/30", "position-tiles/6/24/33", "tiles/6/19/32", "tiles/6/19/31", "tiles/6/19/33",
+  "tiles/6/19/30", "position-tiles/6/19/31", "position-tiles/6/19/32", "position-tiles/6/19/30",
+  "position-tiles/6/19/33", "tiles/5/9/20", "tiles/5/9/19", "tiles/5/8/20", "tiles/5/9/21", "tiles/5/10/20",
+  "tiles/5/10/19", "tiles/5/10/21", "tiles/5/8/19", "tiles/5/8/21", "tiles/5/11/20", "tiles/5/7/20", "tiles/5/11/21",
+  "tiles/5/7/21", "tiles/5/7/19", "tiles/5/11/19", "tiles/7/82/74", "tiles/7/82/73", "tiles/7/81/74", "tiles/7/83/74",
+  "tiles/7/81/73", "tiles/7/83/73", "tiles/7/82/72", "tiles/7/82/75", "tiles/7/81/75", "tiles/7/83/75", "tiles/7/81/72",
+  "tiles/7/83/72", "tiles/7/84/73", "tiles/7/84/74", "tiles/7/80/74", "tiles/7/80/73", "tiles/7/80/75", "tiles/7/84/75",
+  "tiles/7/80/72", "tiles/7/84/72", "tiles/3/6/3", "tiles/3/5/3", "tiles/3/6/4", "tiles/3/6/2", "tiles/3/5/4",
+  "tiles/3/5/2", "tiles/3/4/3", "tiles/3/7/3", "tiles/3/7/2", "tiles/3/7/4", "tiles/3/4/2", "tiles/3/4/4",
+  "tiles/3/0/3", "tiles/3/3/3", "tiles/3/0/4", "tiles/3/3/2", "tiles/3/3/4", "tiles/3/0/2", "tiles/5/26/19",
+  "tiles/5/26/18", "tiles/5/25/19", "tiles/5/27/19", "tiles/5/25/18", "tiles/5/27/18", "tiles/5/26/17", "tiles/5/26/20",
+  "tiles/5/25/20", "tiles/5/27/20", "tiles/5/25/17", "tiles/5/27/17", "tiles/5/28/18", "tiles/5/28/19", "tiles/5/24/19",
+  "tiles/5/24/18", "tiles/5/24/20", "tiles/5/28/20", "tiles/5/24/17", "tiles/5/28/17", "tiles/2/2/2", "tiles/2/1/2",
+  "tiles/2/2/3", "tiles/2/2/1", "tiles/2/1/3", "tiles/2/1/1", "tiles/2/0/2", "tiles/2/3/2", "tiles/2/3/1",
+  "tiles/2/3/3", "tiles/2/0/1", "tiles/2/0/3" ];
+
+  for (var i = 0; i < TILES_TO_PRELOAD.length; i++) {
+    var im = new Image();
+    im.src = "//tiles.shipmap.org/" + TILES_TO_PRELOAD[i] + ".png";
+  }
+}
+
+function init() {
+  preloadTiles();
+
+	var tiles_url = "//tiles.shipmap.org/tiles/{z}/{x}/{y}.png",
+	    position_tiles_url = "//tiles.shipmap.org/position-tiles/{z}/{x}/{y}.png",
+	    coloured_position_tiles_url = "//tiles.shipmap.org/coloured-position-tiles/{z}/{x}/{y}.png";
+	if (params.local) {
+		tiles_url = "/tiles/{z}/{x}/{y}.png";
+		position_tiles_url = "/position-tiles/{z}/{x}/{y}.png";
+		coloured_position_tiles_url = "/coloured-position-tiles/{z}/{x}/{y}.png";
+	}
+
+	// Leaflet zooming does not work unless there is at least one layer,
+	// so when all the other layers are removed we add the blank layer
+	// as a placeholder
+	blank_layer = L.tileLayer("about:blank");
+	tile_layer = L.tileLayer(tiles_url, {
+		tms: true,
+		bounds: [ [-85,-180], [85,180] ]
+	});
+	position_layer = L.tileLayer(position_tiles_url, {
+		bounds: [ [-85,-180], [85,180] ]
+	});
+	coloured_position_layer = L.tileLayer(coloured_position_tiles_url, {
+		bounds: [ [-85,-180], [85,180] ]
+	});
+	map = L.map("map", {
+		center: [30, 0], zoom: 3,
+		minZoom: 2, maxZoom: 9,
+		attributionControl: false,
+		zoomAnimationThreshold: 9,
+		layers: [ tile_layer ],
+		touchZoom: true, scrollWheelZoom: false, doubleClickZoom: true
+	});
+
+	var lcc = document.querySelector(".leaflet-control-container"),
+	    scrubber = document.getElementById("scrubber"),
+	   social = document.getElementById("social")
+	lcc.appendChild(document.getElementById("nav"));
+	lcc.appendChild(scrubber);
+	lcc.appendChild(social);
+	scrubber.ontouchstart = function(e) { e.stopPropagation(); }
+
+	canvas = document.createElement("canvas");
+	canvas.addEventListener("webglcontextlost", contextLost, false);
+	canvas.addEventListener("webglcontextrestored", contextRestored, false);
+	canvas.setAttribute("class", "leaflet-zoom-hide");
+	map.getPanes().overlayPane.appendChild(canvas);
+	map.on("moveend", repositionCanvas);
+	map.on("zoomend", function() {
+		$(".leaflet-marker-pane").attr("class", function() {
+			return "leaflet-marker-pane zoom-" + map.getZoom();
+		});
+		setDayDuration(625 * Math.pow(2, map.getZoom()));
+	});
+
+	gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
+	if (!gl) {
+		var url = "nowebgl.html";
+		if (params.guardian) url += "?guardian=true";
+		window.location.href = url;
+		return;
+	}
+
+	glInit();
+	initScrubber();
+	initControls();
+	initLabels();
+	initTalkie();
+	window.onresize = resizeWindow;
+
+	stat_teu = $("#stat-teu");
+	stat_drybulk = $("#stat-drybulk");
+	stat_wetbulk = $("#stat-wetbulk");
+	stat_cbm = $("#stat-cbm");
+	stat_co2 = $("#stat-co2");
+	stat_vehicles = $("#stat-vehicles");
+	stat_format = d3.format(",.0f");
+
+	if (params.maponly) $$("#play-button, #info-panel, #scrubber, #social, #nav, .leaflet-control-container").style("visibility", "hidden");
+}
+
+function contextLost(event) {
+	event.preventDefault();
+	pauseAnimation();
+}
+
+function contextRestored() {
+	glInit();
+	loadVessels(beginAnimation);
+}
+
+function uncolorDashboardByShipType() {
+	$$("#dashboard .stat .color-by-ship-type")
+		.style("color", null);
+}
+
+function colorDashboardByShipType() {
+	$$("#dashboard .stat").each(colorShipTypeNames);
+}
+
+function colorShipTypeNames(d, i) {
+	var vessel_type = this.getAttribute("data-ship-type");
+	$(this).select(".color-by-ship-type").style("color", function() {
+		var rgb_start_index = vessel_type * 3;
+		var toRGB = function(raw) { return Math.floor(COLORS_BY_TYPE[raw]*255); }
+		return "rgb(" + toRGB(rgb_start_index) + "," + toRGB(rgb_start_index+1) + "," + toRGB(rgb_start_index+2) + ")";
+	});
+}
+
+function initControls() {
+	$$(".filter.color")
+		.each(colorShipTypeNames)
+		.each(function() {
+			var vessel_type = this.getAttribute("data-ship-type");
+			$(this).on("click", function() { toggleShipType(vessel_type); })
+		});
+	$$("#options .option > .option-name").on("touchstart", function() {
+		var option_element = this.parentNode,
+		    option_id = option_element.id,
+		    $option = $(option_element),
+		    is_visible = $option.classed("visible");
+
+		if ($option.classed("disabled")) return;
+
+		$("#options").classed("hoverable", false);
+		$$("#options .option").classed("visible",
+			is_visible ? false : function() { return this.id == option_id; }
+		);
+		d3.event.preventDefault();
+	});
+	$("#port-toggler").on("click", togglePorts);
+	$("#route-toggler").on("click", toggleRoutes);
+	$("#ships-toggler").on("click", toggleShips);
+	$("#map-toggler").on("click", toggleMap);
+	$$(".radio").on("click", function() {
+		var clicked = this,
+		    menu = this.parentNode,
+		    topic = menu.parentNode.id;
+		$(menu).selectAll(".radio").classed("selected", function() { return clicked == this; });
+		if (topic == "colours") {
+			shade_type = this.getAttribute("data-value").substr("shade-".length);
+			if (shade_type == "type") shadeByType();
+			else shadeUniform();
+		}
+	});
+	$("#map").on("click", movePlayButtonToCorner);
+	$("#info-open").on("click", toggleInfoPanel);
+	$$(".info-close").on("click", hideInfoPanel);
+	$(document).on("keyup", function() {
+		if (d3.event.keyCode != 32) return;
+		if (audio.paused) audio.play();
+		else audio.pause();
+	});
+
+	$(".fa-twitter").on("click", clickTwitter);
+	$(".fa-facebook").on("click", clickFacebook);
+	$(".fa-code").on("click", showInfoPanel);
+}
+
+function clickTwitter() {
+	var url = "https://twitter.com/intent/tweet?text=" + encodeURIComponent("An incredible interactive visualisation of global shipping. https://www.shipmap.org by @k_i_l_n, @UCL_Energy, @ucl #dataviz");
+	window.open(url, "_blank", "width=640,height=320");
+	d3.event.preventDefault();
+	d3.event.stopPropagation();
+}
+
+function clickFacebook() {
+	var url = "https://www.facebook.com/sharer/sharer.php?u=https://www.shipmap.org";
+	window.open(url, "_blank", "width=640,height=320");
+	d3.event.preventDefault();
+	d3.event.stopPropagation();
+}
+
+function shadeByType() {
+	gl.uniform3fv(uColorByType, COLORS_BY_TYPE);
+	colorDashboardByShipType();
+	$("#dashboard").classed("color-coded", true);
+	if (routes_showing) {
+		map.removeLayer(position_layer);
+		map.addLayer(coloured_position_layer);
+	}
+	$$("#colours .option-menu .radio").classed("selected", function() {
+		return this.getAttribute("data-value") == "shade-type";
+	});
+	shade_type = "type";
+	timeline.setUndo(shadeUniform);
+}
+
+function shadeUniform() {
+	gl.uniform3fv(uColorByType, UNIFORM_COLORS);
+	$("#dashboard").classed("color-coded", false);
+	uncolorDashboardByShipType();
+	if (routes_showing) {
+		map.removeLayer(coloured_position_layer);
+		map.addLayer(position_layer);
+	}
+	shade_type = "uniform";
+	$$("#colours .option-menu .radio").classed("selected", function() {
+		return this.getAttribute("data-value") == "shade-uniform";
+	});
+	timeline.setUndo(shadeByType);
+}
+
+var info_panel_showing = false;
+function toggleInfoPanel() {
+	if (info_panel_showing) hideInfoPanel();
+	else showInfoPanel();
+}
+
+function showInfoPanel() {
+	$("#info-panel")
+		.classed("open", true)
+		.style("overflow-y", "scroll")
+		.transition().duration(750)
+		.style("width", window.innerWidth + "px")
+		.style("height", window.innerHeight + "px")
+		.transition().duration(0)
+		.style("width", "100%")
+		.style("height", "100%");
+	info_panel_showing = true;
+}
+
+function hideInfoPanel() {
+	var info = document.getElementById("info-panel");
+	info.scrollTop = 0;
+	$(info).classed("open", false)
+		.style("overflow-y", "hidden")
+		.style("width", window.innerWidth + "px")
+		.style("height", window.innerHeight + "px")
+		.transition().duration(750)
+		.style("width", "40px") // Do not change here without also changing the initial CSS
+		.style("height", document.getElementById("nav").getBoundingClientRect().height + "px");
+	info_panel_showing = false;
+}
+
+function toggleShipType(vessel_type) {
+	if ($("#filter-type-" + vessel_type).classed("checked")) hideShipType(vessel_type);
+	else showShipType(vessel_type);
+}
+
+function hideShipType(vessel_type) {
+	$("#filter-type-" + vessel_type).classed("checked", false);
+	type_filter[vessel_type] = 0.0;
+	gl.uniform1fv(uAlphaMultByType, type_filter);
+}
+
+function showShipType(vessel_type) {
+	$("#filter-type-" + vessel_type).classed("checked", true);
+	type_filter[vessel_type] = 1.0;
+	gl.uniform1fv(uAlphaMultByType, type_filter);
+};
+
+function toggleRoutes() {
+	if (routes_showing) hideRoutes();
+	else showRoutes();
+}
+
+function showRoutes() {
+	if (routes_showing) return;
+	map.removeLayer(blank_layer);
+	map.addLayer(shade_type == "uniform" ? position_layer : coloured_position_layer);
+	$("#route-toggler").classed("checked", true);
+	routes_showing = true;
+	hideShips();
+}
+
+function hideRoutes() {
+	if (!routes_showing) return;
+	map.removeLayer(shade_type == "uniform" ? position_layer : coloured_position_layer);
+	if (!map_showing) map.addLayer(blank_layer);
+	$("#route-toggler").classed("checked", false);
+	routes_showing = false;
+}
+
+function toggleMap() {
+	if (map_showing) hideMap();
+	else showMap();
+}
+
+function showMap() {
+	if (map_showing) return;
+	map.removeLayer(blank_layer);
+	tile_layer.addTo(map).bringToBack();
+	$("#map-toggler").classed("checked", true);
+	map_showing = true;
+	timeline.setUndo(hideMap);
+}
+
+function hideMap() {
+	if (!map_showing) return;
+	if (!routes_showing) map.addLayer(blank_layer);
+	map.removeLayer(tile_layer);
+	$("#map-toggler").classed("checked", false);
+	map_showing = false;
+	timeline.setUndo(showMap);
+}
+
+function toggleShips() {
+	if (ships_showing) hideShips();
+	else showShips();
+}
+
+function showShips() {
+	if (ships_showing) return;
+	canvas.style.display = "block";
+	$("#ships-toggler").classed("checked", true);
+	$("#dashboard").style("display", "block");
+	$("#filters").classed("disabled", false);
+	beginAnimation();
+	ships_showing = true;
+}
+
+function hideShips() {
+	if (!ships_showing) return;
+	pauseAnimation();
+	canvas.style.display = "none";
+	$("#ships-toggler").classed("checked", false);
+	$("#dashboard").style("display", "none");
+	$("#filters").classed("disabled", true);
+	ships_showing = false;
+}
+
+function togglePorts() {
+	if (ports_showing) hidePorts();
+	else showPorts();
+}
+
+function showPorts() {
+	if (ports_showing) return;
+	$(".leaflet-marker-pane").style("display", "block");
+	$("#port-toggler").classed("checked", true);
+	ports_showing = true;
+}
+
+function hidePorts() {
+	if (!ports_showing) return;
+	$(".leaflet-marker-pane").style("display", "none");
+	$("#port-toggler").classed("checked", false);
+	ports_showing = false;
+}
+
+function initLabels() {
+	d3.csv("ports.csv", function(loaded_ports_data) {
+		var LABELS = loaded_ports_data;
+		var V_OFFSET = 8,
+		    H_OFFSET = 12
+		for (var i = 0; i < LABELS.length; i++) {
+			var port = LABELS[i],
+			    name = port.port_name,
+				v = port.label_position.charAt(0),
+				h = port.label_position.charAt(1);
+			if (name == "CUETA") name = "CEUTA"; // Fix typo in the Ports dataset
+			var lab = L.divIcon({ className: "geography-label port port-" + i + " " + port.harborsize });
+			L.marker([port.latitude, port.longitude], { icon: lab }).addTo(map);
+			$(".geography-label.port-" + i)
+				.style("text-align", function() { return h == "W" ? "left" : "right"; })
+				.append("div")
+				.attr("class", "port-label")
+				.text(name.replace(/ /g, " "))
+				.style("top", function() { return (v == "S" ? -V_OFFSET : V_OFFSET) + "px"; })
+				.style("left", function() { return h == "W" ? H_OFFSET + "px" : "auto"; })
+				.style("right", function() { return h == "E" ? H_OFFSET + "px" : "auto"; });
+		}
+	});
+}
+
+function tweenPercentage(from, to) {
+	return function() {
+		return d3.interpolateString(from + "%", to + "%");
+	};
+}
+
+function movePlayButtonToCorner(duration, delay) {
+	if (play_button_in_corner) return;
+	if (typeof duration == "undefined") duration = 750;
+	if (typeof delay == "undefined") delay = 250;
+	$("#play-button")
+		.transition().delay(delay).duration(duration)
+		.style("width", "70px")
+		.style("height", "70px")
+		.styleTween("right", tweenPercentage(50, 100))
+		.styleTween("bottom", tweenPercentage(50, 0))
+		.style("margin-right", "-90px")
+		.style("margin-bottom", "65px");
+	$("#credits").transition().duration(500).style("opacity", 0)
+		.transition().duration(0).style("display", "none");
+	play_button_in_corner = true;
+}
+
+function movePlayButtonToCenter(duration, delay) {
+	if (typeof duration == "undefined") duration = 750;
+	if (typeof delay == "undefined") delay = 0;
+	if (!play_button_in_corner) return;
+	var play_button = $("#play-button"),
+		play_button_placeholder = $("#play-button-placeholder");
+	play_button
+		.transition().delay(delay).duration(duration)
+		.styleTween("right", tweenPercentage(100, 50))
+		.styleTween("bottom", tweenPercentage(0, 50))
+		.style("width", play_button_placeholder.style("width"))
+		.style("height", play_button_placeholder.style("height"))
+		.style("margin-right", play_button_placeholder.style("margin-right"))
+		.style("margin-bottom", play_button_placeholder.style("margin-bottom"))
+		.each("end", function() {
+			play_button
+				.style("width", null)
+				.style("height", null)
+				.style("margin-right", null)
+				.style("margin-bottom", null);
+		});
+	play_button_in_corner = false;
+}
+
+function createPlayButton(container_selector, timeline, track) {
+	var container = $(container_selector);
+	container.append("div").attr("id", "play-button-placeholder");
+	var button = container.append("svg")
+		.attr("id", "play-button")
+		.attr("viewBox", "0 0 100 100");
+	button.append("circle")
+		.attr("id", "talkie-player-outer")
+		.attr("cx", "50")
+		.attr("cy", "50")
+		.attr("r", "50")
+		.attr("fill", "rgba(185,240,255,0.75)");
+	button.append("path")
+		.attr("id", "talkie-player-segment")
+		.attr("transform", "translate(50,50) rotate(180)")
+		.attr("fill", "#666");
+	button.append("circle")
+		.attr("id", "talkie-player-inner")
+		.attr("cx", "50")
+		.attr("cy", "50")
+		.attr("r", "37")
+		.attr("fill", "rgba(40,40,40,1)");
+	button.append("polygon")
+		.attr("id", "play-icon")
+		.attr("class", "play-pause")
+		.attr("pointer-events", "none")
+		.attr("transform", "translate(4,6)")
+		.attr("points", "67.304,45.832 34.619,67.329 32.47,65.498 32.47,22.258 35.23,20.67 67.304,43.878");
+	button.append("path")
+		.attr("id", "pause-icon")
+		.attr("pointer-events", "none")
+		.attr("class", "play-pause")
+		.attr("transform", "translate(4,6)")
+		.attr("d", "M36.499,63.559H29.98L26.72,60.3V27.701l3.26-3.26h6.519l3.157,3.26V60.3L36.499,63.559z M62.475,63.559h-6.519L52.695,60.3V27.701l3.261-3.26h6.519l3.157,3.26V60.3L62.475,63.559z");
+
+	track.addEventListener("timeupdate", function() {
+		$("#talkie-player-segment")
+			.attr("d", function() {
+				var dot_radius = 50;
+				var p = track.currentTime/track.duration;
+				var s = "M 0 0 v [r]";
+				if (p > 0.5) s += " A [r] [r] 0 0 1 0 -[r]";
+				s += " A [r] [r] 0 0 1 [x] [y] z";
+
+				s = s.replace(/\[r\]/g, dot_radius);
+				s = s.replace(/\[x\]/g, -dot_radius * Math.sin(2 * Math.PI * p));
+				s = s.replace(/\[y\]/g, dot_radius * Math.cos(2 * Math.PI * p));
+
+				return s
+			});
+	});
+	$("#play-button #talkie-player-inner").on("click", function() {
+		if (track.paused) timeline.play();
+		else timeline.pause();
+	});
+
+	timeline.onPlay(function() {
+		$("#pause-icon").style("display", "block");
+		$("#play-icon").style("display", "none");
+	});
+	timeline.onPause(function() {
+		$("#pause-icon").style("display", "none");
+		$("#play-icon").style("display", "block");
+	});
+
+	var pt = button.node().createSVGPoint(),
+		scrubbing = false;
+	function scrub() {
+		if (!scrubbing) return;
+		if (track.readyState == 0) return;
+
+		var bbox = this.getBBox();
+		pt.x = d3.event.clientX;
+		pt.y = d3.event.clientY;
+		pt = pt.matrixTransform(this.getScreenCTM().inverse());
+		var x = pt.x - bbox.width/2,
+			y = pt.y - bbox.height/2;
+			theta = Math.PI/2 + Math.atan2(y, x);
+		while (theta < 0) theta += Math.PI * 2;
+		var t = track.duration * theta / (Math.PI*2);
+		track.currentTime = t;
+	}
+	$("#play-button #talkie-player-outer")
+		.on("mousedown", function() { d3.event.preventDefault(); scrubbing = true; scrub.call(this); })
+		.on("mousemove", scrub);
+	$(document).on("mouseup", function() { scrubbing = false; });
+}
+
+
+// Based on the setMapView function from the aviation project.
+//
+// This is dependent on Leaflet internals, and must be reconsidered
+// when Leaflet is upgraded.
+function setBounds(bounds, options) {
+	if (!options.animate) return;
+
+	if (map._animatingZoom) {
+		console.log("Attempting to interrupt map zoom animation");
+		map._onZoomTransitionEnd();
+
+		options.reset = true;
+	}
+
+	map.fitBounds(bounds, options);
+}
+
+function changeBounds(from, to) {
+	return function() {
+		var animate = !this.fast_forward,
+		    reset = this.fast_forward;
+		setBounds(to, { pan: { duration: (animate ? 1 : 0) }, animate: animate, reset: reset });
+		this.setUndo(function() {
+			setBounds(from, { animate: false, reset: true });
+		});
+	}
+}
+
+function showRoutesHideShips() {
+	showRoutes();
+	hideShips();
+	this.setUndo(showShipsHideRoutes);
+}
+
+function showShipsHideRoutes() {
+	showShips();
+	hideRoutes();
+	this.setUndo(showRoutesHideShips);
+}
+
+function changeShipColors(from, to) {
+	return function() {
+		showShips();
+		gl.uniform3fv(uColorByType, to);
+		this.setUndo(function() {
+			showShips();
+			gl.uniform3fv(uColorByType, from);
+		})
+	}
+}
+
+var log_time = 0;
+function initTalkie() {
+	audio.addEventListener("timeupdate", function() {
+		var t = Math.round(audio.currentTime);
+		// if (log_time != t) console.log(t);
+		log_time = t;
+	});
+	timeline = Talkie.timeline("#audio", {
+		/* At any given moment, tens of thousands of giant cargo ships are moving around the world's oceans. These ships, some of which are more than a quarter of a mile long, are the heavy lifters of the global economy, shifting everything from metal ores and compressed 	 gas to fresh fruit and plastic toys. This interactive map shows the movements of the world's commercial shipping fleet in 2012, based on hundreds of millions of individually recorded positions.*/
+		"1": movePlayButtonToCorner,
+		/* Plotting all the raw positions at once shows the extraordinary extent of shipping's reach.*/
+		"6": changeBounds(PLACES.world, PLACES.caribbean),
+		"13": changeBounds(PLACES.caribbean, PLACES.seasia),
+		/* Even without a background map, the world's coastlines are clearly defined – albeit with plenty of variation,*/
+		"20": changeBounds(PLACES.seasia, PLACES.china),
+		"27": changeBounds(PLACES.china, PLACES.world),
+		"28": showRoutesHideShips,
+		"32": hideMap,
+		/* … from a buzz of activity in the East China Sea */
+		"36": changeBounds(PLACES.california, PLACES.china),
+		"39": showMap,
+		/* to the relative quiet of the Somalia's piracy-afflicted waters.*/
+		"40.5": changeBounds(PLACES.china, PLACES.somalia),
+		/* While ships can move freely through the open ocean, routes are pre-determined closer to land – and especially in tight straites such as the dual carriageway of the English Channel.*/
+		"48": changeBounds(PLACES.somalia, PLACES.englishchannel),
+		"53": showShipsHideRoutes,
+		/* The most crucial shipping thoroughfares of all, though, are the man-made canals linking different bodies of water – such as the Panama Canal, opened a century ago to connect the Atlantic and Pacific Oceans … */
+		"60": changeBounds(PLACES.englishchannel, PLACES.panama),
+		"63.1": showRoutesHideShips,
+		"63.2": showMap,
+		/* … and the even older and busier Suez Canal, which saw 17,000 transits in 2012 alone.*/
+		"67.5": changeBounds(PLACES.panama, PLACES.suez),
+		/* In some places, ships penetrate deep into continents via rivers and lakes – such as the massive Paraguay and Amazon rivers in South America … */
+		"74": changeBounds(PLACES.suez, PLACES.amazon),
+		"78": showShipsHideRoutes,
+		/* … or the Great Lakes in North America, whose ports include Chicago, Miwalkee and Toronto.*/
+		"82": changeBounds(PLACES.amazon, PLACES.greatlakes),
+		/* Colouring the ships by category shows the flows of the global economy in more detail.*/
+		"88": changeBounds(PLACES.greatlakes, PLACES.world),
+		"89": shadeByType,
+		/* The red dots are the tankers, which shut oil from massive terminals in the Middle East, or from off-shore rigs in West Africa and elsewhere… */
+		"94": changeBounds(PLACES.greatlakes, PLACES.persiangulf),
+		"97": showRoutesHideShips,
+		/* … while the blue dots are so-called dry bulk ships moving aggregates, ores and coal from mines and quaries, many of which are found of Australia and Latin America. */
+		"100.9": showShipsHideRoutes,
+		"101": changeBounds(PLACES.persiangulf, PLACES.indianocean),
+		"105": showRoutesHideShips,
+		/* Many of these raw materials are shipped to manufacturing regions to make finished goods that are themselves then moved back across the oceans in containers ships – shows here in yellow. China is the centre of the container shipping world; Shanghai alone moved 33 million units in 2012.*/
+		"110.9": showShipsHideRoutes,
+		"111": changeBounds(PLACES.indianocean, PLACES.china),
+		"119": showRoutesHideShips,
+		/* While all this shipping makes modern life as we know it possible, there is a down side. Moving billions of tonnes of of ships and cargo relies on burning massive quantities of bunker fuel. The result is a huge amount of carbon dixoide or CO2 – the main driver of global warming. Commerical ships produce more than a million tonnes of CO2 every day –  more than whole of the UK, or Canada, or Brazil.*/
+		"128": changeBounds(PLACES.china, PLACES.world),
+		"135": shadeUniform,
+		"142": showShipsHideRoutes,
+
+		/* Click around the map to explore the data for yourself, or click the info sign for more information about how the map was made.*/
+
+		// Sources for stats:
+		// "90 per cent of global trade is carried by sea" – http://www.imo.org/en/KnowledgeCentre/ShipsAndShippingFactsAndFigures/TheRoleandImportanceofInternationalShipping/Documents/International%20Shipping%20-%20Facts%20and%20Figures.pdf
+		// "Over the last four decades total seaborne trade estimates have quadrupled, from just over 8 thousand billion tonne-miles in 1968 to over 32 thousand billion tonne-miles in 2008." – http://www.ics-shipping.org/shipping-facts/shipping-and-world-trade/world-seaborne-trade
+		// "Tens of thousands of ships" – We are plotting around 20k so this seems safe/reasonable
+	});
+
+	createPlayButton("body", timeline, document.getElementById("audio"));
+}
+
+function clickDay() {
+	var day_number = this.id.substring("day-".length);
+	// console.log("Day clicked", day_number);
+	skipToDay(day_number);
+}
+
+var resize_timer;
+function resizeWindow() {
+	if (resize_timer) clearTimeout(resize_timer);
+	resize_timer = setTimeout(function() {
+		repositionCanvas();
+		gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+		gl.drawArrays(gl.POINTS, 0, num_ships * 3);
+
+		initScrubber();
+		resize_timer = null;
+	}, 500);
+}
+
+function initScrubber() {
+	var scrubber = $("#scrubber").text("").append("div").attr("id", "scrubber-inner"),
+	    day_number = 0,
+	    day_width = Math.floor(window.innerWidth/(365 + 12)),
+	    scrolling = day_width < 2;
+	if (scrolling) day_width = 2;
+	var calendar_width = day_width*365 + 12,
+	    margin = scrolling ? 0 : (window.innerWidth - calendar_width)/2;
+	for (var i = 0; i < MONTHS.length; i++) {
+		var month = scrubber.append("div")
+				.attr("class", "month " + MONTHS[i].name.toLowerCase())
+				.style("left", + margin + day_number * day_width + (i * 1) + "px")
+				.style("width", day_width * MONTHS[i].days + 1 + "px");
+		month.append("div").attr("class", "label").text(MONTHS[i].name.substring(0,3));
+		for (var j = 0; j < MONTHS[i].days; j++) {
+			var day = month.append("div").attr("class", "day").attr("id", "day-" + day_number)
+				.style("position", "absolute")
+				.style("top", 0)
+				.style("left", j * day_width + "px")
+				.style("width", day_width + "px")
+				.on("click", clickDay);
+			day.append("div").attr("class", "load-progress")
+			.style("width", day_width + "px")
+			.style("height", "0px");
+			day_number++;
+		}
+	}
+}
+
+function glInit() {
+	// Load and compile the shaders
+	var fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
+	gl.shaderSource(fragmentShader, $("#shader-fs").text());
+	gl.compileShader(fragmentShader);
+	var vertexShader = gl.createShader(gl.VERTEX_SHADER)
+	gl.shaderSource(vertexShader, $("#shader-vs").text());
+	gl.compileShader(vertexShader);
+
+	// Create the WebGL program
+	prog = gl.createProgram();
+	gl.attachShader(prog, vertexShader);
+	gl.attachShader(prog, fragmentShader);
+	gl.linkProgram(prog);
+	gl.useProgram(prog);
+
+	gl.enable(gl.BLEND);
+	gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+
+	uPos = gl.getUniformLocation(prog, "uPos");
+	uPointSize = gl.getUniformLocation(prog, "uPointSize");
+	uTransformToClipSpace = gl.getUniformLocation(prog, "uTransformToClipSpace");
+	uColorByType = gl.getUniformLocation(prog, "uColorByType");
+	uAlphaMultByType = gl.getUniformLocation(prog, "uAlphaMultByType");
+
+	gl.uniform3fv(uColorByType, UNIFORM_COLORS);
+	gl.uniform1fv(uAlphaMultByType, type_filter);
+
+	prev_t = null;
+	currently_bound_day = null;
+
+	return prog;
+}
+
+function glLoadFloatArray(prog, attribute_name, size, stride, offset) {
+	var loc = gl.getAttribLocation(prog, attribute_name);
+	gl.enableVertexAttribArray(loc);
+	gl.vertexAttribPointer(loc, size, gl.FLOAT, false, stride * 4, offset * 4);
+}
+
+function drawScene(t, pos) {
+	if (gl.isContextLost()) {
+		console.error("drawScene called with lost WebGL context");
+		return;
+	}
+
+	if (typeof num_ships == "undefined") {
+		console.error("drawScene() called with num_ships undefined");
+		return;
+	}
+
+	gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+	gl.uniform1f(uPos, pos);
+	gl.uniform1f(uPointSize, (BASE_SHIP_SIZE + 1.5 * map.getZoom()) * (window.devicePixelRatio || 1));
+
+	if (t != prev_t) {
+		glLoadFloatArray(prog, "aSrcPosition", 2, 50, 2 * t);
+		glLoadFloatArray(prog, "aDstPosition", 2, 50, 2 * (t + 1));
+		updateStats(currently_bound_day * 24 + t);
+		prev_t = t;
+	}
+
+	gl.drawArrays(gl.POINTS, 0, num_ships * 3);
+}
+
+function updateStats(h) {
+	var dry_tonnes = 0, wet_tonnes = 0, cbm = 0, co2 = 0, teu = 0, vehicles = 0;
+	for (var i = 0; i < NUM_VESSEL_TYPES; i++) {
+		var v = type_filter[i] * cumulative_size[i][h];
+		if (isNaN(v)) v = 0;
+		switch(i) {
+			case VESSEL_TYPE_CODES["drybulk/tonnes"]:
+				dry_tonnes += v;
+				break;
+			case VESSEL_TYPE_CODES["wetbulk/tonnes"]:
+				wet_tonnes += v;
+				break;
+			case VESSEL_TYPE_CODES["gasbulk/cbm"]:
+				cbm += v;
+				break;
+			case VESSEL_TYPE_CODES["unitised/teu"]:
+				teu += v;
+				break;
+			case VESSEL_TYPE_CODES["unitised/dwt"]:
+				vehicles += v;
+				break;
+		}
+		co2 += type_filter[i] * cumulative_co2[i][h];
+	}
+
+	stat_teu.text(stat_format(teu));
+	stat_drybulk.text(stat_format(dry_tonnes/1e3));
+	stat_wetbulk.text(stat_format(wet_tonnes/1e3));
+	stat_cbm.text(stat_format(cbm));
+	stat_co2.text(stat_format(co2));
+	stat_vehicles.text(stat_format(vehicles));
+}
+
+var DAY_MILLIS = 24 * 60 * 60 * 1000,
+    year_start_epoch = new Date(2012, 0, 1).getTime(),
+    format_two_digits = d3.format("02d");
+function formatTimestamp(days, hours) {
+	var d = new Date(year_start_epoch + days * DAY_MILLIS);
+	return d.getDate() + " " + MONTHS[d.getMonth()].name + " 2012 " + format_two_digits(hours) + ":00";
+}
+
+function beginAnimation() {
+	repositionCanvas();
+	animation_frame = requestAnimationFrame(animationFrame);
+}
+function pauseAnimation() {
+	if (animation_frame) cancelAnimationFrame(animation_frame);
+	animation_frame = null;
+	if (typeof last_frame_timestamp !== "undefined") {
+		animation_start_day += (last_frame_timestamp - first_timestamp) / day_duration;
+	}
+	first_timestamp = last_frame_timestamp = undefined;
+}
+function skipToDay(day_number) {
+	if (animation_frame) cancelAnimationFrame(animation_frame);
+	animation_start_day = day_number;
+	first_timestamp = last_frame_timestamp = undefined;
+	beginAnimation();
+}
+function animationFrame(timestamp) {
+	if (typeof first_timestamp == "undefined") {
+		first_timestamp = timestamp;
+	}
+
+	if (timestamp - last_frame_timestamp > MAX_FRAME_INTERVAL) {
+		first_timestamp += (timestamp - last_frame_timestamp);
+	}
+	last_frame_timestamp = timestamp;
+
+	var dt = timestamp - first_timestamp;
+	if (dt < 0) {
+		// This shouldn’t happen, but e.g. the WebGL debugger seems to cause it.
+		console.warn("first_timestamp = %g, timestamp = %g", first_timestamp, timestamp);
+		first_timestamp = timestamp;
+		dt = 0;
+	}
+
+	var days = (dt / day_duration + animation_start_day) % 366,
+	    whole_days = Math.floor(days),
+	    hours = (days - whole_days) * 24,
+	    whole_hours = Math.floor(hours),
+	    within_hour = hours - whole_hours;
+
+	if (whole_days != currently_bound_day) {
+		$(".current.day").classed("current", false);
+		$("#day-" + whole_days).classed("current", true);
+		$("#timestamp").text(formatTimestamp(whole_days, whole_hours));
+		if (whole_days == preloaded_day_number) {
+			// console.log("Binding data for day " + whole_days);
+			var new_buffer = gl.createBuffer();
+			gl.bindBuffer(gl.ARRAY_BUFFER, new_buffer);
+			gl.bufferData(gl.ARRAY_BUFFER, preloaded_positions, gl.STATIC_DRAW);
+			if (buffer) gl.deleteBuffer(buffer);
+			buffer = new_buffer;
+			currently_bound_day = whole_days;
+
+			preloadDay((whole_days + 1) % 366);
+		}
+		else {
+			console.warn("Trying to render day %d, which is neither bound nor preloaded", whole_days);
+			waiting_for_day = animation_start_day = whole_days;
+			first_timestamp = last_frame_timestamp = undefined;
+			if (preloaded_day_number != whole_days) preloadDay(whole_days);
+			return;
+		}
+	}
+	else if (last_frame_whole_hours != whole_hours) {
+		$("#timestamp").text(formatTimestamp(whole_days, whole_hours));
+	}
+	last_frame_whole_hours = whole_hours;
+	waiting_for_day = undefined;
+	drawScene(whole_hours, within_hour);
+	animation_frame = requestAnimationFrame(animationFrame);
+}
+
+function setDayDuration(new_duration) {
+	if (typeof first_timestamp != "undefined") {
+		var dt = last_frame_timestamp - first_timestamp,
+		    days = (dt / day_duration + animation_start_day) % 366;
+
+		first_timestamp = last_frame_timestamp - (days - animation_start_day) * new_duration;
+	}
+	day_duration = new_duration;
+}
+
+function repositionCanvas() {
+	// Our canvas is positioned relative to “layer” coordinates;
+	// the viewport defines “container” coordinates. Note that the
+	// layer coordinate system has an arbitrary origin, not at the
+	// top-left of the map. This arbitrary origin can be accessed
+	// as map.getPixelOrigin().
+	//
+	// map.getPixelBounds() appears to use coordinates relative to
+	// the top-left of the map, so we avoid this complication by
+	// using only the size of these bounds.
+	var size = map.getPixelBounds().getSize(),
+	    origin = map.containerPointToLayerPoint([-BORDER.x, -BORDER.y]),
+	    cw = size.x + 2*BORDER.x,
+	    ch = size.y + 2*BORDER.y,
+	    dpr = window.devicePixelRatio || 1,
+	    canvas_width = cw * dpr,
+	    canvas_height = ch * dpr;
+
+	canvas.style.left = origin.x + "px";
+	canvas.style.top = origin.y + "px";
+
+	if (canvas.width != canvas_width || canvas.height != canvas_height) {
+		canvas.width = canvas_width;
+		canvas.height = canvas_height;
+		if (dpr != 1) {
+			canvas.style.width = cw + "px";
+			canvas.style.height = ch + "px";
+		}
+
+		gl.viewport(0, 0, canvas.width, canvas.height);
+	}
+
+	var pixel_bounds = map.getPixelBounds(),
+	    map_width = Math.pow(2, 8 + map.getZoom());
+	scale = Math.pow(2, 8 - map.getZoom());
+
+	var delta = null;
+	if (pixel_bounds.max.x < 0) {
+		delta = (pixel_bounds.max.x % map_width) + map_width - pixel_bounds.max.x;
+	}
+	else if (pixel_bounds.min.x >= map_width) {
+		delta = (pixel_bounds.min.x % map_width) - pixel_bounds.min.x;
+	}
+	if (delta != null) {
+		pixel_bounds.min.x += delta;
+		pixel_bounds.max.x += delta;
+	}
+
+	min_px = (pixel_bounds.min.x - BORDER.x) * scale;
+	max_px = (pixel_bounds.max.x + BORDER.x) * scale;
+	min_py = (pixel_bounds.min.y - BORDER.y) * scale;
+	max_py = (pixel_bounds.max.y + BORDER.y) * scale;
+
+	var w = max_px - min_px,
+	    h = max_py - min_py;
+
+	// Shift the ship positions left or right by whole copies of the world
+	// to make sure the visible map is filled with ships.
+	var shift = 0|min_px / 0x10000 + 0|max_px / 0x10000 - 1;
+
+	gl.uniformMatrix3fv(uTransformToClipSpace, false, [
+		2 / w, 0, 0,
+		0, - 2 / h, 0,
+		-(min_px + max_px - 0x20000 * shift) / w, (min_py + max_py) / h, 0
+	]);
+}
+
+function loadPositions(filename, loaded) {
+	var r = new XMLHttpRequest();
+
+	r.open("GET", filename, true);
+	if (r.overrideMimeType) r.overrideMimeType("text/plain; charset=x-user-defined");
+	r.responseType = "arraybuffer";
+	r.onload = function() {
+		if (r.status && r.status != 200) throw "Failed to load data: status = " + r.status;
+		if (r.response) {
+			loaded(r.response);
+		}
+		else {
+			throw "Browser not supported";
+		}
+	};
+	r.send();
+}
+
+function preloadDay(day_number, callback) {
+	loadData(day_number, function(positions) {
+		// console.log("Preloaded data for day " + day_number);
+		preloaded_day_number = day_number;
+		preloaded_positions = positions;
+		if (day_number == waiting_for_day) {
+			beginAnimation();
+		}
+		if (callback) callback();
+	});
+}
+
+
+function loadData(day_number, callback) {
+	var filename = "data/" + day_number + ".bin";
+	if (params.test) filename = "data/test/" + params.test + ".bin";
+	loadPositions(filename, function(arraybuffer) {
+		var data = new DataView(arraybuffer);
+
+		 // 100 bytes per ship per day: 25 {hours} * (2 {x} + 2 {y})
+		num_ships = data.byteLength / 100;
+
+		var positions = new Float32Array(num_ships * 25 * 2 * 3);
+		for (var i = 0; i < num_ships; i++) {
+			for (var t = 0; t < 25; t++) {
+				var x = data.getUint16(100 * i + t * 4 + 0),
+				    y = data.getUint16(100 * i + t * 4 + 2);
+				if (x == 0xFFFF && y == 0xFFFF) {
+					x = y = NaN;
+				}
+				positions[i * 50 + t * 2    ] = x;
+				positions[i * 50 + t * 2 + 1] = y;
+
+				positions[num_ships * 25 * 2 + i * 50 + t * 2    ] = x - 0xFFFF;
+				positions[num_ships * 25 * 2 + i * 50 + t * 2 + 1] = y;
+
+				positions[num_ships * 25 * 2 * 2 + i * 50 + t * 2    ] = x + 0xFFFF;
+				positions[num_ships * 25 * 2 * 2 + i * 50 + t * 2 + 1] = y;
+			}
+		}
+
+		callback(positions);
+	});
+}
+
+function cumulativeDataLoaded(arraybuffer) {
+	var data = window.raw_cumulative_data = new DataView(arraybuffer);
+
+	cumulative_co2 = [];
+	cumulative_size = [];
+
+	var i = 0;
+	for (var vessel_type_code = 0; vessel_type_code < NUM_VESSEL_TYPES; vessel_type_code++) {
+		cumulative_co2[vessel_type_code] = [];
+		cumulative_size[vessel_type_code] = [];
+
+		for (var hour = 0; hour < 366 * 24; hour++) {
+			cumulative_size[vessel_type_code][hour] = data.getFloat32(i);
+			cumulative_co2[vessel_type_code][hour] = data.getFloat32(i + 4);
+			i += 8;
+		}
+	}
+}
+
+function loadVessels(callback) {
+	d3.csv("data/vessels.csv", function(vessels) {
+		var vessel_types = new Float32Array(vessels.length * 3);
+		for (var i = 0; i < vessels.length; i++) {
+			vessel_types[i]
+				= vessel_types[i + vessels.length]
+				= vessel_types[i + vessels.length * 2]
+				= VESSEL_TYPE_CODES[vessels[i].vessel_group + "/" + vessels[i].unit];
+		}
+
+		var new_buffer = gl.createBuffer();
+		gl.bindBuffer(gl.ARRAY_BUFFER, new_buffer);
+		gl.bufferData(gl.ARRAY_BUFFER, vessel_types, gl.STATIC_DRAW);
+
+		var loc = gl.getAttribLocation(prog, "aVesselType");
+		gl.enableVertexAttribArray(loc);
+		gl.vertexAttribPointer(loc, 1, gl.FLOAT, false, 0, 0);
+
+		callback();
+	});
+}
+
+function loadCumulative(callback) {
+	var r = new XMLHttpRequest();
+
+	r.open("GET", "data/cumulative.bin", true);
+	if (r.overrideMimeType) r.overrideMimeType("text/plain; charset=x-user-defined");
+	r.responseType = "arraybuffer";
+	r.onload = function() {
+		if (r.status && r.status != 200) throw "Failed to load data: status = " + r.status;
+		if (r.response) {
+			cumulativeDataLoaded(r.response);
+			callback();
+		}
+		else {
+			throw "Browser not supported";
+		}
+	};
+	r.send();
+}
+
+init();
+
+var vessels_loaded = false, day_loaded = false, cumulative_loaded = false;
+loadVessels(function() {
+	vessels_loaded = true;
+	if (day_loaded && cumulative_loaded) beginAnimation();
+});
+loadCumulative(function() {
+	cumulative_loaded = true;
+	if (vessels_loaded && day_loaded) beginAnimation();
+});
+preloadDay(Math.floor(animation_start_day), function() {
+	day_loaded = true;
+	if (vessels_loaded && cumulative_loaded) beginAnimation();
+});
+
+// Google Analytics
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-44635456-9', 'auto');
+ga('send', 'pageview');
+</script>
+</body>
+</html>

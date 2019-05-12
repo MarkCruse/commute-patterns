@@ -1,0 +1,432 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
+  <link href='https://fonts.googleapis.com/css?family=Share+Tech+Mono|Abel' rel='stylesheet' type='text/css'>
+
+  <title>test_1datafile_like_shipmap</title>
+  <style>
+    
+    @font-face {
+    font-family: 'GuardianAgateSans1Web';
+    src: url('guardian-fonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Regular.eot');
+    src: url('guardian-fonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Regular.eot?#iefix') format('embedded-opentype'),
+        url('guardian-fonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Regular.woff2') format('woff2'),
+        url('guardian-fonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Regular.woff') format('woff'),
+        url('guardian-fonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Regular.ttf') format('truetype'),
+        url('guardian-fonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Regular.svg#GuardianAgateSans1Web') format('svg');
+    font-weight: 400;
+    font-style: normal;
+    font-stretch: normal;
+    }
+    @font-face {
+    font-family: 'GuardianAgateSans1Web';
+    src: url('guardian-fonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Bold.eot');
+    src: url('guardian-fonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Bold.eot?#iefix') format('embedded-opentype'),
+        url('guardian-fonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Bold.woff2') format('woff2'),
+        url('guardian-fonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Bold.woff') format('woff'),
+        url('guardian-fonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Bold.ttf') format('truetype'),
+        url('guardian-fonts/GuardianAgateSans1Web/GuardianAgateSans1Web-Bold.svg#GuardianAgateSans1Web') format('svg');
+    font-weight: 700;
+    font-style: normal;
+    font-stretch: normal;
+    }
+
+        
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; background: #343a40; font-family: 'Abel', sans-serif; color: white; }
+    body.guardian { font-family: "GuardianAgateSans1Web", "Arial Narrow", sans-serif; }
+    body.guardian .hide-guardian { display: none; }
+    a:link, a:visited { color: #005689; text-decoration: none; border-bottom: 0.0625rem solid #dcdcdc; }
+    a:hover, a:active { border-color: #6e99b3; }
+
+    sup { position: relative; vertical-align: baseline; top: -.4em; }
+    #map { width: 100%; height: 100%; background: #343a40; }
+    #map canvas { position: absolute; }
+    #map .leaflet-control-zoom { top: 25px; position: fixed; }
+    .leaflet-container { font-family: 'Abel', sans-serif; }
+    body.guardian .leaflet-container { font-family: "GuardianAgateSans1Web"; }
+    .leaflet-marker-pane { pointer-events: none; display: none; }
+
+    .port { font-size: 9px; text-shadow: 1px 1px 2px rgba(0,0,0,0.9); border-radius: 50%; background: rgba(255,255,255,0.5); width: 10px!important; height: 10px!important; }
+    .port .port-label { position: absolute; width: 200px; }
+
+    .port.S { display: none; }
+    .zoom-8 .port.S,
+    .zoom-9 .port.S { display: block; }
+
+    .port.M { display: none; }
+    .zoom-6 .port.M,
+    .zoom-7 .port.M,
+    .zoom-8 .port.M,
+    .zoom-9 .port.M { display: block; }
+
+    .btn { cursor: pointer; }
+    .btn:hover { opacity: 0.5; }
+    .btn.selected, .btn.selected:hover { opacity: 1; cursor: default; }
+
+    #nav { position: fixed; top: 0px; left: 0px; width: 100%; height: 25px; background: rgba(50,50,50,0.75); z-index: 1001; padding: 3px 15px 0px; }
+    #nav .nav-subhead { font-size: 14px; letter-spacing: 1px; text-transform: uppercase; display: inline-block; vertical-align: top; margin-right: 10px; }
+
+    #info-panel { position: fixed; right: 0; top: 0; font-size: 18px; height: 25px; width: 40px; background: rgba(255,255,255,0.9); overflow: hidden; z-index: 1003; }
+    #info-open { color: black; width: 40px; position: absolute; top: 0; right: 0; padding-top: 0.1em; text-align: center; }
+    .info-close { display: none; font-size: 20px; }
+    #info-panel.open #info-open i::before { content: "\f00d"; }
+    #info-panel.open .info-close { display: block; }
+    #info-panel.open .info-close { margin: 30px 0; }
+    #info-panel-inner { position: relative; color: black; text-align: left; margin: 50px auto; height: 100%; padding: 20px 20px; max-width: 600px; font-size: 15px; line-height: 1.2; }
+    #info-panel-inner h1 { margin: 1em 0 0; }
+    #info-panel-inner h2 { margin: 1em 0 0; font-size: 18px; }
+    #info-panel-inner p { margin: 0.25em 0; }
+    #info-panel-inner input { width: 100%; }
+    #iiba-link, #iiba-link:hover { border-bottom: none; }
+    #info-panel-inner #iiba { margin-top: 20px; width: 100px; }
+
+    .subscript { font-size: 0.7em; }
+    body.guardian .subscript { font-size: inherit; }
+
+    #dashboard { float: left; width: calc(100% - 340px); top: 0px; left: 0; }
+    #dashboard .dashboard-area { display: inline-block; vertical-align: top; text-align: center; }
+    #dashboard #carbon { float: left; }
+    #dashboard #time-holder { position: fixed; left: 20px; text-shadow: 1px 1px 2px rgb(33,60,71); color: rgb(220,245,255); top: 50%; font-weight: bold; margin-top: -1em; }
+    #dashboard #time-holder .result { font-size: 28px; }
+    #dashboard #freight { width: calc(100% - 165px); text-align: center; }
+    #dashboard .stat, #options .option-name { font-size: 13px; display: inline-block; vertical-align: top; }
+
+    #dashboard #freight .stat { margin-left: 8px; }
+    #dashboard .stat .value { color: rgb(255,255,175); font-family: 'Share Tech Mono'; letter-spacing: -1px; }
+    #dashboard.color-coded .stat .value { color: white; }
+    body.guardian #dashboard .stat .value { font-family: inherit; font-weight: bold; letter-spacing: 0; }
+    #dashboard .stat #result-vehicles { min-width: 74px; }
+    #dashboard .stat .result { display: inline-block; line-height: 1; }
+    #dashboard .filter, #dashboard .radio { font-size: 13px; }
+
+    #options { display: inline-block; float: right; height: 100%; margin-right: 40px; }
+    #options i { width: 1em; text-align: center; display: inline-block; }
+    #options .option { display: inline-block; vertical-align: top; padding: 0 6px 3px; position: relative; font-size: 13px; height: 100%; }
+    #options .option .option-name { height: 100%; width: 60px; }
+    #options .option .option-menu { display: none; position: absolute; background: rgba(50,50,50,0.75); width: 100%; padding: 3px 6px; text-align: left; }
+    #options .option .option-menu .check.checked i::before { content: "\f00c"; }
+    #options.hoverable .option:hover .option-menu,
+    #options .option.visible .option-menu { display: block; top: 22px; left: 0; }
+    #options .radio i { visibility: hidden; }
+    #options .radio.selected i { visibility: visible; }
+    #options .radio-name { display: inline-block; }
+    #options #filters .option-menu { width: 90px; }
+
+    /* Disable the filters menu if it has the .disabled class */
+    #options #filters.disabled .option-name { color: #666; cursor: default; }
+    #options.hoverable #filters.disabled:hover .option-menu { color: #999; }
+    #options.hoverable #filters.disabled:hover .option-menu .btn:hover { opacity: inherit; cursor: default; }
+    #options #colours .option-menu { width: 80px; }
+
+  </style>
+</head>
+
+<body>
+<div id="map"></div>
+
+<div id="nav">
+    
+	<div id="dashboard">
+		<!--<div class="stat" id="time-holder"><span class="result"><span id="timestamp"></span></span></div> -->
+		<div id="carbon" class="dashboard-area">
+			<span class="nav-subhead">Carbon</span>
+			<div class="stat" title="CO₂ released per hour by ships shown"><i class="fa fa-fire"></i> <span class="name">CO<sub>2</sub></span> <div class="result"><span id="stat-co2" class="value"></span> </div></div>
+		</div>
+		<!--<div id="freight" class="dashboard-area">
+			<span class="nav-subhead">Freight</span>
+			<div class="stat" data-ship-type="3" title="Total number of containers carried by ships shown"><i class="fa fa-th"></i> <span class="name">Containers</span> <div class="result"><span id="stat-teu" class="color-by-ship-type value"></span></div></div>
+			<div class="stat" data-ship-type="0" title="Total drybulk carried by ships shown, kilotonnes"><i class="fa fa-caret-up"></i> <span class="name">Dry</span> <div class="result"><span id="stat-drybulk" class="color-by-ship-type value"></span> kt</div></div>
+			<div class="stat" data-ship-type="1" title="Total wetbulk carried by ships shown, kilotonnes"><i class="fa fa-tint"></i> <span class="name">Liquids</span> <div class="result"><span id="stat-wetbulk" class="color-by-ship-type value"></span> kt</div></div>
+			<div class="stat" data-ship-type="2" title="Total gas carried by ships shown, cubic meters"><i class="fa fa-fire"></i> <span class="name">Gas</span> <div class="result"><span id="stat-cbm" class="color-by-ship-type value"></span> m<sup>3</sup></div></div>
+			<div class="stat" data-ship-type="4" title="Dead-weight tonnage of vehicle carriers, kilotonnes"><i class="fa fa-car"></i> <span class="name">Vehicles</span> <div class="result" id="result-vehicles "><span id="stat-vehicles" class="color-by-ship-type value"></span> kt</div></div>
+		</div>  -->
+	</div>
+	<div id="options" class="hoverable">
+		<span class="nav-subhead">Options</span>
+		<div id="togglers" class="option">
+			<div class="option-name">Show <i class="fa fa-chevron-down"></i></div>
+			<div class="option-menu">
+				<div id="port-toggler" class="btn check"><i class="fa fa-times"></i> <span class="radio-name">Ports</span></div>
+				<div id="route-toggler" class="btn check"><i class="fa fa-times"></i> <span class="radio-name">Routes</span></div>
+				<div id="ships-toggler" class="btn check checked"><i class="fa fa-times"></i> <span class="radio-name">Ships</span></div>
+				<div id="map-toggler" class="btn check checked"><i class="fa fa-times"></i> <span class="radio-name">Map</span></div>
+			</div>
+		</div>
+		<div id="colours" class="option">
+			<div class="option-name">Colours <i class="fa fa-chevron-down"></i></div>
+			<div class="option-menu">
+				<div data-value="shade-uniform" class="btn radio selected"><i class="fa fa-check"></i> <span class="radio-name">Uniform</span></div>
+				<div data-value="shade-type" class="btn radio"><i class="fa fa-check"></i> <span class="radio-name">Ship type</span></div>
+			</div>
+		</div>
+		<div id="filters" class="option">
+			<div class="option-name">Filters <i class="fa fa-chevron-down"></i></div>
+			<div class="option-menu">
+				<div id="filter-type-3" data-ship-type="3" class="btn check checked filter color"><i class="fa fa-times color-by-ship-type"></i> Container</div>
+				<div id="filter-type-0" data-ship-type="0" class="btn check checked filter color"><i class="fa fa-times color-by-ship-type"></i> Dry bulk</div>
+				<div id="filter-type-1" data-ship-type="1" class="btn check checked filter color"><i class="fa fa-times color-by-ship-type"></i> Tanker</div>
+				<div id="filter-type-2" data-ship-type="2" class="btn check checked filter color"><i class="fa fa-times color-by-ship-type"></i> Gas bulk</div>
+				<div id="filter-type-4" data-ship-type="4" class="btn check checked filter color"><i class="fa fa-times color-by-ship-type"></i> Vehicles</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<!--
+  <button type="button" class="btn btn-secondary" id='btn-all' block>All</button>
+  <button type="button" class="btn btn-secondary" id='btn-low' block>Low</button>
+  <button type="button" class="btn btn-secondary" id='btn-medium' block>Medium</button>
+  <button type="button" class="btn btn-secondary" id='btn-high' block>High</button>
+-->
+
+
+  <!------------------------------------------------------------------------------------------>
+
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+  </script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+  </script>
+  <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <script src="https://unpkg.com/leaflet.vectorgrid@latest/dist/Leaflet.VectorGrid.bundled.js"></script>
+
+    <!-- Load Esri Leaflet from CDN -->
+    <!--<script src="https://unpkg.com/esri-leaflet@2.2.4/dist/esri-leaflet.js"
+    integrity="sha512-tyPum7h2h36X52O2gz+Pe8z/3l+Y9S1yEUscbVs5r5aEY5dFmP1WWRY/WLLElnFHa+k1JBQZSCDGwEAnm2IxAQ=="
+    crossorigin=""></script>
+    -->
+  <script>
+    var map = L.map('map', {
+      renderer: L.canvas()
+    }).setView([37.6, -85.5], 7).setMaxZoom(12).setMinZoom(4);
+
+    // add labels & tiles to the map
+    map.createPane('labels');
+    map.getPane('labels').style.zIndex = 650;
+    map.getPane('labels').style.pointerEvents = 'none';
+    //https://leaflet-extras.github.io/leaflet-providers/preview/
+    L.tileLayer('http://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}.png', {
+        attribution: '©OpenStreetMap, ©Carto',
+        pane: 'labels'
+    }).addTo(map);
+
+    // **** Options for various layers 
+    // If displaying all lines with not highlight for distance
+    var lineOptions = {
+      fillOpacity: 0,
+      color: '#c7dffc', //lt blue
+      opacity: .4,
+      weight: 0.4
+    };
+    // Short commute distance
+    var shortCommuteOptions = {
+      color: 'white',
+      weight: .5,
+      opacity: 2
+    }
+
+    var mediumCommuteOptions = {
+      color: 'yellow',
+      weight: .2,
+      opacity: 0.4
+    }
+
+    var longCommuteOptions = {
+      color: 'red',
+      weight: .2,
+      opacity: 0.2
+    }
+
+    var dataLayerGroup = L.layerGroup().addTo(map);
+
+    // create an empty L.geoJson to hold features and reference with variable
+    var allLayerGroup = L.geoJson();
+    var lowLayerGroup = L.geoJson().addTo(dataLayerGroup);
+    var mediumLayerGroup = L.geoJson();
+    var highLayerGroup = L.geoJson();
+
+    function convertToNumber(d) {
+      return {
+        distance: +d.distance,
+        SE01: +d.SE01,
+        SE02: +d.SE02,
+        SE03: +d.SE03,
+        h_lat: +d.h_lat,
+        h_lon: +d.h_lon,
+        w_lat: +d.w_lat,
+        w_lon: +d.w_lon
+      };
+    }
+
+    var allData = d3.csv("data/21_od_distance_1000_plus.csv", convertToNumber);
+      /*  Probably will remove this as only 1 file needs to load
+      lowData = d3.csv("data/21_latlng_low_income.csv", convertToNumber),
+      mediumData = d3.csv("data/21_latlng_medium_income.csv", convertToNumber),
+      highData = d3.csv("data/21_latlng_high_income.csv", convertToNumber);
+      */
+    
+    
+
+    Promise.all([allData]).then(function (data) {
+      var earnings_filter = 'all';
+      var allLineArray = buildLineArray(data[0], earnings_filter);
+      var earnings_filter = 'low';
+      var lowLineArray = buildLineArray(data[0], earnings_filter);
+      var earnings_filter = 'medium';
+      var mediumLineArray = buildLineArray(data[0], earnings_filter);
+      var earnings_filter = 'high';
+      var highLineArray = buildLineArray(data[0], earnings_filter);
+      
+      drawMap(lowLineArray, allLineArray, mediumLineArray, highLineArray);
+
+      //drawMap(lowLineArray);
+    });
+/*
+    function (filter_selector) {
+
+    };
+    */
+    function buildLineArray(linedata, earnings_filter) {
+      var w_point = [];
+      var h_point = [];
+      var lines = [];
+
+      var obj = {};
+
+      linedata.forEach(function (element) {
+        if (earnings_filter == 'low') {
+          if (element.SE01 >=1) {
+            var obj = {};
+            obj['w_point'] = [element.w_lat, element.w_lon];
+            obj['h_point'] = [element.h_lat, element.h_lon];
+            obj['distance'] = element.distance;
+            lines.push(obj);
+          }
+        }
+
+        if (earnings_filter == 'medium') {
+          if (element.SE02 >=1) {
+            var obj = {};
+            obj['w_point'] = [element.w_lat, element.w_lon];
+            obj['h_point'] = [element.h_lat, element.h_lon];
+            obj['distance'] = element.distance;
+            lines.push(obj);
+          }
+        }
+
+        if (earnings_filter == 'high') {
+          if (element.SE03 >=1) {
+            var obj = {};
+            obj['w_point'] = [element.w_lat, element.w_lon];
+            obj['h_point'] = [element.h_lat, element.h_lon];
+            obj['distance'] = element.distance;
+            lines.push(obj);
+          }
+        }
+        if (earnings_filter == 'all') {
+          var obj = {};
+          obj['w_point'] = [element.w_lat, element.w_lon];
+          obj['h_point'] = [element.h_lat, element.h_lon];
+          obj['distance'] = element.distance;
+          lines.push(obj);
+        }
+      });
+      return lines;
+
+    }
+    // ---------------------------------------------------------------
+    function drawMap(lowLineArray, allLineArray, mediumLineArray, highLineArray) {
+      //load the data to the map rendering the color and styles for each in the particular order below
+
+      var distance, style
+      
+      allLineArray.forEach(function (element) {
+        distance = element.distance;
+        style = distance < 17500 ? shortCommuteOptions :
+          distance < 50000 ? mediumCommuteOptions : longCommuteOptions;
+
+        // create new Leaflet polyline and add to kentucky L.geoJson
+        L.polyline([element.w_point, element.h_point], style).addTo(allLayerGroup);
+      });
+
+      lowLineArray.forEach(function (element) {
+        distance = element.distance;
+        style = distance < 17500 ? shortCommuteOptions :
+          distance < 50000 ? mediumCommuteOptions : longCommuteOptions;
+
+        // create new Leaflet polyline and add to kentucky L.geoJson
+        L.polyline([element.w_point, element.h_point], style).addTo(lowLayerGroup);
+      });
+
+      mediumLineArray.forEach(function (element) {
+        distance = element.distance;
+        style = distance < 17500 ? shortCommuteOptions :
+          distance < 50000 ? mediumCommuteOptions : longCommuteOptions;
+
+        // create new Leaflet polyline and add to kentucky L.geoJson
+        L.polyline([element.w_point, element.h_point], style).addTo(mediumLayerGroup);
+      });
+
+      highLineArray.forEach(function (element) {
+        distance = element.distance;
+        style = distance < 17500 ? shortCommuteOptions :
+          distance < 50000 ? mediumCommuteOptions : longCommuteOptions;
+
+        // create new Leaflet polyline and add to kentucky L.geoJson
+        L.polyline([element.w_point, element.h_point], style).addTo(highLayerGroup);
+      });
+
+    }
+
+    // select the button and wait for a click event
+    d3.select('#btn-all').on('click', function () {
+
+      dataLayerGroup.clearLayers();
+      dataLayerGroup.addLayer(allLayerGroup);
+      
+    });
+
+    // select the button and wait for a click event
+    d3.select('#btn-low').on('click', function () {
+
+      dataLayerGroup.clearLayers();
+      dataLayerGroup.addLayer(lowLayerGroup);
+      
+    });
+
+    // select the button and wait for a click event
+    d3.select('#btn-medium').on('click', function () {
+
+      dataLayerGroup.clearLayers();
+      dataLayerGroup.addLayer(mediumLayerGroup);
+    });
+
+    // select the button and wait for a click event
+    d3.select('#btn-high').on('click', function () {
+
+      dataLayerGroup.clearLayers();
+      dataLayerGroup.addLayer(highLayerGroup);
+
+    });
+  </script>
+</body>
+
+</html>

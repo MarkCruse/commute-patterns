@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
-  <title>test_1datafile</title>
+  <title>Basic Markers</title>
   <style>
     #map {
       width: 95%;
@@ -30,13 +30,13 @@
 </head>
 
 <body>
-<div id="map"></div>
 
   <button type="button" class="btn btn-secondary" id='btn-all' block>All</button>
   <button type="button" class="btn btn-secondary" id='btn-low' block>Low</button>
   <button type="button" class="btn btn-secondary" id='btn-medium' block>Medium</button>
   <button type="button" class="btn btn-secondary" id='btn-high' block>High</button>
 
+  <div id="map"></div>
 
 
   <!------------------------------------------------------------------------------------------>
@@ -54,30 +54,23 @@
   </script>
   <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
   <script src="https://d3js.org/d3.v5.min.js"></script>
-  <script src="https://unpkg.com/leaflet.vectorgrid@latest/dist/Leaflet.VectorGrid.bundled.js"></script>
-
-    <!-- Load Esri Leaflet from CDN -->
-    <!--<script src="https://unpkg.com/esri-leaflet@2.2.4/dist/esri-leaflet.js"
-    integrity="sha512-tyPum7h2h36X52O2gz+Pe8z/3l+Y9S1yEUscbVs5r5aEY5dFmP1WWRY/WLLElnFHa+k1JBQZSCDGwEAnm2IxAQ=="
-    crossorigin=""></script>
-    -->
+  
   <script>
-    var map = L.map('map', {
-      renderer: L.canvas()
-    }).setView([37.6, -85.5], 7).setMaxZoom(12).setMinZoom(4);
+    var map = L.map('map').setView([37.6, -85.5], 7).setMaxZoom(12).setMinZoom(4);
+
 
     // add labels & tiles to the map
     map.createPane('labels');
     map.getPane('labels').style.zIndex = 650;
     map.getPane('labels').style.pointerEvents = 'none';
-    //https://leaflet-extras.github.io/leaflet-providers/preview/
+
     L.tileLayer('http://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}.png', {
         attribution: '©OpenStreetMap, ©Carto',
         pane: 'labels'
     }).addTo(map);
 
     // **** Options for various layers 
-    // If displaying all lines with not highlight for distance
+    // If displaying all points with not highlight for distance
     var lineOptions = {
       fillOpacity: 0,
       color: '#c7dffc', //lt blue
@@ -125,48 +118,30 @@
     }
 
     var allData = d3.csv("data/21_od_distance_1000_plus.csv", convertToNumber);
-      /*  Probably will remove this as only 1 file needs to load
-      lowData = d3.csv("data/21_latlng_low_income.csv", convertToNumber),
-      mediumData = d3.csv("data/21_latlng_medium_income.csv", convertToNumber),
-      highData = d3.csv("data/21_latlng_high_income.csv", convertToNumber);
-      */
-    
-    
 
     Promise.all([allData]).then(function (data) {
-      var earnings_filter = 'all';
-      var allLineArray = buildLineArray(data[0], earnings_filter);
       var earnings_filter = 'low';
-      var lowLineArray = buildLineArray(data[0], earnings_filter);
-      var earnings_filter = 'medium';
-      var mediumLineArray = buildLineArray(data[0], earnings_filter);
-      var earnings_filter = 'high';
-      var highLineArray = buildLineArray(data[0], earnings_filter);
-      
-      drawMap(lowLineArray, allLineArray, mediumLineArray, highLineArray);
-
-      //drawMap(lowLineArray);
+      var allPointArray = buildPointArray(data[0], earnings_filter);
+    
+    drawMap(allPointArray);
+    console.log(allPointArray);
     });
-/*
-    function (filter_selector) {
 
-    };
-    */
-    function buildLineArray(linedata, earnings_filter) {
+    function buildPointArray(pointdata, earnings_filter) {
       var w_point = [];
       var h_point = [];
-      var lines = [];
+      var points = [];
 
       var obj = {};
 
-      linedata.forEach(function (element) {
+      pointdata.forEach(function (element) {
         if (earnings_filter == 'low') {
           if (element.SE01 >=1) {
             var obj = {};
             obj['w_point'] = [element.w_lat, element.w_lon];
             obj['h_point'] = [element.h_lat, element.h_lon];
             obj['distance'] = element.distance;
-            lines.push(obj);
+            points.push(obj);
           }
         }
 
@@ -176,7 +151,7 @@
             obj['w_point'] = [element.w_lat, element.w_lon];
             obj['h_point'] = [element.h_lat, element.h_lon];
             obj['distance'] = element.distance;
-            lines.push(obj);
+            points.push(obj);
           }
         }
 
@@ -186,7 +161,7 @@
             obj['w_point'] = [element.w_lat, element.w_lon];
             obj['h_point'] = [element.h_lat, element.h_lon];
             obj['distance'] = element.distance;
-            lines.push(obj);
+            points.push(obj);
           }
         }
         if (earnings_filter == 'all') {
@@ -194,54 +169,37 @@
           obj['w_point'] = [element.w_lat, element.w_lon];
           obj['h_point'] = [element.h_lat, element.h_lon];
           obj['distance'] = element.distance;
-          lines.push(obj);
+          points.push(obj);
         }
       });
-      return lines;
+      return points;
+      
+      //This block creates an array of unique values but needs a single array to start??
+      /*
+        let set  = new Set(points.map(JSON.stringify));
+        let points2 = Array.from(set).map(JSON.parse);
+        return points2;
+      */
 
     }
     // ---------------------------------------------------------------
-    function drawMap(lowLineArray, allLineArray, mediumLineArray, highLineArray) {
+    function drawMap(dataArray) {
       //load the data to the map rendering the color and styles for each in the particular order below
-
+        
       var distance, style
+
+
+      dataArray.forEach(function (element) {
+        distance = element.distance;
+        style = distance < 17500 ? shortCommuteOptions :
+          distance < 50000 ? mediumCommuteOptions : longCommuteOptions;
+
+        L.marker(element.w_point).addTo(lowLayerGroup);
+
+      });
+
+
       
-      allLineArray.forEach(function (element) {
-        distance = element.distance;
-        style = distance < 17500 ? shortCommuteOptions :
-          distance < 50000 ? mediumCommuteOptions : longCommuteOptions;
-
-        // create new Leaflet polyline and add to kentucky L.geoJson
-        L.polyline([element.w_point, element.h_point], style).addTo(allLayerGroup);
-      });
-
-      lowLineArray.forEach(function (element) {
-        distance = element.distance;
-        style = distance < 17500 ? shortCommuteOptions :
-          distance < 50000 ? mediumCommuteOptions : longCommuteOptions;
-
-        // create new Leaflet polyline and add to kentucky L.geoJson
-        L.polyline([element.w_point, element.h_point], style).addTo(lowLayerGroup);
-      });
-
-      mediumLineArray.forEach(function (element) {
-        distance = element.distance;
-        style = distance < 17500 ? shortCommuteOptions :
-          distance < 50000 ? mediumCommuteOptions : longCommuteOptions;
-
-        // create new Leaflet polyline and add to kentucky L.geoJson
-        L.polyline([element.w_point, element.h_point], style).addTo(mediumLayerGroup);
-      });
-
-      highLineArray.forEach(function (element) {
-        distance = element.distance;
-        style = distance < 17500 ? shortCommuteOptions :
-          distance < 50000 ? mediumCommuteOptions : longCommuteOptions;
-
-        // create new Leaflet polyline and add to kentucky L.geoJson
-        L.polyline([element.w_point, element.h_point], style).addTo(highLayerGroup);
-      });
-
     }
 
     // select the button and wait for a click event
