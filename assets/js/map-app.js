@@ -15,7 +15,7 @@
     map.getPane('labels').style.zIndex = 650;
     map.getPane('labels').style.pointerEvents = 'none';
 
-    tile_layer = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}.png', {
+    tile_layer = L.tileLayer('http://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}.png', {
         attribution: '©OpenStreetMap, ©Carto',
         pane: 'labels'
     }).addTo(map);
