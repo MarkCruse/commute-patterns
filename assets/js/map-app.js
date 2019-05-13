@@ -1,67 +1,11 @@
-<!doctype html>
-<html lang="en">
+    // D3 abbreviations
+    var $ = d3.select, $$ = d3.selectAll;
 
-<head>
-  <!-- Required meta tags -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    var map_showing = true,
+      low_showing = true,
+      med_showing = false,
+      high_showing = false;
 
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
-  <title>test_1datafile</title>
-  <style>
-    #map {
-      width: 95%;
-      position: absolute;
-      top: 40px;
-      left: 40px;
-      bottom: 0;
-      background: #343a40;
-    }
-
-    .routes {
-      fill: none;
-      stroke: #ff6e00;
-      stroke-width: 2;
-    }
-  </style>
-</head>
-
-<body>
-<div id="map"></div>
-
-  <button type="button" class="btn btn-secondary" id='btn-all' block>All</button>
-  <button type="button" class="btn btn-secondary" id='btn-low' block>Low</button>
-  <button type="button" class="btn btn-secondary" id='btn-medium' block>Medium</button>
-  <button type="button" class="btn btn-secondary" id='btn-high' block>High</button>
-
-
-
-  <!------------------------------------------------------------------------------------------>
-
-  <!-- Optional JavaScript -->
-  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
-  </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
-  </script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
-  </script>
-  <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
-  <script src="https://d3js.org/d3.v5.min.js"></script>
-  <script src="https://unpkg.com/leaflet.vectorgrid@latest/dist/Leaflet.VectorGrid.bundled.js"></script>
-
-    <!-- Load Esri Leaflet from CDN -->
-    <!--<script src="https://unpkg.com/esri-leaflet@2.2.4/dist/esri-leaflet.js"
-    integrity="sha512-tyPum7h2h36X52O2gz+Pe8z/3l+Y9S1yEUscbVs5r5aEY5dFmP1WWRY/WLLElnFHa+k1JBQZSCDGwEAnm2IxAQ=="
-    crossorigin=""></script>
-    -->
-  <script>
     var map = L.map('map', {
       renderer: L.canvas()
     }).setView([37.6, -85.5], 7).setMaxZoom(12).setMinZoom(4);
@@ -70,11 +14,14 @@
     map.createPane('labels');
     map.getPane('labels').style.zIndex = 650;
     map.getPane('labels').style.pointerEvents = 'none';
-    //https://leaflet-extras.github.io/leaflet-providers/preview/
-    L.tileLayer('http://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}.png', {
+
+    tile_layer = L.tileLayer('http://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}.png', {
         attribution: '©OpenStreetMap, ©Carto',
         pane: 'labels'
     }).addTo(map);
+
+
+	  initControls();
 
     // **** Options for various layers 
     // If displaying all lines with not highlight for distance
@@ -84,6 +31,7 @@
       opacity: .4,
       weight: 0.4
     };
+
     // Short commute distance
     var shortCommuteOptions = {
       color: 'white',
@@ -147,11 +95,7 @@
 
       //drawMap(lowLineArray);
     });
-/*
-    function (filter_selector) {
 
-    };
-    */
     function buildLineArray(linedata, earnings_filter) {
       var w_point = [];
       var h_point = [];
@@ -244,37 +188,109 @@
 
     }
 
-    // select the button and wait for a click event
-    d3.select('#btn-all').on('click', function () {
 
-      dataLayerGroup.clearLayers();
-      dataLayerGroup.addLayer(allLayerGroup);
-      
-    });
+function initControls() {
 
-    // select the button and wait for a click event
-    d3.select('#btn-low').on('click', function () {
+	$$("#options .option > .option-name").on("touchstart", function() {
+		var option_element = this.parentNode,
+		    option_id = option_element.id,
+		    $option = $(option_element),
+		    is_visible = $option.classed("visible");
 
-      dataLayerGroup.clearLayers();
-      dataLayerGroup.addLayer(lowLayerGroup);
-      
-    });
+		if ($option.classed("disabled")) return;
 
-    // select the button and wait for a click event
-    d3.select('#btn-medium').on('click', function () {
+		$("#options").classed("hoverable", false);
+		$$("#options .option").classed("visible",
+			is_visible ? false : function() { return this.id == option_id; }
+		);
+		d3.event.preventDefault();
+	});
 
-      dataLayerGroup.clearLayers();
-      dataLayerGroup.addLayer(mediumLayerGroup);
-    });
+	$("#map-toggler").on("click", toggleMap);
+	$("#low-toggler").on("click", toggleLow);
+	$("#med-toggler").on("click", toggleMed);
+	$("#high-toggler").on("click", toggleHigh);
 
-    // select the button and wait for a click event
-    d3.select('#btn-high').on('click', function () {
 
-      dataLayerGroup.clearLayers();
-      dataLayerGroup.addLayer(highLayerGroup);
+	//$("#info-open").on("click", toggleInfoPanel);
+	//$$(".info-close").on("click", hideInfoPanel);
 
-    });
-  </script>
-</body>
 
-</html>
+	//$(".fa-twitter").on("click", clickTwitter);
+	//$(".fa-facebook").on("click", clickFacebook);
+	//$(".fa-code").on("click", showInfoPanel);
+}
+
+function toggleMap() {
+	if (map_showing) hideMap();
+	else showMap();
+}
+
+function showMap() {
+	if (map_showing) return;
+	//map.removeLayer(blank_layer);
+	tile_layer.addTo(map).bringToBack();
+  
+	$("#map-toggler").classed("checked", true);
+	map_showing = true;
+}
+
+function hideMap() {
+	if (!map_showing) return;
+	//if (!routes_showing) map.addLayer(blank_layer);
+	map.removeLayer(tile_layer);
+	$("#map-toggler").classed("checked", false);
+	map_showing = false;
+}
+
+//************ Show / Hide earnings layers  *********
+function toggleLow() {
+	if (low_showing) hideLow();
+	else showLow();
+}
+function showLow() {
+	if (low_showing) return;
+	lowLayerGroup.addTo(map);
+	$("#low-toggler").classed("checked", true);
+	low_showing = true;
+}
+function hideLow() {
+	if (!low_showing) return;
+	map.removeLayer(lowLayerGroup);
+	$("#low-toggler").classed("checked", false);
+	low_showing = false;
+}
+//******  Medium Earners ******
+function toggleMed() {
+	if (med_showing) hideMed();
+	else showMed();
+}
+function showMed() {
+	if (med_showing) return;
+	mediumLayerGroup.addTo(map);
+	$("#med-toggler").classed("checked", true);
+	med_showing = true;
+}
+function hideMed() {
+	if (!med_showing) return;
+	map.removeLayer(mediumLayerGroup);
+	$("#med-toggler").classed("checked", false);
+	med_showing = false;
+}
+//******  High Earners ******
+function toggleHigh() {
+	if (high_showing) hideHigh();
+	else showHigh();
+}
+function showHigh() {
+	if (high_showing) return;
+	highLayerGroup.addTo(map);
+	$("#high-toggler").classed("checked", true);
+	high_showing = true;
+}
+function hideHigh() {
+	if (!high_showing) return;
+	map.removeLayer(highLayerGroup);
+	$("#high-toggler").classed("checked", false);
+	high_showing = false;
+}

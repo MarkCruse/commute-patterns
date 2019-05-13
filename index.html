@@ -1,167 +1,91 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 
 <head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
+  <link href='https://fonts.googleapis.com/css?family=Share+Tech+Mono|Abel' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+  integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
 
-    <title>Map with Slide Sidebar</title>
+  <title>Spatial Patterns in Commute to Workplace Census Data</title>
 
-    <!-- Bootstrap core CSS -->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
-
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
-    <!-- Custom styles for this template -->
-    <link href="assets/css/theme.css" rel="stylesheet">
-    <link href="assets/css/map.css" rel="stylesheet">
-    <link href="assets/css/simple-sidebar.css" rel="stylesheet">
+  <link href="assets/css/style.css" rel="stylesheet">
 
 </head>
 
 <body>
+<div id="map"></div>
 
-    <div class="d-flex" id="wrapper">
-
-        <!-- Sidebar -->
-        <div class="bg-light border-right" id="sidebar-wrapper">
-            <div class="sidebar-heading">Sidebar Heading</div>
-            <div class="list-group list-group-flush">
-                <a href="#" class="list-group-item list-group-item-action bg-light">List item 1</a>
-                <a href="#" class="list-group-item list-group-item-action bg-light">List item 2</a>
-                <a href="#" class="list-group-item list-group-item-action bg-light">List item 3</a>
-                <a href="#" class="list-group-item list-group-item-action bg-light">List item 4</a>
-                <a href="#" class="list-group-item list-group-item-action bg-light">List item 5</a>
-                <a href="#" class="list-group-item list-group-item-action bg-light">List item 6</a>
-            </div>
-        </div>
-        <!-- /#sidebar-wrapper -->
-
-        <!-- Page Content -->
-        <div id="page-content-wrapper">
-            <!--
-            <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
-                <!--
-                <button class="btn btn-primary" id="menu-toggle">Toggle Menu</button>
-
-                <button class="navbar-toggler" type="button" data-toggle="collapse"
-                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                    aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-            -->
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Dropdown
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">Something else here</a>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-            </nav>
-            -->
-            <!-- Navigation -->
-            <!--<nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">-->
-            <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary" id="navbar1">
-                <button class="navbar-toggler" type="button" data-toggle="collapse"
-                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                    aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="container">
-                    <a class="navbar-brand" href="#">Spatial Patterns in Commute to Workplace Census Data</a>
-                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"
-                        aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarResponsive">
-                        <!-- <a class="navbar-text" href="#">Using Census Bureau LEHD Origin-Destination Employment
-                            Statistics</a> -->
-                        <ul class="navbar-nav ml-auto">
-                            <li class="nav-item active">
-                                <a class="nav-link" href="#">Home
-                                    <span class="sr-only">(current)</span>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link"
-                                    href="https://github.com/MarkCruse/NMP-final-project#spatial-patterns-in-commute-to-workplace">About</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link"
-                                    href="https://markcruse.github.io/commute-patterns/project_mockup.html">Mock-up</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="#">Contact</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-
-            <div class="container-fluid">
-                <!-- <button class="btn btn-primary" id="menu-toggle">Toggle Menu</button> -->
-                <button class="mt-5" id="menu-toggle">Toggle Menu</button>
-
-                <button class="navbar-toggler" type="button" data-toggle="collapse"
-                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                    aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <h1 class="mt-4">Sidebar Toggle</h1>
-                <p>The starting state of the menu will appear collapsed on smaller screens, and will appear
-                    non-collapsed on larger screens. When toggled using the button above, the menu will change.</p>
-                <!-- Make sure to keep all page content within the <code>#page-content-wrapper</code>. The top navbar is
-                    optional, and just for demonstration. Just create an element with the <code>#menu-toggle</code> ID
-                    which will toggle the menu when clicked.-->
-                <div class="col-md-12 my-auto">
-                    <div id="map"></div>
-                </div>
-            </div>
-        </div>
-        <!-- /#page-content-wrapper -->
-
-    </div>
-    <!-- /#wrapper -->
-
-    <!-- Bootstrap core JavaScript -->
-
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
-    <script src="https://d3js.org/d3.v5.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js"
-        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+<div id="nav">
     
+	<div id="dashboard">
+		<!--<div class="stat" id="time-holder"><span class="result"><span id="timestamp"></span></span></div> -->
+		<div id="heading" class="dashboard-area">
+			<span class="nav-subhead">Spatial Patterns in Commute to Workplace Census Data</span>
+		</div>
+		<!--<div id="data-story" class="dashboard-area">
+			<span class="nav-subhead">Freight</span>
+			<div class="stat" data-ship-type="3" title="Total number of containers carried by ships shown"><i class="fa fa-th"></i> <span class="name">Containers</span> <div class="result"><span id="stat-teu" class="color-by-ship-type value"></span></div></div>
+			<div class="stat" data-ship-type="0" title="Total drybulk carried by ships shown, kilotonnes"><i class="fa fa-caret-up"></i> <span class="name">Dry</span> <div class="result"><span id="stat-drybulk" class="color-by-ship-type value"></span> kt</div></div>
+			<div class="stat" data-ship-type="1" title="Total wetbulk carried by ships shown, kilotonnes"><i class="fa fa-tint"></i> <span class="name">Liquids</span> <div class="result"><span id="stat-wetbulk" class="color-by-ship-type value"></span> kt</div></div>
+			<div class="stat" data-ship-type="2" title="Total gas carried by ships shown, cubic meters"><i class="fa fa-fire"></i> <span class="name">Gas</span> <div class="result"><span id="stat-cbm" class="color-by-ship-type value"></span> m<sup>3</sup></div></div>
+			<div class="stat" data-ship-type="4" title="Dead-weight tonnage of vehicle carriers, kilotonnes"><i class="fa fa-car"></i> <span class="name">Vehicles</span> <div class="result" id="result-vehicles "><span id="stat-vehicles" class="color-by-ship-type value"></span> kt</div></div>
+		</div>  -->
+	</div>
+	<div id="options" class="hoverable">
+		<span class="nav-subhead">Options:</span>
+		<div id="togglers" class="option">
+			<div class="option-name">Show <i class="fa fa-chevron-down"></i></div>
+			<div class="option-menu">
+				<div id="map-toggler" class="btn check checked"><i class="fa fa-times"></i> <span class="radio-name">Map</span></div>
+			</div>
+		</div>
+		<div id="earnings" class="option">
+			<div class="option-name">Earnings <i class="fa fa-chevron-down"></i></div>
+			<div class="option-menu">
+				<div id="low-toggler" class="btn check checked"><i class="fa fa-times"></i> <span class="radio-name">Low</span></div>
+				<div id="med-toggler" class="btn check"><i class="fa fa-times"></i> <span class="radio-name">Medium</span></div>
+				<div id="high-toggler" class="btn check"><i class="fa fa-times"></i> <span class="radio-name">High</span></div>
+				<!--<div id="btn-all" class="btn check"><i class="fa fa-times"></i> <span class="radio-name">All </span></div>-->
+			</div>
+		</div>
+		<div id="ages" class="option">
+			<div class="option-name">Age Range <i class="fa fa-chevron-down"></i></div>
+			<div class="option-menu">
+				<div id="filter-earnings-0" data-earnings-type="0" class="btn check checked filter color"><i class="fa fa-times earnings-type"></i> To age 29</div>
+				<div id="filter-earnings-1" data-earnings-type="1" class="btn check checked filter color"><i class="fa fa-times earnings-type"></i> 30 - 54</div>
+				<div id="filter-earnings-2" data-earnings-type="2" class="btn check checked filter color"><i class="fa fa-times earnings-type"></i> 54 - older</div>
+			</div>
+		</div>
+	</div>
+</div>
 
+  <!-- -------------------------------------------------------------------------------------- -->
 
-    <!-- Menu Toggle Script -->
-    <script>
-        $("#menu-toggle").click(function (e) {
-            e.preventDefault();
-            $("#wrapper").toggleClass("toggled");
-        });
-    </script>
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+  </script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+  </script>
+  <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <script src="https://unpkg.com/leaflet.vectorgrid@latest/dist/Leaflet.VectorGrid.bundled.js"></script>
 
-    <script src="assets/js/app.js"></script>
-
-
+  
+  <script src="assets/js/map-app.js"></script>
 </body>
 
 </html>
