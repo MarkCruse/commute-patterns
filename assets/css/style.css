@@ -1,0 +1,86 @@
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; background: #343a40; font-family: 'Abel', sans-serif; color: white; font-size: 14px;}
+    a:link, a:visited { color: #005689; text-decoration: none; border-bottom: 0.0625rem solid #dcdcdc; }
+    a:hover, a:active { border-color: #6e99b3; }
+
+    sup { position: relative; vertical-align: baseline; top: -.4em; }
+    #map { width: 100%; height: 100%; background: #021324; }
+    #map canvas { position: absolute; }
+    #map .leaflet-control-zoom { bottom: 25px; position: fixed; }
+    .leaflet-container { font-family: 'Abel', sans-serif; }
+    .leaflet-marker-pane { pointer-events: none; display: none; }
+
+    .btn { cursor: pointer; }
+    .btn:hover { opacity: 0.5; }
+    .btn.selected, .btn.selected:hover { opacity: 1; cursor: default; }
+
+    #nav { position: fixed; top: 0px; left: 0px; width: 100%; height: 25px; background: rgba(50,50,50,0.75); z-index: 1001; padding: 3px 15px 0px; }
+    #nav .nav-subhead { font-size: 14px; letter-spacing: 1px; display: inline-block; vertical-align: top; margin-right: 10px; }
+
+    #dashboard { float: left; width: calc(100% - 540px); top: 0px; left: 0; }
+    #dashboard .dashboard-area { display: inline-block; vertical-align: top; text-align: center; }
+
+    #dashboard .stat, #options .option-name { font-size: 13px; display: inline-block; vertical-align: top; }
+
+    #options { display: inline-block; float: right; height: 100%; margin-right: 40px; }
+    #options i { width: 1em; text-align: center; display: inline-block; }
+    #options .option { display: inline-block; vertical-align: top; padding: 0 6px 3px; position: relative; font-size: 9px; height: 100%; }
+    #options .option .option-name { height: 100%; width: 120px; }
+    #options .option .option-menu { display: none; position: absolute; background: rgba(240, 239, 239, 0.664); width: 100%; padding: 3px 6px; text-align: left; }
+    #options .option .option-menu .check.checked i::before { content: "\f00c"; }
+    #options.hoverable .option:hover .option-menu,
+    #options .option.visible .option-menu { display: block; top: 22px; left: 0; }
+    #options .radio i { visibility: hidden; }
+    #options .radio.selected i { visibility: visible; }
+    #options .radio-name { display: inline-block; }
+    #options #ages .option-menu { font-size: 6px; width: 120px;}
+
+    /* Disable the filters menu if it has the .disabled class */
+    #options #filters.disabled .option-name { color: #666; cursor: default; }
+    #options.hoverable #filters.disabled:hover .option-menu { color: #999; }
+    #options.hoverable #filters.disabled:hover .option-menu .btn:hover { opacity: inherit; cursor: default; }
+    #options #earnings .option-menu { width: 100px; }
+
+  @media only screen and (max-width: 1300px) {
+    #nav .nav-subhead { display: none; }
+    #dashboard { width: auto; }
+    #dashboard #freight { width: auto; text-align: left; }
+    #dashboard #freight .stat { margin-left: 20px; }
+  }
+
+  @media only screen and (max-width: 1150px) {
+    #scrubber { overflow-x: scroll; padding-top: 20px; height: 80px; background: none; }
+    #scrubber-inner { height: 30px; background: rgba(255,255,255,0.1); }
+    #nav, #info-panel { height: 40px; }
+    #info-panel  #info-open { padding-top: 0.6em; }
+    .option-name { padding-top: 15px; }
+    .option-menu { margin-top: 15px; }
+    #dashboard .stat { text-align: center; }
+    #dashboard .stat .result { display: block; }
+    #map .leaflet-control-zoom { top: 48px; }
+  }
+
+  @media only screen and (max-width: 820px) {
+    #nav, #info-panel { height: 25px; }
+    #info-panel  #info-open { padding-top: 0.2em; }
+    #options { width: 100%; text-align: center; background: rgba(50,50,50,0.5); float: none; }
+    .option-name { padding-top: 0px; }
+    .option-menu { margin-top: 0px; }
+    #dashboard { position: fixed; width: 160px; margin: -74px 0 0 0; top: 50%; left: auto; right: 0; padding: 5px 10px; border: 1px solid rgba(200,200,200,0.3); border-right: 0; text-align: left; background-clip: default; background: rgba(30,40,50,0.75); }
+    body.guardian #dashboard { width: 170px; } /*To accommodate wider font*/
+    #dashboard .dashboard-area { display: block; }
+    #dashboard .stat { text-align: left; display: block; }
+    #dashboard .stat .result { display: inline-block; }
+    #dashboard #freight .stat { margin: 0; }
+    #dashboard #carbon { float: none; text-align: left; }
+    #dashboard #freight { margin: 0; }
+    #map .leaflet-control-zoom { top: 20px; }
+    #play-button { right: 0!important; bottom: 100%!important; width: 60px!important; height: 60px!important; margin-right: 10px!important; margin-bottom: -100px!important; }
+    #dashboard #time-holder { position: relative; text-shadow: none; color: rgb(200,225,255); left: 0; margin-top: 0; }
+    #dashboard #time-holder .result { font-size: 14px; display: inline-block; }
+    #credits { right: auto;  left: 20px; text-align: left; }
+  }
+
+  @media only screen and (max-width: 380px) {
+    #credits { display: none; }
+  }
