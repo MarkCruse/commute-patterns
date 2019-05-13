@@ -53,38 +53,14 @@
     #nav { position: fixed; top: 0px; left: 0px; width: 100%; height: 25px; background: rgba(50,50,50,0.75); z-index: 1001; padding: 3px 15px 0px; }
     #nav .nav-subhead { font-size: 14px; letter-spacing: 1px; display: inline-block; vertical-align: top; margin-right: 10px; }
 
-    #info-panel { position: fixed; right: 0; top: 0; font-size: 18px; height: 25px; width: 40px; background: rgba(255,255,255,0.9); overflow: hidden; z-index: 1003; }
-    #info-open { color: black; width: 40px; position: absolute; top: 0; right: 0; padding-top: 0.1em; text-align: center; }
-    .info-close { display: none; font-size: 20px; }
-    #info-panel.open #info-open i::before { content: "\f00d"; }
-    #info-panel.open .info-close { display: block; }
-    #info-panel.open .info-close { margin: 30px 0; }
-    #info-panel-inner { position: relative; color: black; text-align: left; margin: 50px auto; height: 100%; padding: 20px 20px; max-width: 600px; font-size: 15px; line-height: 1.2; }
-    #info-panel-inner h1 { margin: 1em 0 0; }
-    #info-panel-inner h2 { margin: 1em 0 0; font-size: 18px; }
-    #info-panel-inner p { margin: 0.25em 0; }
-    #info-panel-inner input { width: 100%; }
-    #iiba-link, #iiba-link:hover { border-bottom: none; }
-    #info-panel-inner #iiba { margin-top: 20px; width: 100px; }
-
    * .subscript { font-size: 0.7em; }
    * body.guardian .subscript { font-size: inherit; }
 
     #dashboard { float: left; width: calc(100% - 340px); top: 0px; left: 0; }
     #dashboard .dashboard-area { display: inline-block; vertical-align: top; text-align: center; }
-    #dashboard #carbon { float: left; }
-    #dashboard #time-holder { position: fixed; left: 20px; text-shadow: 1px 1px 2px rgb(33,60,71); color: rgb(220,245,255); top: 50%; font-weight: bold; margin-top: -1em; }
-    #dashboard #time-holder .result { font-size: 28px; }
-    #dashboard #freight { width: calc(100% - 165px); text-align: center; }
+
     #dashboard .stat, #options .option-name { font-size: 13px; display: inline-block; vertical-align: top; }
 
-    #dashboard #freight .stat { margin-left: 8px; }
-    #dashboard .stat .value { color: rgb(255,255,175); font-family: 'Share Tech Mono'; letter-spacing: -1px; }
-    #dashboard.color-coded .stat .value { color: white; }
-    body.guardian #dashboard .stat .value { font-family: inherit; font-weight: bold; letter-spacing: 0; }
-    #dashboard .stat #result-vehicles { min-width: 74px; }
-    #dashboard .stat .result { display: inline-block; line-height: 1; }
-    #dashboard .filter, #dashboard .radio { font-size: 13px; }
 
     #options { display: inline-block; float: right; height: 100%; margin-right: 40px; }
     #options i { width: 1em; text-align: center; display: inline-block; }
@@ -133,39 +109,30 @@
 		<div id="togglers" class="option">
 			<div class="option-name">Show <i class="fa fa-chevron-down"></i></div>
 			<div class="option-menu">
-				<div id="port-toggler" class="btn check"><i class="fa fa-times"></i> <span class="radio-name">Ports</span></div>
-				<div id="route-toggler" class="btn check"><i class="fa fa-times"></i> <span class="radio-name">Routes</span></div>
-				<div id="ships-toggler" class="btn check checked"><i class="fa fa-times"></i> <span class="radio-name">Ships</span></div>
 				<div id="map-toggler" class="btn check checked"><i class="fa fa-times"></i> <span class="radio-name">Map</span></div>
 			</div>
 		</div>
-		<div id="colours" class="option">
-			<div class="option-name">Colors <i class="fa fa-chevron-down"></i></div>
+		<div id="Earnings" class="option">
+			<div class="option-name">Earnings <i class="fa fa-chevron-down"></i></div>
 			<div class="option-menu">
-				<div data-value="shade-uniform" class="btn radio selected"><i class="fa fa-check"></i> <span class="radio-name">Uniform</span></div>
-				<div data-value="shade-type" class="btn radio"><i class="fa fa-check"></i> <span class="radio-name">Ship type</span></div>
+				<div id="btn-low" class="btn radio selected"><i class="fa fa-check"></i> <span class="radio-name">Low</span></div>
+				<div id="btn-medium" class="btn radio"><i class="fa fa-check"></i> <span class="radio-name">Medium</span></div>
+				<div id="btn-high" class="btn radio"><i class="fa fa-check"></i> <span class="radio-name">High</span></div>
+				<div id="btn-all" class="btn radio"><i class="fa fa-check"></i> <span class="radio-name">All </span></div>
 			</div>
 		</div>
 		<div id="filters" class="option">
 			<div class="option-name">Filters <i class="fa fa-chevron-down"></i></div>
 			<div class="option-menu">
-				<div id="filter-type-3" data-ship-type="3" class="btn check checked filter color"><i class="fa fa-times color-by-ship-type"></i> Container</div>
-				<div id="filter-type-0" data-ship-type="0" class="btn check checked filter color"><i class="fa fa-times color-by-ship-type"></i> Dry bulk</div>
-				<div id="filter-type-1" data-ship-type="1" class="btn check checked filter color"><i class="fa fa-times color-by-ship-type"></i> Tanker</div>
-				<div id="filter-type-2" data-ship-type="2" class="btn check checked filter color"><i class="fa fa-times color-by-ship-type"></i> Gas bulk</div>
-				<div id="filter-type-4" data-ship-type="4" class="btn check checked filter color"><i class="fa fa-times color-by-ship-type"></i> Vehicles</div>
+				<div id="filter-earnings-0" data-earnings-type="0" class="btn check checked filter color"><i class="fa fa-times earnings-type"></i> Low</div>
+				<div id="filter-earnings-1" data-earnings-type="1" class="btn check checked filter color"><i class="fa fa-times earnings-type"></i> Medium</div>
+				<div id="filter-earnings-2" data-earnings-type="2" class="btn check checked filter color"><i class="fa fa-times earnings-type"></i> High</div>
+				<div id="filter-earnings-3" data-earnings-type="3" class="btn check checked filter color"><i class="fa fa-times earnings-type"></i> All</div>
 			</div>
 		</div>
 	</div>
 </div>
 
-
-<!--
-  <button type="button" class="btn btn-secondary" id='btn-all' block>All</button>
-  <button type="button" class="btn btn-secondary" id='btn-low' block>Low</button>
-  <button type="button" class="btn btn-secondary" id='btn-medium' block>Medium</button>
-  <button type="button" class="btn btn-secondary" id='btn-high' block>High</button>
--->
 
 
   <!------------------------------------------------------------------------------------------>
@@ -185,12 +152,15 @@
   <script src="https://d3js.org/d3.v5.min.js"></script>
   <script src="https://unpkg.com/leaflet.vectorgrid@latest/dist/Leaflet.VectorGrid.bundled.js"></script>
 
-    <!-- Load Esri Leaflet from CDN -->
-    <!--<script src="https://unpkg.com/esri-leaflet@2.2.4/dist/esri-leaflet.js"
-    integrity="sha512-tyPum7h2h36X52O2gz+Pe8z/3l+Y9S1yEUscbVs5r5aEY5dFmP1WWRY/WLLElnFHa+k1JBQZSCDGwEAnm2IxAQ=="
-    crossorigin=""></script>
-    -->
+  
   <script>
+
+    // D3 abbreviations
+    var $ = d3.select, $$ = d3.selectAll;
+
+    var map_showing = true,
+      routes_showing = false;
+
     var map = L.map('map', {
       renderer: L.canvas()
     }).setView([37.6, -85.5], 7).setMaxZoom(12).setMinZoom(4);
@@ -199,11 +169,14 @@
     map.createPane('labels');
     map.getPane('labels').style.zIndex = 650;
     map.getPane('labels').style.pointerEvents = 'none';
-    //https://leaflet-extras.github.io/leaflet-providers/preview/
-    L.tileLayer('http://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}.png', {
+
+    tile_layer = L.tileLayer('http://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}.png', {
         attribution: '©OpenStreetMap, ©Carto',
         pane: 'labels'
     }).addTo(map);
+
+
+	  initControls();
 
     // **** Options for various layers 
     // If displaying all lines with not highlight for distance
@@ -213,6 +186,7 @@
       opacity: .4,
       weight: 0.4
     };
+
     // Short commute distance
     var shortCommuteOptions = {
       color: 'white',
@@ -276,11 +250,7 @@
 
       //drawMap(lowLineArray);
     });
-/*
-    function (filter_selector) {
 
-    };
-    */
     function buildLineArray(linedata, earnings_filter) {
       var w_point = [];
       var h_point = [];
@@ -403,6 +373,75 @@
       dataLayerGroup.addLayer(highLayerGroup);
 
     });
+
+
+function initControls() {
+  /*
+	$$(".filter.color")
+		.each(colorShipTypeNames)
+		.each(function() {
+			var vessel_type = this.getAttribute("data-ship-type");
+			$(this).on("click", function() { toggleShipType(vessel_type); })
+		});
+  */
+	$$("#options .option > .option-name").on("touchstart", function() {
+		var option_element = this.parentNode,
+		    option_id = option_element.id,
+		    $option = $(option_element),
+		    is_visible = $option.classed("visible");
+
+		if ($option.classed("disabled")) return;
+
+		$("#options").classed("hoverable", false);
+		$$("#options .option").classed("visible",
+			is_visible ? false : function() { return this.id == option_id; }
+		);
+		d3.event.preventDefault();
+	});
+
+	//$("#port-toggler").on("click", togglePorts);
+	//$("#route-toggler").on("click", toggleRoutes);
+	//$("#ships-toggler").on("click", toggleShips);
+	$("#map-toggler").on("click", toggleMap);
+	$$(".radio").on("click", function() {
+		var clicked = this,
+		    menu = this.parentNode,
+		    topic = menu.parentNode.id;
+		$(menu).selectAll(".radio").classed("selected", function() { return clicked == this; });
+
+	});
+
+	//$("#info-open").on("click", toggleInfoPanel);
+	//$$(".info-close").on("click", hideInfoPanel);
+
+
+	//$(".fa-twitter").on("click", clickTwitter);
+	//$(".fa-facebook").on("click", clickFacebook);
+	//$(".fa-code").on("click", showInfoPanel);
+}
+
+
+
+function toggleMap() {
+	if (map_showing) hideMap();
+	else showMap();
+}
+
+function showMap() {
+	if (map_showing) return;
+	//map.removeLayer(blank_layer);
+	tile_layer.addTo(map).bringToBack();
+	$("#map-toggler").classed("checked", true);
+	map_showing = true;
+}
+
+function hideMap() {
+	if (!map_showing) return;
+	//if (!routes_showing) map.addLayer(blank_layer);
+	map.removeLayer(tile_layer);
+	$("#map-toggler").classed("checked", false);
+	map_showing = false;
+}
   </script>
 </body>
 
