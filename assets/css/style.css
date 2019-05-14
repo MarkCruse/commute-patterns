@@ -26,7 +26,7 @@
     #options i { width: 1em; text-align: center; display: inline-block; }
     #options .option { display: inline-block; vertical-align: top; padding: 0 6px 3px; position: relative; font-size: 9px; height: 100%; }
     #options .option .option-name { height: 100%; width: 800px; }
-    #options .option .option-menu { display: none; position: absolute; background: rgba(240, 239, 239, 0.664); width: 100%; padding: 3px 6px; text-align: left; }
+    #options .option .option-menu { display: none; position: absolute; background: rgba(240, 239, 239, 0.664); width: 100%; padding: 3px 3px; text-align: left; }
     #options .option .option-menu .check.checked i::before { content: "\f00c"; }
     #options.hoverable .option:hover .option-menu,
     #options .option.visible .option-menu { display: block; top: 22px; left: 0; }
@@ -36,8 +36,8 @@
     
     #options #togglers .option-name { font-size: 14px; width: 62px; }
     #options #earnings .option-name { font-size: 14px; width: 83px; }
-    #options #industry .option-name { font-size: 14px; width: 140px; }
-    #options #ages .option-name { font-size: 14px; width: 85px;}
+    #options #industry .option-menu { font-size: 14px; width: 80px; }
+    #options #ages .option-name { font-size: 14px; width: 75px;}
 
     /* Disable the filters menu if it has the .disabled class */
     #options #filters.disabled .option-name { color: #666; cursor: default; }
