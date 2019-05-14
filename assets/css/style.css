@@ -4,7 +4,7 @@
     a:hover, a:active { border-color: #6e99b3; }
 
     sup { position: relative; vertical-align: baseline; top: -.4em; }
-    #map { width: 100%; height: 100%; background: #021324; }
+    #map { width: 100%; height: 100%; background: #01070e; }
     #map canvas { position: absolute; }
     #map .leaflet-control-zoom { bottom: 25px; position: fixed; }
     .leaflet-container { font-family: 'Abel', sans-serif; }
@@ -17,7 +17,7 @@
     #nav { position: fixed; top: 0px; left: 0px; width: 100%; height: 25px; background: rgba(50,50,50,0.75); z-index: 1001; padding: 3px 15px 0px; }
     #nav .nav-subhead { font-size: 14px; letter-spacing: 1px; display: inline-block; vertical-align: top; margin-right: 10px; }
 
-    #dashboard { float: left; width: calc(100% - 540px); top: 0px; left: 0; }
+    #dashboard { float: left; width: calc(100% - 840px); top: 0px; left: 0; }
     #dashboard .dashboard-area { display: inline-block; vertical-align: top; text-align: center; }
 
     #dashboard .stat, #options .option-name { font-size: 13px; display: inline-block; vertical-align: top; }
@@ -25,7 +25,7 @@
     #options { display: inline-block; float: right; height: 100%; margin-right: 40px; }
     #options i { width: 1em; text-align: center; display: inline-block; }
     #options .option { display: inline-block; vertical-align: top; padding: 0 6px 3px; position: relative; font-size: 9px; height: 100%; }
-    #options .option .option-name { height: 100%; width: 120px; }
+    #options .option .option-name { height: 100%; width: 800px; }
     #options .option .option-menu { display: none; position: absolute; background: rgba(240, 239, 239, 0.664); width: 100%; padding: 3px 6px; text-align: left; }
     #options .option .option-menu .check.checked i::before { content: "\f00c"; }
     #options.hoverable .option:hover .option-menu,
@@ -33,13 +33,16 @@
     #options .radio i { visibility: hidden; }
     #options .radio.selected i { visibility: visible; }
     #options .radio-name { display: inline-block; }
-    #options #ages .option-menu { font-size: 6px; width: 120px;}
+    #options #togglers .option-name { font-size: 14px; width: 62px; }
+    #options #earnings .option-name { font-size: 14px; width: 83px; }
+    #options #industry .option-name { font-size: 14px; width: 140px; }
+    #options #ages .option-name { font-size: 14px; width: 80px;}
 
     /* Disable the filters menu if it has the .disabled class */
     #options #filters.disabled .option-name { color: #666; cursor: default; }
     #options.hoverable #filters.disabled:hover .option-menu { color: #999; }
     #options.hoverable #filters.disabled:hover .option-menu .btn:hover { opacity: inherit; cursor: default; }
-    #options #earnings .option-menu { width: 100px; }
+    #options #earnings #ages #industry .option-menu { width: 100px; }
 
   @media only screen and (max-width: 1300px) {
     #nav .nav-subhead { display: none; }
