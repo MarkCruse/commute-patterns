@@ -17,7 +17,7 @@
     #nav { position: fixed; top: 0px; left: 0px; width: 100%; height: 25px; background: rgba(50,50,50,0.75); z-index: 1001; padding: 3px 15px 0px; }
     #nav .nav-subhead { font-size: 14px; letter-spacing: 1px; display: inline-block; vertical-align: top; margin-right: 10px; }
 
-    #dashboard { float: left; width: calc(100% - 840px); top: 0px; left: 0; }
+    #dashboard { float: left; width: calc(100% - 1000px); top: 0px; left: 0; }
     #dashboard .dashboard-area { display: inline-block; vertical-align: top; text-align: center; }
 
     #dashboard .stat, #options .option-name { font-size: 13px; display: inline-block; vertical-align: top; }
