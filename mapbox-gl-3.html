@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8' />
+    <title>Commpute Patterns wtih Mapbox-gl</title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.42.2/mapbox-gl.css' rel='stylesheet' />
+    <link href='http://mapbox-gl-inspect.lukasmartinelli.ch/dist/mapbox-gl-inspect.css' rel='stylesheet' />
+    <script src='http://mapbox-gl-inspect.lukasmartinelli.ch/dist/mapbox-gl-inspect.min.js'></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id='map'></div>
+
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.42.2/mapbox-gl.js'></script>
+    <script>
+        mapboxgl.accessToken = 'pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew';
+
+        var map = new mapboxgl.Map({
+            container: 'map', // container id
+            //style: 'mapbox://styles/mapbox/dark-v9', // stylesheet location
+            style: 'mapbox://styles/mdcruse/cjvo8b64j052g1cntfg3qexjf',
+            center: [-85.5, 37.6], // starting position [lng, lat]
+            zoom: 7 // starting zoom
+        });
+
+        map.on('load', function () {
+            map.addLayer({
+                "id": "21",
+                "type": "line",
+                "source": {
+                type: 'vector',
+                url: 'mapbox://styles/mdcruse/cjvo8b64j052g1cntfg3qexjf'
+                },
+                "source-layer": "21", //layer name of the Studio hosted data source
+                "layout": {
+                    "line-join": "round",
+                    "line-cap": "round"
+                },
+                    "paint": {
+                    "line-color": "#664614",
+                    "line-width": 1
+                }
+            });
+
+            map.on('mouseenter', 'places', function (e) {
+                var features = map.queryRenderedFeatures(e.point);
+                // test queryRenderedFeatures
+                // console.log(features);
+                console.log(e.features[0].properties);
+                // console.log(e.features[0].properties.name);
+
+                // Change the cursor style as a UI affordance.
+                map.getCanvas().style.cursor = 'pointer';
+
+                // Populate the popup and set its coordinates
+                // based on the feature found.
+                popup.setLngLat(e.features[0].geometry.coordinates)
+                .setHTML("Population: " + Number(e.features[0].properties.pop_max).toLocaleString())
+                .addTo(map);
+                });
+
+                map.on('mouseleave', 'places', function () {
+                map.getCanvas().style.cursor = '';
+                popup.remove();
+             });
+            });
+        map.addControl(new MapboxInspect());
+    </script>
+
+</body>
+
+</html>
