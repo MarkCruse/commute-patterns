@@ -37,28 +37,12 @@
             zoom: 5.7
         });
 
-        map.on('load', function () {
-
-            map.addLayer({
-                "id": "ky_lines",
-                "type": "line",
-                "source": {
-                    type: 'vector',
-                    url: 'mapbox://styles/mdcruse/cjvo8b64j052g1cntfg3qexjf'
-                },
-                "source-layer": "21",
-                "layout": {
-                    "visibility": "visible"
-                },
-                "paint": {
-                    "line-color": "#f4b2b2",
-                    "line-width": 1
-                }
-            });
+        map.on('load', function (e) {
+            var features = map.queryRenderedFeatures(e.point);
+            console.log(features);
         });
 
-
-        map.addControl(new MapboxInspect());
+        //map.addControl(new MapboxInspect());
     </script>
 
 </body>
