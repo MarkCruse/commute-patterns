@@ -39,7 +39,13 @@
 
         map.on('load', function (e) {
             var features = map.queryRenderedFeatures(e.point);
-            console.log(features);
+            features.forEach(element => {
+                distance = element.properties.distance
+                if(distance > 90000) {
+                    console.log(distance);
+//  !!!!  How can I change the line color at this point??????  !!!!!!!!!!
+                }
+            });
         });
 
         //map.addControl(new MapboxInspect());
