@@ -3,10 +3,9 @@
 
 <head>
     <meta charset='utf-8' />
-    <title>Commpute Patterns wtih Mapbox-gl</title>
+    <title>Display a map</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.42.2/mapbox-gl.css' rel='stylesheet' />
-    <script src='https://mapbox-gl-inspect.lukasmartinelli.ch/dist/mapbox-gl-inspect.min.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />
     <link href='https://mapbox-gl-inspect.lukasmartinelli.ch/dist/mapbox-gl-inspect.css' rel='stylesheet' />
     <style>
         body {
@@ -26,45 +25,39 @@
 <body>
 
     <div id='map'></div>
-
-    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.45.0/mapbox-gl.js'></script>
-    <script async defer src="https://api.mapbox.com/mapbox-assembly/v0.23.2/assembly.js"></script>
-    <script src="https://code.jquery.com/jquery-3.4.0.min.js"
-        integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
+    <script src='https://mapbox-gl-inspect.lukasmartinelli.ch/dist/mapbox-gl-inspect.min.js'></script>
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
     <script>
-        mapboxgl.accessToken = 'pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew';
-
-        var map = new mapboxgl.Map({
-            container: 'map', // container id
-            style: 'mapbox://styles/mapbox/dark-v9', // stylesheet location
-            //style: 'mapbox://styles/mdcruse/cjvo8b64j052g1cntfg3qexjf',
-            center: [-85.5, 37.6], // starting position [lng, lat]
-            zoom: 7 // starting zoom
+        mapboxgl.accessToken =
+            'pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew';
+        const map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mdcruse/cjvo8b64j052g1cntfg3qexjf',
+            center: [-83.200876, 37.221575],
+            zoom: 5.7
         });
 
         map.on('load', function () {
-            map.addSource('ky_lines', {
-            type: 'vector',
-            url: 'mapbox://styles/mdcruse/cjvo8b64j052g1cntfg3qexjf'
-        });
+
             map.addLayer({
                 "id": "ky_lines",
                 "type": "line",
-                "source": "ky_lines", //layer name of the Studio hosted data source
-                "layout": {
-                    'visibility': 'visible'
+                "source": {
+                    type: 'vector',
+                    url: 'mapbox://styles/mdcruse/cjvo8b64j052g1cntfg3qexjf'
                 },
-                    "paint": {
-                    "line-color": "#664614",
+                "source-layer": "21",
+                "layout": {
+                    "visibility": "visible"
+                },
+                "paint": {
+                    "line-color": "#f4b2b2",
                     "line-width": 1
-                    },
-                    "source-layer": "21"
-                });
-
-
-
-
+                }
+            });
         });
+
+
         map.addControl(new MapboxInspect());
     </script>
 
