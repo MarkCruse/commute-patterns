@@ -17,7 +17,9 @@ var map_showing = true,
 
 var map = L.map('map', {
     renderer: L.canvas()
-}).setView([37.6, -85.5], 7).setMaxZoom(12).setMinZoom(3);
+}).setView([40.1, -82.4] , 7).setMaxZoom(12).setMinZoom(3);
+//[37.6, -85.5] ky
+//[36.8, -119.4] ca
 
 // add labels & tiles to the map
 map.createPane('labels');
@@ -85,7 +87,7 @@ function convertToNumber(d) {
     };
 }
 
-var allData = d3.csv("data/21_od_distance_1000_plus.csv", convertToNumber);
+var allData = d3.csv("data/39_od_distance_1000_plus.csv", convertToNumber);
 
 Promise.all([allData]).then(function (data) {
     initialArray = [];
