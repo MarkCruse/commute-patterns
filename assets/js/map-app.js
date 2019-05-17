@@ -2,18 +2,18 @@
 var $ = d3.select, $$ = d3.selectAll;
 
 var map_showing = true,
-    ern1_showing = true,
+    ern1_showing = false,
     ern2_showing = false,
-    ern3_showing = false;
-    age1_showing = true,
-    age2_showing = false,
+    ern3_showing = true;
+    age1_showing = false,
+    age2_showing = true,
     age3_showing = false,
-    ind1_showing = true,
+    ind1_showing = false,
     ind2_showing = false,
-    ind3_showing = false,
-    ern = 1,
-    age = 1;
-    ind = 1;
+    ind3_showing = true,
+    ern = 7,
+    age = 4;
+    ind = 7;
 
 var map = L.map('map', {
     renderer: L.canvas()
