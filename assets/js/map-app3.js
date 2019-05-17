@@ -92,9 +92,25 @@ Promise.all([allData]).then(function (data) {
     var earnings_filter = ern;
     var ages_filter = age;
     process_arrays(initialArray, earnings_filter, ages_filter);
+    
+    // Zoom to the bounds of the data
+    map.fitBounds(mapLayerGroup.getBounds());
+    map.setView(mapLayerGroup.getBounds().getCenter());
 
 });
 
+//Locate the features
+function LocateAllFeatures(iobMap, iobFeatureGroup) {
+    if(Array.isArray(iobFeatureGroup)){			
+        var obBounds = L.latLngBounds();
+        for (var i = 0; i < iobFeatureGroup.length; i++) {
+            obBounds.extend(iobFeatureGroup[i].getBounds());
+        }
+        iobMap.fitBounds(obBounds);			
+    } else {
+        iobMap.fitBounds(iobFeatureGroup.getBounds());
+    }
+}
 
 function process_arrays(ArrayData, earnings_filter, ages_filter) {
         var seArray = buildSEArray(ArrayData, earnings_filter);
@@ -102,6 +118,7 @@ function process_arrays(ArrayData, earnings_filter, ages_filter) {
         var saArray = buildSAArray(seArray, ages_filter);
         console.log(saArray.length);
         drawMap(saArray);
+        
 }
 // ---------------------------------------------------------------
 function drawMap(LineArray) {
