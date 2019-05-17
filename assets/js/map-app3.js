@@ -5,11 +5,11 @@ var map_showing = true,
     ern1_showing = true,
     ern2_showing = false,
     ern3_showing = false;
-    ag1_showing = true,
+    age1_showing = true,
     age2_showing = false,
     age3_showing = false,
     ern = 1,
-    ages_filter = 1;
+    age = 1;
 
 var map = L.map('map', {
     renderer: L.canvas()
@@ -90,6 +90,7 @@ Promise.all([allData]).then(function (data) {
     console.log(ern);
 
     var earnings_filter = ern;
+    var ages_filter = age;
     process_arrays(initialArray, earnings_filter, ages_filter);
 
 });
@@ -135,11 +136,13 @@ function initControls() {
 		);
 		d3.event.preventDefault();
 	});
-
-	$("#map-toggler").on("click", toggleMap);
-	$("#low-toggler").on("click", toggleLow);
-	$("#med-toggler").on("click", toggleMed);
-	$("#high-toggler").on("click", toggleHigh);
+    $("#map-toggler").on("click", toggleMap);
+    $("#low-toggler").on("click", toggleLow);
+    $("#med-toggler").on("click", toggleMed);
+    $("#high-toggler").on("click", toggleHigh);
+    $("#age1-toggler").on("click", toggleAge1);
+    $("#age2-toggler").on("click", toggleAge2);
+    $("#age3-toggler").on("click", toggleAge3);
 
 	//$("#info-open").on("click", toggleInfoPanel);
 	//$$(".info-close").on("click", hideInfoPanel);
@@ -173,7 +176,7 @@ function hideMap() {
 
 //************ Show / Hide earnings layers  *********
 function toggleLow() {
-	if (ern1_showing) {
+    if (ern1_showing) {
         hideLow();
         ern = ern - 1;
     } else {
@@ -182,23 +185,25 @@ function toggleLow() {
     }
     console.log(ern);
     mapLayerGroup.clearLayers();
-    process_arrays(initialArray, ern, ages_filter)
+    process_arrays(initialArray, ern, age)
 }
+
 function showLow() {
-	if (ern1_showing) return;
-	//mapLayerGroup.addTo(map);
-	$("#low-toggler").classed("checked", true);
+    if (ern1_showing) return;
+    //mapLayerGroup.addTo(map);
+    $("#low-toggler").classed("checked", true);
     ern1_showing = true;
 }
+
 function hideLow() {
-	if (!ern1_showing) return;
-	//map.removeLayer(mapLayerGroup);
-	$("#low-toggler").classed("checked", false);
+    if (!ern1_showing) return;
+    //map.removeLayer(mapLayerGroup);
+    $("#low-toggler").classed("checked", false);
     ern1_showing = false;
 }
 //******  Medium Earners ******
 function toggleMed() {
-	if (ern2_showing) {
+    if (ern2_showing) {
         hideMed();
         ern = ern - 4;
     } else {
@@ -207,23 +212,25 @@ function toggleMed() {
     }
     console.log(ern);
     mapLayerGroup.clearLayers();
-    process_arrays(initialArray, ern, ages_filter);
+    process_arrays(initialArray, ern, age);
 }
+
 function showMed() {
-	if (ern2_showing) return;
-	//mediumLayerGroup.addTo(map);
-	$("#med-toggler").classed("checked", true);
+    if (ern2_showing) return;
+    //mediumLayerGroup.addTo(map);
+    $("#med-toggler").classed("checked", true);
     ern2_showing = true;
 }
+
 function hideMed() {
-	if (!ern2_showing) return;
-	//map.removeLayer(mediumLayerGroup);
-	$("#med-toggler").classed("checked", false);
+    if (!ern2_showing) return;
+    //map.removeLayer(mediumLayerGroup);
+    $("#med-toggler").classed("checked", false);
     ern2_showing = false;
 }
 //******  High Earners ******
 function toggleHigh() {
-	if (ern3_showing) {
+    if (ern3_showing) {
         ern = ern - 7;
         hideHigh();
     } else {
@@ -232,20 +239,97 @@ function toggleHigh() {
     }
     console.log(ern);
     mapLayerGroup.clearLayers();
-    process_arrays(initialArray, ern, ages_filter);
+    process_arrays(initialArray, ern, age);
 }
+
 function showHigh() {
-	if (ern3_showing) return;
-	//highLayerGroup.addTo(map);
-	$("#high-toggler").classed("checked", true);
+    if (ern3_showing) return;
+    $("#high-toggler").classed("checked", true);
     ern3_showing = true;
 }
+
 function hideHigh() {
-	if (!ern3_showing) return;
-	//map.removeLayer(highLayerGroup);
-	$("#high-toggler").classed("checked", false);
+    if (!ern3_showing) return;
+    $("#high-toggler").classed("checked", false);
     ern3_showing = false;
 }
+// ***************** Show Hide Age Groups   *******************
+
+function toggleAge1() {
+    if (age1_showing) {
+        hideAge1();
+        age = age - 1;
+    } else {
+        showAge1();
+        age = age + 1;
+    }
+    console.log(age);
+    mapLayerGroup.clearLayers();
+    process_arrays(initialArray, ern, age)
+}
+
+function showAge1() {
+    if (age1_showing) return;
+    $("#age1-toggler").classed("checked", true);
+    age1_showing = true;
+}
+
+function hideAge1() {
+    if (!age1_showing) return;
+    $("#age1-toggler").classed("checked", false);
+    age1_showing = false;
+}
+//******  Mid Age Group ******
+function toggleAge2() {
+    if (age2_showing) {
+        hideAge2();
+        age = age - 4;
+    } else {
+        showAge2();
+        age = age + 4;
+    }
+    console.log(age);
+    mapLayerGroup.clearLayers();
+    process_arrays(initialArray, ern, age);
+}
+
+function showAge2() {
+    if (age2_showing) return;
+    $("#age2-toggler").classed("checked", true);
+    age2_showing = true;
+}
+
+function hideAge2() {
+    if (!age2_showing) return;
+    $("#age2-toggler").classed("checked", false);
+    age2_showing = false;
+}
+//******  Oldest Age Group ******
+function toggleAge3() {
+    if (age3_showing) {
+        age = age - 7;
+        hideAge3();
+    } else {
+        showAge3();
+        age = age + 7;
+    }
+    console.log(age);
+    mapLayerGroup.clearLayers();
+    process_arrays(initialArray, ern, age);
+}
+
+function showAge3() {
+    if (age3_showing) return;
+    $("#age3-toggler").classed("checked", true);
+    age3_showing = true;
+}
+
+function hideAge3() {
+    if (!age3_showing) return;
+    $("#age3-toggler").classed("checked", false);
+    age3_showing = false;
+}
+
 
 //function build initial array (lineData)
 function buildINTArray(linedata) {
