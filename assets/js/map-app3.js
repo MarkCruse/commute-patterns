@@ -8,12 +8,16 @@ var map_showing = true,
     age1_showing = true,
     age2_showing = false,
     age3_showing = false,
+    ind1_showing = true,
+    ind2_showing = false,
+    ind3_showing = false,
     ern = 1,
     age = 1;
+    ind = 1;
 
 var map = L.map('map', {
     renderer: L.canvas()
-}).setView([37.6, -85.5], 7).setMaxZoom(12).setMinZoom(4);
+}).setView([37.6, -85.5], 7).setMaxZoom(12).setMinZoom(3);
 
 // add labels & tiles to the map
 map.createPane('labels');
@@ -91,33 +95,31 @@ Promise.all([allData]).then(function (data) {
 
     var earnings_filter = ern;
     var ages_filter = age;
-    process_arrays(initialArray, earnings_filter, ages_filter);
-    
+    var industry_filter = ind;
+
+    process_arrays(initialArray, earnings_filter, ages_filter, industry_filter);
+
     // Zoom to the bounds of the data
     map.fitBounds(mapLayerGroup.getBounds());
     map.setView(mapLayerGroup.getBounds().getCenter());
 
 });
 
-//Locate the features
-function LocateAllFeatures(iobMap, iobFeatureGroup) {
-    if(Array.isArray(iobFeatureGroup)){			
-        var obBounds = L.latLngBounds();
-        for (var i = 0; i < iobFeatureGroup.length; i++) {
-            obBounds.extend(iobFeatureGroup[i].getBounds());
-        }
-        iobMap.fitBounds(obBounds);			
-    } else {
-        iobMap.fitBounds(iobFeatureGroup.getBounds());
-    }
-}
 
-function process_arrays(ArrayData, earnings_filter, ages_filter) {
-        var seArray = buildSEArray(ArrayData, earnings_filter);
+function process_arrays(ArrayData, earnings_filter, ages_filter, industry_filter) {
+        console.log('process_array earning filter:', earnings_filter);
+        console.log('process_array age filter:', ages_filter);
+        console.log('process_array industry filter:', industry_filter);
+        var seArray = [];
+        seArray = buildSEArray(ArrayData, earnings_filter);
         console.log(seArray.length);
+        var saArray = [];
         var saArray = buildSAArray(seArray, ages_filter);
         console.log(saArray.length);
-        drawMap(saArray);
+        var siArray = [];
+        var siArray = buildSIArray(saArray, industry_filter);
+        console.log(siArray.length);
+        drawMap(siArray);
         
 }
 // ---------------------------------------------------------------
@@ -154,12 +156,18 @@ function initControls() {
 		d3.event.preventDefault();
 	});
     $("#map-toggler").on("click", toggleMap);
+
     $("#low-toggler").on("click", toggleLow);
     $("#med-toggler").on("click", toggleMed);
     $("#high-toggler").on("click", toggleHigh);
+
     $("#age1-toggler").on("click", toggleAge1);
     $("#age2-toggler").on("click", toggleAge2);
     $("#age3-toggler").on("click", toggleAge3);
+
+    $("#goods-toggler").on("click", toggleInd1);
+    $("#trade-toggler").on("click", toggleInd2);
+    $("#other-toggler").on("click", toggleInd3);
 
 	//$("#info-open").on("click", toggleInfoPanel);
 	//$$(".info-close").on("click", hideInfoPanel);
@@ -200,9 +208,10 @@ function toggleLow() {
         showLow();
         ern = ern + 1;
     }
-    console.log(ern);
+    console.log(ern, age, ind);
+    console.log(ern1_showing, ern2_showing, ern3_showing);
     mapLayerGroup.clearLayers();
-    process_arrays(initialArray, ern, age)
+    process_arrays(initialArray, ern, age, ind)
 }
 
 function showLow() {
@@ -227,9 +236,10 @@ function toggleMed() {
         showMed();
         ern = ern + 4;
     }
-    console.log(ern);
+    console.log(ern, age, ind);
+    console.log(ern1_showing, ern2_showing, ern3_showing);
     mapLayerGroup.clearLayers();
-    process_arrays(initialArray, ern, age);
+    process_arrays(initialArray, ern, age, ind);
 }
 
 function showMed() {
@@ -254,9 +264,10 @@ function toggleHigh() {
         showHigh();
         ern = ern + 7;
     }
-    console.log(ern);
+    console.log(ern, age, ind);
+    console.log(ern1_showing, ern2_showing, ern3_showing);
     mapLayerGroup.clearLayers();
-    process_arrays(initialArray, ern, age);
+    process_arrays(initialArray, ern, age, ind);
 }
 
 function showHigh() {
@@ -280,9 +291,10 @@ function toggleAge1() {
         showAge1();
         age = age + 1;
     }
-    console.log(age);
+    console.log(ern, age, ind);
+    console.log(age1_showing, age2_showing, age3_showing);
     mapLayerGroup.clearLayers();
-    process_arrays(initialArray, ern, age)
+    process_arrays(initialArray, ern, age, ind)
 }
 
 function showAge1() {
@@ -305,9 +317,10 @@ function toggleAge2() {
         showAge2();
         age = age + 4;
     }
-    console.log(age);
+    console.log(ern, age, ind);
+    console.log(age1_showing, age2_showing, age3_showing);
     mapLayerGroup.clearLayers();
-    process_arrays(initialArray, ern, age);
+    process_arrays(initialArray, ern, age, ind);
 }
 
 function showAge2() {
@@ -330,9 +343,10 @@ function toggleAge3() {
         showAge3();
         age = age + 7;
     }
-    console.log(age);
+    console.log(ern, age, ind);
+    console.log(age1_showing, age2_showing, age3_showing);
     mapLayerGroup.clearLayers();
-    process_arrays(initialArray, ern, age);
+    process_arrays(initialArray, ern, age, ind);
 }
 
 function showAge3() {
@@ -348,13 +362,87 @@ function hideAge3() {
 }
 
 
+// ************************ Show Hide Industry Groups   **********************
+
+function toggleInd1() {
+    if (ind1_showing) {
+        hideInd1();
+        ind = ind - 1 ;
+    } else {
+        showInd1();
+        ind = ind + 1;
+    }
+    console.log(ind);
+    mapLayerGroup.clearLayers();
+    process_arrays(initialArray, ern, age, ind)
+}
+
+function showInd1() {
+    if (ind1_showing) return;
+    $("#goods-toggler").classed("checked", true);
+    ind1_showing = true;
+}
+
+function hideInd1() {
+    if (!ind1_showing) return;
+    $("#goods-toggler").classed("checked", false);
+    ind1_showing = false;
+}
+//******  Industry Trade Group ******
+function toggleInd2() {
+    if (ind2_showing) {
+        hideInd2();
+        ind = ind - 4;
+    } else {
+        showInd2();
+        ind = ind + 4;
+    }
+    console.log(ind);
+    mapLayerGroup.clearLayers();
+    process_arrays(initialArray, ern, age, ind);
+}
+
+function showInd2() {
+    if (ind2_showing) return;
+    $("#trade-toggler").classed("checked", true);
+    ind2_showing = true;
+}
+
+function hideInd2() {
+    if (!ind2_showing) return;
+    $("#trade-toggler").classed("checked", false);
+    ind2_showing = false;
+}
+//******  Industry Other Group ******
+function toggleInd3() {
+    if (ind3_showing) {
+        ind = ind - 7;
+        hideInd3();
+    } else {
+        showInd3();
+        ind = ind + 7;
+    }
+    console.log(ind);
+    mapLayerGroup.clearLayers();
+    process_arrays(initialArray, ern, age, ind);
+}
+
+function showInd3() {
+    if (ind3_showing) return;
+    $("#other-toggler").classed("checked", true);
+    ind3_showing = true;
+}
+
+function hideInd3() {
+    if (!ind3_showing) return;
+    $("#other-toggler").classed("checked", false);
+    ind3_showing = false;
+}
+
+
 //function build initial array (lineData)
 function buildINTArray(linedata) {
-    var w_point = [];
-    var h_point = [];
     var lines = [];
-
-    var obj = {};
 
     linedata.forEach(function (element) {
         var obj = {};
@@ -379,11 +467,7 @@ function buildINTArray(linedata) {
 }
 //function checkEarnings(lineData)
 function buildSEArray(linedata, earnings_filter) {
-    var w_point = [];
-    var h_point = [];
     var lines = [];
-
-    var obj = {};
 
     linedata.forEach(function (element) {
         if (earnings_filter == 12) {
@@ -533,12 +617,7 @@ function buildSEArray(linedata, earnings_filter) {
 
 //function checkAges(lineData)
 function buildSAArray(linedata, ages_filter) {
-    var w_point = [];
-    var h_point = [];
     var lines = [];
-
-    var obj = {};
-
     linedata.forEach(function (element) {
         if (ages_filter == 12) {
             if (element.SA01 >0 || element.SA02 >0 || element.SA03 > 0) {
@@ -561,7 +640,7 @@ function buildSAArray(linedata, ages_filter) {
             }
         }
         if (ages_filter == 11) {
-            if (element.SA01 == 0 && (element.SA02 >0 || element.SA03 > 0)) {
+            if (element.SA02 >0 || element.SA03 > 0) {
                 var obj = {};
                 obj['w_point'] = element.w_point;
                 obj['h_point'] = element.h_point;
@@ -581,7 +660,7 @@ function buildSAArray(linedata, ages_filter) {
             }
         }
         if (ages_filter == 8) {
-            if (element.SA02 == 0 && (element.SA01 >0 || element.SA03 > 0)) {
+            if (element.SA01 >0 || element.SA03 > 0) {
                 var obj = {};
                 obj['w_point'] = element.w_point;
                 obj['h_point'] = element.h_point;
@@ -601,7 +680,7 @@ function buildSAArray(linedata, ages_filter) {
             }
         }
         if (ages_filter == 7) {
-            if (element.SA01 == 0 && element.SA02 == 0 && element.SA03 > 0) {
+            if (element.SA03 > 0) {
                 var obj = {};
                 obj['w_point'] = element.w_point;
                 obj['h_point'] = element.h_point;
@@ -621,7 +700,7 @@ function buildSAArray(linedata, ages_filter) {
             }
         }
         if (ages_filter == 5) {
-            if ((element.SA01 > 0 || element.SA02 > 0) && element.SA03 == 0) {
+            if (element.SA01 > 0 || element.SA02 > 0) {
                 var obj = {};
                 obj['w_point'] = element.w_point;
                 obj['h_point'] = element.h_point;
@@ -641,7 +720,7 @@ function buildSAArray(linedata, ages_filter) {
             }
         }
     if (ages_filter == 4) {
-        if ((element.SA01 == 0 || element.SA03 == 0) && element.SA02 > 0) {
+        if (element.SA02 > 0) {
             var obj = {};
             obj['w_point'] = element.w_point;
             obj['h_point'] = element.h_point;
@@ -661,7 +740,157 @@ function buildSAArray(linedata, ages_filter) {
         }
     }
     if (ages_filter == 1) {
-        if ((element.SA02 == 0 || element.SA03 == 0) && element.SA01 > 0) {
+        if (element.SA01 > 0) {
+            var obj = {};
+            obj['w_point'] = element.w_point;
+            obj['h_point'] = element.h_point;
+            obj['distance'] = element.distance;
+            obj['SA01'] = element.SA01;
+            obj['SA02'] = element.SA02,
+            obj['SA03'] = element.SA03,
+            
+            obj['SE01'] = element.SE01;
+            obj['SE02'] = element.SE02,
+            obj['SE03'] = element.SE03,
+            
+            obj['SI01'] = element.SI01;
+            obj['SI02'] = element.SI02,
+            obj['SI03'] = element.SI03,
+            lines.push(obj);
+        }
+    }
+    });
+    return lines;
+
+}
+
+//function checkIndustry(lineData)
+function buildSIArray(linedata, industry_filter) {
+    var lines = [];
+
+    linedata.forEach(function (element) {
+        if (industry_filter == 12) {
+            if (element.SI01 >0 || element.SI02 >0 || element.SI03 > 0) {
+                var obj = {};
+                obj['w_point'] = element.w_point;
+                obj['h_point'] = element.h_point;
+                obj['distance'] = element.distance;
+                obj['SA01'] = element.SA01;
+                obj['SA02'] = element.SA02,
+                obj['SA03'] = element.SA03,
+                
+                obj['SE01'] = element.SE01;
+                obj['SE02'] = element.SE02,
+                obj['SE03'] = element.SE03,
+                
+                obj['SI01'] = element.SI01;
+                obj['SI02'] = element.SI02,
+                obj['SI03'] = element.SI03,
+                lines.push(obj);
+            }
+        }
+        if (industry_filter == 11) {
+            if (element.SI02 >0 || element.industry_filter03 > 0) {
+                var obj = {};
+                obj['w_point'] = element.w_point;
+                obj['h_point'] = element.h_point;
+                obj['distance'] = element.distance;
+                obj['SA01'] = element.SA01;
+                obj['SA02'] = element.SA02,
+                obj['SA03'] = element.SA03,
+                
+                obj['SE01'] = element.SE01;
+                obj['SE02'] = element.SE02,
+                obj['SE03'] = element.SE03,
+                
+                obj['SI01'] = element.SI01;
+                obj['SI02'] = element.SI02,
+                obj['SI03'] = element.SI03,
+                lines.push(obj);
+            }
+        }
+        if (industry_filter == 8) {
+            if (element.SI01 >0 || element.SI03 > 0) {
+                var obj = {};
+                obj['w_point'] = element.w_point;
+                obj['h_point'] = element.h_point;
+                obj['distance'] = element.distance;
+                obj['SA01'] = element.SA01;
+                obj['SA02'] = element.SA02,
+                obj['SA03'] = element.SA03,
+                
+                obj['SE01'] = element.SE01;
+                obj['SE02'] = element.SE02,
+                obj['SE03'] = element.SE03,
+                
+                obj['SI01'] = element.SI01;
+                obj['SI02'] = element.SI02,
+                obj['SI03'] = element.SI03,
+                lines.push(obj);
+            }
+        }
+        if (industry_filter == 7) {
+            if (element.SI03 > 0) {
+                var obj = {};
+                obj['w_point'] = element.w_point;
+                obj['h_point'] = element.h_point;
+                obj['distance'] = element.distance;
+                obj['SA01'] = element.SA01;
+                obj['SA02'] = element.SA02,
+                obj['SA03'] = element.SA03,
+                
+                obj['SE01'] = element.SE01;
+                obj['SE02'] = element.SE02,
+                obj['SE03'] = element.SE03,
+                
+                obj['SI01'] = element.SI01;
+                obj['SI02'] = element.SI02,
+                obj['SI03'] = element.SI03,
+                lines.push(obj);
+            }
+        }
+        if (industry_filter == 5) {
+            if (element.SI01 > 0 || element.SI02 > 0) {
+                var obj = {};
+                obj['w_point'] = element.w_point;
+                obj['h_point'] = element.h_point;
+                obj['distance'] = element.distance;
+                obj['SA01'] = element.SA01;
+                obj['SA02'] = element.SA02,
+                obj['SA03'] = element.SA03,
+                
+                obj['SE01'] = element.SE01;
+                obj['SE02'] = element.SE02,
+                obj['SE03'] = element.SE03,
+                
+                obj['SI01'] = element.SI01;
+                obj['SI02'] = element.SI02,
+                obj['SI03'] = element.SI03,
+                lines.push(obj);
+            }
+        }
+    if (industry_filter == 4) {
+        if (element.SI02 > 0) {
+            var obj = {};
+            obj['w_point'] = element.w_point;
+            obj['h_point'] = element.h_point;
+            obj['distance'] = element.distance;
+            obj['SA01'] = element.SA01;
+            obj['SA02'] = element.SA02,
+            obj['SA03'] = element.SA03,
+            
+            obj['SE01'] = element.SE01;
+            obj['SE02'] = element.SE02,
+            obj['SE03'] = element.SE03,
+            
+            obj['SI01'] = element.SI01;
+            obj['SI02'] = element.SI02,
+            obj['SI03'] = element.SI03,
+            lines.push(obj);
+        }
+    }
+    if (industry_filter == 1) {
+        if (element.SI01 > 0) {
             var obj = {};
             obj['w_point'] = element.w_point;
             obj['h_point'] = element.h_point;
