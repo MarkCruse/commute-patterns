@@ -32,23 +32,22 @@
             'pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew';
         const map = new mapboxgl.Map({
             container: 'map',
-            style: 'mapbox://styles/mdcruse/cjvo8b64j052g1cntfg3qexjf',
-            center: [-83.200876, 37.221575],
-            zoom: 5.7
+            style: 'mapbox://styles/mdcruse/cjvsrz92u1oqj1cs3z7558gg6',
+            center: [-119.4,36.8],
+            zoom: 5.0
         });
-
         map.on('load', function (e) {
             var features = map.queryRenderedFeatures(e.point);
             features.forEach(element => {
-                distance = element.properties.distance
-                if(distance > 90000) {
-                    console.log(distance);
-//  !!!!  How can I change the line color
-                }
+            distance = element.properties.distance
+            if(distance > 90000) {
+                console.log(distance);
+                // !!!! How can I change the line color
+            }
             });
         });
 
-        //map.addControl(new MapboxInspect());
+        map.addControl(new MapboxInspect());
     </script>
 
 </body>
