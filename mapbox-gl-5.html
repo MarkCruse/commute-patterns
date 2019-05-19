@@ -3,8 +3,9 @@
 
 <head>
     <meta charset='utf-8' />
-    <title>Create a heatmap layer</title>
+    <title>Commute Patterns</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://mapbox-gl-inspect.lukasmartinelli.ch/dist/mapbox-gl-inspect.min.js'></script>
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.54.0/mapbox-gl.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.54.0/mapbox-gl.css' rel='stylesheet' />
     <style>
@@ -33,8 +34,8 @@
         var map = new mapboxgl.Map({
             container: 'map',
             style: 'mapbox://styles/mapbox/dark-v10',
-            center: [-120, 50],
-            zoom: 2
+            center: [-98, 38],
+            zoom: 4
         });
         map.on('load', function () {
         // CA Layer
@@ -49,8 +50,13 @@
                 'layout': {
                   'visibility': 'visible' 
                 },
-                "paint": {
-                    'line-color': '#d3d3d3'
+                'paint': {
+                    'line-color': [
+                        'case', ['>=', ['number',['get','distance']], 50000], 'red', 
+                          ['case', ['>=', ['number',['get','distance']], 30000], 'yellow', 
+                          ['case', ['<', ['number',['get','distance']], 30000], 'white','green']],
+                    ],
+                    'line-opacity': .05,
                 },
                 'source-layer': '06',
             });
@@ -67,7 +73,16 @@
                    'visibility': 'visible'
                  },
                 "paint": {
-                    'line-color': '#d3d3d3'
+                    'line-color': [
+                        'case', ['>=', ['number',['get','distance']], 50000], 'red', 
+                          ['case', ['>=', ['number',['get','distance']], 30000], 'yellow', 
+                          ['case', ['<', ['number',['get','distance']], 30000], 'white','gray']],
+                    ],
+                    'line-opacity': [
+                        'case', ['>=', ['number',['get','distance']], 50000], .03, 
+                          ['case', ['>=', ['number',['get','distance']], 30000], .09, 
+                          ['case', ['<', ['number',['get','distance']], 30000], .13,.001]],
+                    ],
                 },
                 'source-layer': '21',
             });
@@ -84,8 +99,11 @@
 
         }
 
-
-
+/*
+                    'curve',['step'],['number', ['get', 'distance'], 1], "#FFEDA0", 30000, "#FED976", 80000, "#FEB24C"
+                    ],
+*/
+map.addControl(new MapboxInspect());
 </script>
 
 </body>
