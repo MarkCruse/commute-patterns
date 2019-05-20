@@ -17,9 +17,10 @@ var map_showing = true,
 
 var map = L.map('map', {
     renderer: L.canvas()
-}).setView([40.1, -82.4] , 7).setMaxZoom(12).setMinZoom(3);
+}).setView([37.6, -85.5], 7).setMaxZoom(12).setMinZoom(3);
 //[37.6, -85.5] ky
 //[36.8, -119.4] ca
+//[40.1, -82.4] oh
 
 // add labels & tiles to the map
 map.createPane('labels');
@@ -87,13 +88,12 @@ function convertToNumber(d) {
     };
 }
 
-var allData = d3.csv("data/39_od_distance_1000_plus.csv", convertToNumber);
+var allData = d3.csv("data/21_od_distance_1000_plus.csv", convertToNumber);
 
 Promise.all([allData]).then(function (data) {
     initialArray = [];
     initialArray = buildINTArray(data[0]);
-    console.log(initialArray.length);
-    console.log(ern);
+    console.log('Inital #records: ',initialArray.length);
 
     var earnings_filter = ern;
     var ages_filter = age;
@@ -109,18 +109,18 @@ Promise.all([allData]).then(function (data) {
 
 
 function process_arrays(ArrayData, earnings_filter, ages_filter, industry_filter) {
-        console.log('process_array earning filter:', earnings_filter);
-        console.log('process_array age filter:', ages_filter);
-        console.log('process_array industry filter:', industry_filter);
+        //console.log('process_array earning filter:', earnings_filter);
+        //console.log('process_array age filter:', ages_filter);
+        //console.log('process_array industry filter:', industry_filter);
         var seArray = [];
         seArray = buildSEArray(ArrayData, earnings_filter);
-        console.log(seArray.length);
+        console.log('Applied earning filter. # records: ', seArray.length);
         var saArray = [];
         var saArray = buildSAArray(seArray, ages_filter);
-        console.log(saArray.length);
+        console.log('Applied age filter. # records: ', saArray.length);
         var siArray = [];
         var siArray = buildSIArray(saArray, industry_filter);
-        console.log(siArray.length);
+        console.log('Applied industry filter. # records: ', siArray.length);
         drawMap(siArray);
         
 }
