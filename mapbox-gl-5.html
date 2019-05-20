@@ -37,6 +37,13 @@
             center: [-98, 38],
             zoom: 4
         });
+
+        // Try this -  "get the id field, if it matches a value of [1,2,3] return true, otherwise false
+        // let filter = ['match', ['get', 'id'], [1, 2, 3], true, false]
+        // map.setFilter('layer_name',filter)
+        let se01_filter = ['case', ['>=',['number',['get', 'se01']], 1], true, false];
+        let distance_filter = ['case', ['>=', ['number',['get','distance']], 50000], 'red',  ['case', ['>=', ['number',['get','distance']], 30000], 'yellow', ['case', ['<', ['number',['get','distance']], 30000], 'white','green']]];
+        let distance_opacity = ['case', ['>=', ['number',['get','distance']], 50000], .03, ['case', ['>=', ['number',['get','distance']], 30000], .09, ['case', ['<', ['number',['get','distance']], 30000], .13,.001]]];
         map.on('load', function () {
         // CA Layer
             map.addSource('06-6e89ef', {
@@ -51,12 +58,8 @@
                   'visibility': 'visible' 
                 },
                 'paint': {
-                    'line-color': [
-                        'case', ['>=', ['number',['get','distance']], 50000], 'red', 
-                          ['case', ['>=', ['number',['get','distance']], 30000], 'yellow', 
-                          ['case', ['<', ['number',['get','distance']], 30000], 'white','green']],
-                    ],
-                    'line-opacity': .05,
+                    'line-color': distance_filter,
+                    'line-opacity': distance_opacity,
                 },
                 'source-layer': '06',
             });
@@ -65,6 +68,8 @@
                 type: 'vector',
                 url: 'mapbox://mdcruse.9cievwvx'
             });
+
+
             map.addLayer({
                 'id': 'ky_lines',
                 'type': 'line',
@@ -73,37 +78,26 @@
                    'visibility': 'visible'
                  },
                 "paint": {
-                    'line-color': [
-                        'case', ['>=', ['number',['get','distance']], 50000], 'red', 
-                          ['case', ['>=', ['number',['get','distance']], 30000], 'yellow', 
-                          ['case', ['<', ['number',['get','distance']], 30000], 'white','gray']],
-                    ],
-                    'line-opacity': [
-                        'case', ['>=', ['number',['get','distance']], 50000], .03, 
-                          ['case', ['>=', ['number',['get','distance']], 30000], .09, 
-                          ['case', ['<', ['number',['get','distance']], 30000], .13,.001]],
-                    ],
+                    'line-color': distance_filter,
+                    'line-opacity': distance_opacity,
                 },
                 'source-layer': '21',
             });
-   
+
+//map.setFilter('ky_lines',se01_filter)
+21.features.forEach(function(feature) {
+        var symbol = feature.properties['icon'];
+        var layerID = 'poi-' + symbol;
+console.log(feature);
+});
+        //map.addControl(new MapboxInspect());
         });  // end of map.on load
 
-
-        //var features = map.queryRenderedFeatures({layers:['ky_lines']});
-        var f = function (e) {
-            var features = map.queryRenderedFeatures(e.point, {
-            layers: ['21']
-            });
-            console.log('here');
-
-        }
-
+//styles/mapbox/dark        map.setFilter('ky_lines',se01_filter);
 /*
                     'curve',['step'],['number', ['get', 'distance'], 1], "#FFEDA0", 30000, "#FED976", 80000, "#FEB24C"
                     ],
 */
-map.addControl(new MapboxInspect());
 </script>
 
 </body>
