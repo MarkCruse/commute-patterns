@@ -32,6 +32,7 @@ tile_layer = L.tileLayer('http://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/
     pane: 'labels'
 }).addTo(map);
 
+//test
 
 initControls();
 
@@ -88,7 +89,7 @@ function convertToNumber(d) {
     };
 }
 
-var allData = d3.csv("data/21_od_distance_1000_plus.csv", convertToNumber);
+var allData = d3.csv("data/48_od_distance_1k-15k_15-60_miles.csv", convertToNumber);
 
 Promise.all([allData]).then(function (data) {
     initialArray = [];
@@ -132,7 +133,7 @@ function drawMap(LineArray) {
 
     LineArray.forEach(function (element) {
     distance = element.distance;
-    style = distance < 17500 ? shortCommuteOptions :
+    style = distance < 40000? shortCommuteOptions :
         distance < 50000 ? mediumCommuteOptions : longCommuteOptions;
 
     // create new Leaflet polyline and add to kentucky L.geoJson
