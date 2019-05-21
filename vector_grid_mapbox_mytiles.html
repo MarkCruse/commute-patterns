@@ -1,280 +1,57 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 
 	<title>VectorGrid.Protobuf example</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.0/dist/leaflet.css" />
 
 </head>
+
 <body style='margin:0'>
 
 	<div id="map" style="width: 100vw; height: 100vh; background: white"></div>
-	
-	<script type="text/javascript"  src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"></script>
-	<script type="text/javascript"  src="https://unpkg.com/leaflet.vectorgrid@1.2.0"></script>
-	<!-- <script type="text/javascript" src="../dist/Leaflet.VectorGrid.bundled.js"></script> -->
+
+	<script type="text/javascript" src="https://unpkg.com/leaflet@1.0.0/dist/leaflet.js"></script>
+	<script type="text/javascript" src="https://unpkg.com/leaflet.vectorgrid@1.2.0"></script>
+	<!-- <script src="https://unpkg.com/leaflet.vectorgrid@latest/dist/Leaflet.VectorGrid.bundled.js"></script> -->
+	<!-- <script src="https://unpkg.com/leaflet.vectorgrid@latest/dist/Leaflet.VectorGrid.js"></script> -->
 	<script>
-		var map = L.map('map');
- 		var cartodbAttribution = '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>';
+		var map = L.map('map', {
+			center: [37, -100],
+			zoom: 2
+		});
 
-				var vectorTileStyling = {
-			distance: {
-				fill: true,
-				weight: .1,
-				fillColor: '#0077be  ',
-				color: '#0077be  ',
-				fillOpacity: 0.2,
-				opacity: 0.4,
-			},
-			natural_label: {
-				fill: true,
-				weight: 0,
-				fillColor: '#0077be  ',
-				color: '#0077be  ',
-				fillOpacity: 0.2,
-				opacity: 0.4,
-			},
-			structure: {
-				fill: true,
-				weight: 0,
-				fillColor: '#0077be  ',
-				color: '#0077be  ',
-				fillOpacity: 0.2,
-				opacity: 0.4,
-			},
-			admin: {
-				weight: 1,
-				fillColor: 'pink',
-				color: 'pink',
-				fillOpacity: 0.2,
-				opacity: 0.4
-			},
-			waterway: {
-				weight: .5,
-				fillColor: '#d6d6d6',
-				color: '#d6d6d6',
-				fillOpacity: 0.2,
-				opacity: 0.1
-			},
-			landcover: {
-				fill: true,
-				weight: 1,
-				fillColor: '#53e033',
-				color: '#53e033',
-				fillOpacity: 0.2,
-				opacity: 0.4,
-			},
-			landuse: {
-				fill: true,
-				weight: 1,
-				fillColor: '#f2ebd5',
-				color: '#f2ebd5',
-				fillOpacity: 0.2,
-				opacity: 0.1
-			},
-			landuse_overlay: {
-				fill: true,
-				weight: 1,
-				fillColor: '#f2ebd5',
-				color: '#f2ebd5',
-				fillOpacity: 0.2,
-				opacity: 0.1
-			},
-			park: {
-				fill: true,
-				weight: 1,
-				fillColor: '#84ea5b',
-				color: '#84ea5b',
-				fillOpacity: 0.2,
-				opacity: 0.4
-			},
-			boundary: {
-				weight: 1,
-				fillColor: '#c545d3',
-				color: '#c545d3',
-				fillOpacity: 0.2,
-				opacity: 0.4
-			},
-			aeroway: {
-				weight: 1,
-				fillColor: '#b51232',
-				color: '#b51232',
-				fillOpacity: 0.2,
-				opacity: 0.4
-			},
-			road: {	// mapbox & nextzen only
-				weight: 1,
-				fillColor: '#f2b648',
-				color: '#f2b648',
-				fillOpacity: 0.2,
-				opacity: 0.4
-			},
-			tunnel: {	// mapbox only
-				weight: 0.5,
-				fillColor: '#f2b648',
-				color: '#f2b648',
-				fillOpacity: 0.2,
-				opacity: 0.4,
-// 					dashArray: [4, 4]
-			},
-			bridge: {	// mapbox only
-				weight: 0.5,
-				fillColor: '#f2b648',
-				color: '#f2b648',
-				fillOpacity: 0.2,
-				opacity: 0.4,
-// 					dashArray: [4, 4]
-			},
+		var tiles =
+			"https://{s}.tiles.mapbox.com/v4/rgdonohue.cji0s1t0x015ovcnqp7rmm0ow-0l8um/{z}/{x}/{y}.vector.pbf?access_token={token}"; //California MapBox Tileset
 
-			building: {
-				fill: true,
-				weight: 1,
-				fillColor: '#2b2b2b',
-				color: '#2b2b2b',
-				fillOpacity: 0.2,
-				opacity: 0.4
-			},
-			water_name: {
-				weight: 1,
-				fillColor: '#022c5b',
-				color: '#022c5b',
-				fillOpacity: 0.2,
-				opacity: 0.4
-			},
-			transportation_name: {
-				weight: 1,
-				fillColor: '#bc6b38',
-				color: '#bc6b38',
-				fillOpacity: 0.2,
-				opacity: 0.4
-			},
-			place: {
-				weight: 1,
-				fillColor: '#f20e93',
-				color: '#f20e93',
-				fillOpacity: 0.2,
-				opacity: 0.4
-			},
-			housenumber: {
-				weight: 1,
-				fillColor: '#ef4c8b',
-				color: '#ef4c8b',
-				fillOpacity: 0.2,
-				opacity: 0.4
-			},
-			poi: {
-				weight: 1,
-				fillColor: '#3bb50a',
-				color: '#3bb50a',
-				fillOpacity: 0.2,
-				opacity: 0.4
-			},
-
-			// Do not symbolize some stuff for mapbox
-			country_label: [],
-			marine_label: [],
-			state_label: [],
-			place_label: [],
-			waterway_label: [],
-			poi_label: [],
-			road_label: [],
-			housenum_label: [],
-			// Do not symbolize some stuff for openmaptiles
-			country_name: [],
-			marine_name: [],
-			state_name: [],
-			place_name: [],
-			waterway_name: [],
-			poi_name: [],
-			road_name: [],
-			housenum_name: [],
-		};
-
-
-		//var mapboxUrl = "https://{s}.tiles.mapbox.com/v4/mapbox.mapbox-streets-v8/{z}/{x}/{y}.vector.pbf?access_token={token}";  //Mapbox Street File
-        //var mapboxUrl = "https://b.tiles.mapbox.com/v4/mdcruse.9cievwvx/{z}/{x}/{y}.vector.pbf?access_token={token}";  //Kentucky MapBox Tileset
-        var mapboxUrl = "https://b.tiles.mapbox.com/v4/mdcruse.b3jn4okr/{z}/{x}/{y}.vector.pbf?access_token={token}";    //California MapBox Tileset
-        //mapbox://styles/mdcruse/cjvsrz92u1oqj1cs3z7558gg6/{z}/{x}/{y}.vector.pbf?access_token={token}";    //California MapBox Tileset
-		var vectorTileOptions = {
+		var options = {
+			vectorTileLayerStyles: {
+				rivers: {
+					fill: false,
+					color: "orange",
+					weight: 3
+				}
+			},   
 			rendererFactory: L.canvas.tile,
-			attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://www.mapbox.com/about/maps/">MapBox</a>',
-            interactive: true,
-            getFeatureId: function(feature) {
-                properties = feature.properties;
-                console.log(feature);
-                return properties.distance;
-            },	
-            vectorTileLayerStyles: {
-                'lineOptions': {
-                    fillOpacity: 1,
-                    color: '#c7dffc', //lt blue
-                    opacity: .4,
-                    weight: 0.4
-                }
-            },
-			token: 'pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew'
+			token: "pk.eyJ1Ijoicmdkb25vaHVlIiwiYSI6Im5Ua3F4UzgifQ.PClcVzU5OUj17kuxqsY_Dg",
+			interactive: true
 
-		};
-		var mapboxPbfLayer = L.vectorGrid.protobuf(mapboxUrl, vectorTileOptions);
+		}
 
-		//map.setView({ lat: 37.6, lng: -85.5 }, 7);  //Kentucky
-        map.setView({ lat: 37.9, lng: -119.26 }, 5);  //California
-        tile_layer = L.vectorGrid.protobuf(mapboxUrl, vectorTileOptions).addTo(map);
-     
+		var rivers = L.vectorGrid.protobuf(tiles, options).addTo(map);
 
-
-        var id = "";
-
-        var highlightLayer = {};
-
-        var x = 0;
-
-
-        function highlight(e) {
-            console.log(e);
-            if (e.feature) {
-                var aline = e.feature.properties;
-                var index = aline.index.split(" | ");
-                var distance = index[0];
-                var w_group_count = index[1];
-            }else{
-                var aline = e.properties;
-                var distance = aline.distance;
-                var w_group_count  = aline.w_group_count;
-            }
-            console.log(aline);
-            var popup = 'Line: ' + distance;
-            map.on('popupopen', function() {
-                map.spin(false);
-            });
-            map.on('popupclose', function() {
-                mapboxPbfLayer.setFeatureStyle(distance, {
-                color: 'orange',
-                weight: 1
-                });
-            });
-            setTimeout(function() {distance, {
-                color: 'red'
-                };
-                map.openPopup(popup, distance);
-                x = 0
-            }, 50);
-        }
-
-
-
-
-        mapboxPbfLayer.on('click', function(e) {
-        if (x == 0) {
-            highlight(e)
-        }
-        x = 1
-        });
-
-
+		rivers.on('mouseover', function(layer) {
+			
+			console.log(layer.layer.properties); // works on some rivers?
+			
+			layer.layer.setStyle({
+				color: 'purple'
+			}); // works
+		})
 	</script>
 </body>
-</html>
 
+</html>
