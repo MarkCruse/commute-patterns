@@ -23,7 +23,8 @@ var map_showing = true,
 
 var map = L.map('map', {
     renderer: L.canvas()
-}).setView([36, -98.35], 5.4).setMaxZoom(12).setMinZoom(3);
+});
+//.setView([37.6, -85.5], 7).setMaxZoom(12).setMinZoom(3);
 //[37.6, -85.5] ky
 //[36.8, -119.4] ca
 //[40.1, -82.4] oh
@@ -106,6 +107,9 @@ Promise.all([allData]).then(function (data) {
 
     process_arrays(initialArray, earnings_filter, ages_filter, industry_filter);
 
+    // Zoom to the bounds of the data
+    map.fitBounds(mapLayerGroup.getBounds());
+    map.setView(mapLayerGroup.getBounds().getCenter());
 });
 
 function process_arrays(ArrayData, earnings_filter, ages_filter, industry_filter) {
@@ -138,12 +142,14 @@ function drawMap(LineArray) {
     // create new Leaflet polyline and add to kentucky L.geoJson
     L.polyline([element.w_point, element.h_point], style).addTo(mapLayerGroup);
 
+    /*
     if (firstDrawMap == 0) {
         // Zoom to the bounds of the data
-        //map.fitBounds(mapLayerGroup.getBounds());
-        //map.setView(mapLayerGroup.getBounds().getCenter(),6).setMaxZoom(12).setMinZoom(4);
+        map.fitBounds(mapLayerGroup.getBounds());
+        map.setView(mapLayerGroup.getBounds().getCenter(),7);
         firstDrawMap = 1;
     }
+    */
 
     });
 }
