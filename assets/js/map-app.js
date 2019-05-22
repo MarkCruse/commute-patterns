@@ -1,3 +1,6 @@
+
+var allData = d3.csv("data/06_od_distance_1k-15k_15-60_miles.csv", convertToNumber);
+
 // D3 abbreviations
 var $ = d3.select, $$ = d3.selectAll;
 
@@ -15,12 +18,13 @@ var map_showing = true,
     ind3_showing = false,
     ern = 1,
     age = 1,
-    ind = 1;
+    ind = 1,
+    firstDrawMap = 0;
 
 var map = L.map('map', {
     renderer: L.canvas()
-}).setMaxZoom(12).setMinZoom(3);
-//}).setView([37.6, -85.5], 6).setMaxZoom(12).setMinZoom(3);
+});
+//.setView([37.6, -85.5], 2).setMaxZoom(12).setMinZoom(3);
 //[37.6, -85.5] ky
 //[36.8, -119.4] ca
 //[40.1, -82.4] oh
@@ -92,7 +96,6 @@ function convertToNumber(d) {
     };
 }
 
-var allData = d3.csv("data/06_od_distance_1k-15k_15-60_miles.csv", convertToNumber);
 
 Promise.all([allData]).then(function (data) {
     initialArray = [];
@@ -105,11 +108,7 @@ Promise.all([allData]).then(function (data) {
 
     process_arrays(initialArray, earnings_filter, ages_filter, industry_filter);
 
-    // Zoom to the bounds of the data
-    map.fitBounds(mapLayerGroup.getBounds());
-    //map.setView(mapLayerGroup.getBounds().getCenter());
 });
-
 
 function process_arrays(ArrayData, earnings_filter, ages_filter, industry_filter) {
         //console.log('process_array earning filter:', earnings_filter);
@@ -140,6 +139,15 @@ function drawMap(LineArray) {
  
     // create new Leaflet polyline and add to kentucky L.geoJson
     L.polyline([element.w_point, element.h_point], style).addTo(mapLayerGroup);
+
+    if (firstDrawMap == 0) {
+        // Zoom to the bounds of the data
+        map.fitBounds(mapLayerGroup.getBounds());
+        map.setView(mapLayerGroup.getBounds().getCenter(),6).setMaxZoom(12).setMinZoom(4);
+        //console.log(mapLayerGroup.getBounds().getCenter());
+        firstDrawMap = 1;
+    }
+
     });
 }
 
