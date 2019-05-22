@@ -17,7 +17,7 @@ var map_showing = true,
 
 var map = L.map('map', {
     renderer: L.canvas()
-}).setView([37.6, -85.5], 2).setMaxZoom(12).setMinZoom(3);
+}).setView([37.6, -85.5], 6).setMaxZoom(12).setMinZoom(3);
 //[37.6, -85.5] ky
 //[36.8, -119.4] ca
 //[40.1, -82.4] oh
@@ -89,7 +89,7 @@ function convertToNumber(d) {
     };
 }
 
-var allData = d3.csv("data/06_od_distance_1k-15k_15-60_miles.csv", convertToNumber);
+var allData = d3.csv("data/21_od_distance_1k-15k_15-60_miles.csv", convertToNumber);
 
 Promise.all([allData]).then(function (data) {
     initialArray = [];
@@ -104,7 +104,7 @@ Promise.all([allData]).then(function (data) {
 
     // Zoom to the bounds of the data
     map.fitBounds(mapLayerGroup.getBounds());
-    //map.setView(mapLayerGroup.getBounds().getCenter());
+    map.setView(mapLayerGroup.getBounds().getCenter());
 
 });
 
