@@ -2,9 +2,9 @@
 var $ = d3.select, $$ = d3.selectAll;
 
 var map_showing = true,
-    ern1_showing = false,
+    ern1_showing = true,
     ern2_showing = false,
-    ern3_showing = true;
+    ern3_showing = false;
     age1_showing = false,
     age2_showing = true,
     age3_showing = false,
@@ -89,7 +89,7 @@ function convertToNumber(d) {
     };
 }
 
-var allData = d3.csv("data/48_od_distance_1k-15k_15-60_miles.csv", convertToNumber);
+var allData = d3.csv("data/06_od_distance_1k-15k_15-60_miles.csv", convertToNumber);
 
 Promise.all([allData]).then(function (data) {
     initialArray = [];
@@ -103,7 +103,7 @@ Promise.all([allData]).then(function (data) {
     process_arrays(initialArray, earnings_filter, ages_filter, industry_filter);
 
     // Zoom to the bounds of the data
-    //map.fitBounds(mapLayerGroup.getBounds());
+    map.fitBounds(mapLayerGroup.getBounds());
     //map.setView(mapLayerGroup.getBounds().getCenter());
 
 });
