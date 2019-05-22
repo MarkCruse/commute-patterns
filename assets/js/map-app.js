@@ -17,7 +17,7 @@ var map_showing = true,
 
 var map = L.map('map', {
     renderer: L.canvas()
-}).setView([37.6, -85.5], 7).setMaxZoom(12).setMinZoom(3);
+}).setView([37.6, -85.5], 2).setMaxZoom(12).setMinZoom(3);
 //[37.6, -85.5] ky
 //[36.8, -119.4] ca
 //[40.1, -82.4] oh
@@ -103,8 +103,8 @@ Promise.all([allData]).then(function (data) {
     process_arrays(initialArray, earnings_filter, ages_filter, industry_filter);
 
     // Zoom to the bounds of the data
-    map.fitBounds(mapLayerGroup.getBounds());
-    map.setView(mapLayerGroup.getBounds().getCenter());
+    //map.fitBounds(mapLayerGroup.getBounds());
+    //map.setView(mapLayerGroup.getBounds().getCenter());
 
 });
 
