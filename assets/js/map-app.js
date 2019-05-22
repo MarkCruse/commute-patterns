@@ -107,7 +107,7 @@ Promise.all([allData]).then(function (data) {
 
     // Zoom to the bounds of the data
     map.fitBounds(mapLayerGroup.getBounds());
-    map.setView(mapLayerGroup.getBounds().getCenter());
+    //map.setView(mapLayerGroup.getBounds().getCenter());
 });
 
 
