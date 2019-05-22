@@ -24,7 +24,7 @@ var map_showing = true,
 var map = L.map('map', {
     renderer: L.canvas()
 });
-//.setView([37.6, -85.5], 2).setMaxZoom(12).setMinZoom(3);
+map.setView([36, -98.35], 5.4).setMaxZoom(12).setMinZoom(3);
 //[37.6, -85.5] ky
 //[36.8, -119.4] ca
 //[40.1, -82.4] oh
@@ -39,7 +39,6 @@ tile_layer = L.tileLayer('http://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/
     pane: 'labels'
 }).addTo(map);
 
-//test
 
 initControls();
 
@@ -142,9 +141,8 @@ function drawMap(LineArray) {
 
     if (firstDrawMap == 0) {
         // Zoom to the bounds of the data
-        map.fitBounds(mapLayerGroup.getBounds());
-        map.setView(mapLayerGroup.getBounds().getCenter(),6).setMaxZoom(12).setMinZoom(4);
-        //console.log(mapLayerGroup.getBounds().getCenter());
+        //map.fitBounds(mapLayerGroup.getBounds());
+        //map.setView(mapLayerGroup.getBounds().getCenter(),6).setMaxZoom(12).setMinZoom(4);
         firstDrawMap = 1;
     }
 
