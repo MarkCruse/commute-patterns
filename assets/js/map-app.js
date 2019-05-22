@@ -1,19 +1,21 @@
 // D3 abbreviations
 var $ = d3.select, $$ = d3.selectAll;
 
+// If you change the default loads below. 
+// Be sure to change check-status in index.html!!!
 var map_showing = true,
-    ern1_showing = false,
+    ern1_showing = true,
     ern2_showing = false,
-    ern3_showing = true;
-    age1_showing = false,
-    age2_showing = true,
+    ern3_showing = false,
+    age1_showing = true,
+    age2_showing = false,
     age3_showing = false,
-    ind1_showing = false,
+    ind1_showing = true,
     ind2_showing = false,
-    ind3_showing = true,
-    ern = 7,
-    age = 4;
-    ind = 7;
+    ind3_showing = false,
+    ern = 1,
+    age = 1,
+    ind = 1;
 
 var map = L.map('map', {
     renderer: L.canvas()
@@ -90,7 +92,7 @@ function convertToNumber(d) {
     };
 }
 
-var allData = d3.csv("data/21_od_distance_1k-15k_15-60_miles.csv", convertToNumber);
+var allData = d3.csv("data/06_od_distance_1k-15k_15-60_miles.csv", convertToNumber);
 
 Promise.all([allData]).then(function (data) {
     initialArray = [];
@@ -102,7 +104,7 @@ Promise.all([allData]).then(function (data) {
     var industry_filter = ind;
 
     process_arrays(initialArray, earnings_filter, ages_filter, industry_filter);
-    
+
     // Zoom to the bounds of the data
     map.fitBounds(mapLayerGroup.getBounds());
     map.setView(mapLayerGroup.getBounds().getCenter());
@@ -186,7 +188,6 @@ function toggleMap() {
 
 function showMap() {
 	if (map_showing) return;
-	//map.removeLayer(blank_layer);
 	tile_layer.addTo(map).bringToBack();
   
 	$("#map-toggler").classed("checked", true);
@@ -195,7 +196,6 @@ function showMap() {
 
 function hideMap() {
 	if (!map_showing) return;
-	//if (!routes_showing) map.addLayer(blank_layer);
 	map.removeLayer(tile_layer);
 	$("#map-toggler").classed("checked", false);
 	map_showing = false;
