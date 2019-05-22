@@ -2,9 +2,9 @@
 var $ = d3.select, $$ = d3.selectAll;
 
 var map_showing = true,
-    ern1_showing = true,
+    ern1_showing = false,
     ern2_showing = false,
-    ern3_showing = false;
+    ern3_showing = true;
     age1_showing = false,
     age2_showing = true,
     age3_showing = false,
@@ -133,9 +133,9 @@ function drawMap(LineArray) {
 
     LineArray.forEach(function (element) {
     distance = element.distance;
-    style = distance < 40000? shortCommuteOptions :
-        distance < 50000 ? mediumCommuteOptions : longCommuteOptions;
-
+    style = distance < 32000? shortCommuteOptions :
+        distance < 46000 ? mediumCommuteOptions : longCommuteOptions;
+ 
     // create new Leaflet polyline and add to kentucky L.geoJson
     L.polyline([element.w_point, element.h_point], style).addTo(mapLayerGroup);
     });
