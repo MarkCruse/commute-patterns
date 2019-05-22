@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+	<title>VectorGrid.Protobuf example</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.0/dist/leaflet.css" />
+
+</head>
+
+<body style='margin:0'>
+
+	<div id="map" style="width: 100vw; height: 100vh; background: white"></div>
+
+	<script type="text/javascript" src="https://unpkg.com/leaflet@1.0.0/dist/leaflet.js"></script>
+	<script type="text/javascript" src="https://unpkg.com/leaflet.vectorgrid@1.2.0"></script>
+	<!-- <script src="https://unpkg.com/leaflet.vectorgrid@latest/dist/Leaflet.VectorGrid.bundled.js"></script> -->
+	<!-- <script src="https://unpkg.com/leaflet.vectorgrid@latest/dist/Leaflet.VectorGrid.js"></script> -->
+	<script>
+		var map = L.map('map', {
+			center: [37, -100],
+			zoom: 2
+		});
+
+		var tiles =
+			"https://{s}.tiles.mapbox.com/v4/rgdonohue.cji0s1t0x015ovcnqp7rmm0ow-0l8um/{z}/{x}/{y}.vector.pbf?access_token={token}"; //California MapBox Tileset
+
+		var options = {
+			vectorTileLayerStyles: {
+				rivers: {
+					fill: false,
+					color: "orange",
+					weight: 3
+				}
+			},   
+			rendererFactory: L.canvas.tile,
+			token: "pk.eyJ1Ijoicmdkb25vaHVlIiwiYSI6Im5Ua3F4UzgifQ.PClcVzU5OUj17kuxqsY_Dg",
+			interactive: true
+
+		}
+
+		var rivers = L.vectorGrid.protobuf(tiles, options).addTo(map);
+
+		rivers.on('mouseover', function(layer) {
+			
+			console.log(layer.layer.properties); // works on some rivers?
+			
+			layer.layer.setStyle({
+				color: 'purple'
+			}); // works
+		})
+	</script>
+</body>
+
+</html>

@@ -1,57 +1,108 @@
 <!DOCTYPE html>
 <html>
-
 <head>
 
 	<title>VectorGrid.Protobuf example</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.0/dist/leaflet.css" />
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
 
 </head>
-
 <body style='margin:0'>
 
-	<div id="map" style="width: 100vw; height: 100vh; background: white"></div>
-
-	<script type="text/javascript" src="https://unpkg.com/leaflet@1.0.0/dist/leaflet.js"></script>
-	<script type="text/javascript" src="https://unpkg.com/leaflet.vectorgrid@1.2.0"></script>
-	<!-- <script src="https://unpkg.com/leaflet.vectorgrid@latest/dist/Leaflet.VectorGrid.bundled.js"></script> -->
-	<!-- <script src="https://unpkg.com/leaflet.vectorgrid@latest/dist/Leaflet.VectorGrid.js"></script> -->
+	<div id="map" style="width: 100vw; height: 100vh; background: rgb(15, 15, 15)"></div>
+	
+	<script type="text/javascript"  src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"></script>
+	<script type="text/javascript"  src="https://unpkg.com/leaflet.vectorgrid@1.2.0"></script>
+	<!-- <script type="text/javascript" src="../dist/Leaflet.VectorGrid.bundled.js"></script> -->
 	<script>
-		var map = L.map('map', {
-			center: [37, -100],
-			zoom: 2
-		});
-
-		var tiles =
-			"https://{s}.tiles.mapbox.com/v4/rgdonohue.cji0s1t0x015ovcnqp7rmm0ow-0l8um/{z}/{x}/{y}.vector.pbf?access_token={token}"; //California MapBox Tileset
-
-		var options = {
-			vectorTileLayerStyles: {
-				rivers: {
-					fill: false,
-					color: "orange",
-					weight: 3
-				}
-			},   
+		var map = L.map('map');
+ 		var cartodbAttribution = '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
+		//var mapboxUrl = "https://{s}.tiles.mapbox.com/v4/mapbox.mapbox-streets-v8/{z}/{x}/{y}.vector.pbf?access_token={token}";  //Mapbox Street File
+        //var mapboxUrl = "https://b.tiles.mapbox.com/v4/mdcruse.9cievwvx/{z}/{x}/{y}.vector.pbf?access_token={token}";  //Kentucky MapBox Tileset
+        var mapboxUrl = "https://b.tiles.mapbox.com/v4/mdcruse.11zyp9e1/{z}/{x}/{y}.vector.pbf?access_token={token}";
+        //California MapBox Tileset
+        //mapbox://styles/mdcruse/cjvsrz92u1oqj1cs3z7558gg6/{z}/{x}/{y}.vector.pbf?access_token={token}";    //California MapBox Tileset
+		var vectorTileOptions = {
 			rendererFactory: L.canvas.tile,
-			token: "pk.eyJ1Ijoicmdkb25vaHVlIiwiYSI6Im5Ua3F4UzgifQ.PClcVzU5OUj17kuxqsY_Dg",
-			interactive: true
+			attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="https://www.mapbox.com/about/maps/">MapBox</a>',
+            interactive: true,
+            getFeatureId: function(feature) {
+                properties = feature.properties;
+                console.log(feature);
+                return properties.distance;
+            },	
+            vectorTileLayerStyles: {
+                '1k15k_1860_miles': {
+                    fillOpacity: 1,
+                    color: '#c7dffc', //lt blue
+                    opacity: .4,
+                    weight: 1
+                }
+            },
+			token: 'pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew'
 
-		}
+		};
+		var mapboxPbfLayer = L.vectorGrid.protobuf(mapboxUrl, vectorTileOptions);
 
-		var rivers = L.vectorGrid.protobuf(tiles, options).addTo(map);
+		//map.setView({ lat: 37.6, lng: -85.5 }, 7);  //Kentucky
+        //map.setView({ lat: 37.9, lng: -119.26 }, 5);  //California
 
-		rivers.on('mouseover', function(layer) {
-			
-			console.log(layer.layer.properties); // works on some rivers?
-			
-			layer.layer.setStyle({
-				color: 'purple'
-			}); // works
-		})
+        map.setView({ lat: 38.5, lng: -97.2 }, 5); //U.S.
+        tile_layer = L.vectorGrid.protobuf(mapboxUrl, vectorTileOptions).addTo(map);
+     
+
+
+        var id = "";
+
+        var highlightLayer = {};
+
+        var x = 0;
+
+
+        function highlight(e) {
+            console.log(e);
+            if (e.feature) {
+                var aline = e.feature.properties;
+                var index = aline.index.split(" | ");
+                var distance = index[0];
+                var w_group_count = index[1];
+            }else{
+                var aline = e.properties;
+                var distance = aline.distance;
+                var w_group_count  = aline.w_group_count;
+            }
+            console.log(aline);
+            var popup = 'Line: ' + distance;
+            map.on('popupopen', function() {
+                map.spin(false);
+            });
+            map.on('popupclose', function() {
+                mapboxPbfLayer.setFeatureStyle(distance, {
+                color: 'orange',
+                weight: 1
+                });
+            });
+            setTimeout(function() {distance, {
+                color: 'red'
+                };
+                map.openPopup(popup, distance);
+                x = 0
+            }, 50);
+        }
+
+
+
+
+        mapboxPbfLayer.on('click', function(e) {
+        if (x == 0) {
+            highlight(e)
+        }
+        x = 1
+        });
+
+
 	</script>
 </body>
-
 </html>
+
