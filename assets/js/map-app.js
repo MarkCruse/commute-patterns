@@ -101,11 +101,6 @@ Promise.all([allData]).then(function (data) {
     var industry_filter = ind;
 
     process_arrays(initialArray, earnings_filter, ages_filter, industry_filter);
-
-    // Zoom to the bounds of the data
-    map.fitBounds(mapLayerGroup.getBounds());
-    map.setView(mapLayerGroup.getBounds().getCenter());
-
 });
 
 
@@ -139,7 +134,9 @@ function drawMap(LineArray) {
     // create new Leaflet polyline and add to kentucky L.geoJson
     L.polyline([element.w_point, element.h_point], style).addTo(mapLayerGroup);
     });
-
+    // Zoom to the bounds of the data
+    map.fitBounds(mapLayerGroup.getBounds());
+    map.setView(mapLayerGroup.getBounds().getCenter());
 }
 
 function initControls() {
