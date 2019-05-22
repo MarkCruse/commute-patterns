@@ -1,16 +1,4 @@
-
 var allData = d3.csv("data/21_15-60_miles.csv", convertToNumber);
-console.log(allData);
-/*
-var alldata;
-$.ajax({
-      type: "GET",
-      url: filename,
-      dataType: "text",
-      async: false,
-      success: function(csv) {alldata = $.csv.toArrays(csv,{separator:'\t'}); }
-      });
-*/
 
 // D3 abbreviations
 var $ = d3.select, $$ = d3.selectAll;
@@ -116,6 +104,8 @@ Promise.all([allData]).then(function (data) {
     var industry_filter = ind;
 
     process_arrays(initialArray, earnings_filter, ages_filter, industry_filter);
+    }).catch(function(error) {
+        console.log(error);
 
     // Zoom to the bounds of the data
     //map.fitBounds(mapLayerGroup.getBounds());
