@@ -23,8 +23,7 @@ var map_showing = true,
 
 var map = L.map('map', {
     renderer: L.canvas()
-});
-map.setView([36, -98.35], 5.4).setMaxZoom(12).setMinZoom(3);
+}).setView([36, -98.35], 5.4).setMaxZoom(12).setMinZoom(3);
 //[37.6, -85.5] ky
 //[36.8, -119.4] ca
 //[40.1, -82.4] oh
