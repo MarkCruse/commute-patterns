@@ -1,4 +1,4 @@
-var allData = d3.csv("data/21_15-60_miles.csv", convertToNumber);
+var allData = d3.csv("data/21_od_distance_1k-15k_15-60_miles.csv", convertToNumber);
 
 // D3 abbreviations
 var $ = d3.select, $$ = d3.selectAll;
@@ -108,8 +108,8 @@ Promise.all([allData]).then(function (data) {
         console.log(error);
 
     // Zoom to the bounds of the data
-    //map.fitBounds(mapLayerGroup.getBounds());
-    //map.setView(mapLayerGroup.getBounds().getCenter());
+    map.fitBounds(mapLayerGroup.getBounds());
+    map.setView(mapLayerGroup.getBounds().getCenter());
 });
 
 function process_arrays(ArrayData, earnings_filter, ages_filter, industry_filter) {
