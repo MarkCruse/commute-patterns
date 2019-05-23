@@ -803,7 +803,7 @@ function buildSIArray(linedata, industry_filter) {
             }
         }
         if (industry_filter == 11) {
-            if (element.SI02 >0 || element.industry_filter03 > 0) {
+            if (element.SI02 >0 || element.SI03 > 0) {
                 var obj = {};
                 obj['w_point'] = element.w_point;
                 obj['h_point'] = element.h_point;
