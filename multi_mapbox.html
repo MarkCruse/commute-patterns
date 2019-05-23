@@ -72,31 +72,41 @@
     <div id="map"></div>
 
     <script>
+
+        let distance_filter = ['case', ['>=', ['number',['get','distance']], 46000], 'red',  ['case', ['>=', ['number',['get','distance']], 32000], 'yellow', ['case', ['<', ['number',['get','distance']], 32000], 'white','green']]];
+        let distance_opacity = ['case', ['>=', ['number',['get','distance']], 46000], .02, ['case', ['>=', ['number',['get','distance']], 32000], .08, ['case', ['<', ['number',['get','distance']], 32000], .1,.01]]];
+        let distance_width = ['case', ['>=', ['number',['get','distance']], 46000], 2, ['case', ['>=', ['number',['get','distance']], 32000], 2, ['case', ['<', ['number',['get','distance']], 32000], 1,1]]];
+   
         mapboxgl.accessToken =
         'pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew';
         var map = new mapboxgl.Map({
             container: 'map',
-            style: 'mapbox://styles/mdcruse/cjvsrz92u1oqj1cs3z7558gg6',
+            style: 'mapbox://styles/mapbox/dark-v9',
             zoom: 4,
-            center: [-118.230534602645, 33.917379300798098]
+            center: [-97.2, 38.5]
         });
         map.on('load', function () {
             map.addSource('06-6e89ef', {
-                type: 'raster',
-                url: 'mdcruse.b3jn4okr'
+                type: 'vector',
+                url: 'mapbox://mdcruse.b3jn4okr'
             });
             map.addLayer({
-                'id': '06-6e89ef',
-                'type': 'raster',
+                'id': '06',
+                'type': 'line',
                 'source': '06-6e89ef',
                 'layout': {
                     'visibility': 'visible'
                 },
-
+                'paint': {
+                    'line-color': distance_filter,
+                    'line-opacity': distance_opacity,
+                    'line-width': 2,
+                },
                 'source-layer': '06'
 
             });
         });
+
         map.on('load', function () {
             map.addSource('out-26o3t2', {
                 type: 'vector',
@@ -104,14 +114,15 @@
             });
             map.addLayer({
                 'id': '21',
-                'type': 'circle',
+                'type': 'line',
                 'source': 'out-26o3t2',
                 'layout': {
                     'visibility': 'visible'
                 },
                 'paint': {
-                    'circle-radius': 5,
-                    'circle-color': 'rgba(55,148,179,1)'
+                    'line-color': distance_filter,
+                    'line-opacity': distance_opacity,
+                    'line-width': 2,
                 },
                 'source-layer': '21'
 

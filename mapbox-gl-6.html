@@ -29,8 +29,7 @@
     <div id='map'></div>
 
     <script>
-        mapboxgl.accessToken =
-            'pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew';
+        mapboxgl.accessToken = 'pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew';
         var map = new mapboxgl.Map({
             container: 'map',
             style: 'mapbox://styles/mapbox/dark-v10',
@@ -42,9 +41,9 @@
         // let filter = ['match', ['get', 'id'], [1, 2, 3], true, false]
         // map.setFilter('layer_name',filter)
         let se01_filter = ['case', ['>=',['number',['get', 'se01']], 1], true, false];
-        let distance_filter = ['case', ['>=', ['number',['get','distance']], 50000], 'red',  ['case', ['>=', ['number',['get','distance']], 40000], 'yellow', ['case', ['<', ['number',['get','distance']], 40000], 'white','green']]];
-        let distance_opacity = ['case', ['>=', ['number',['get','distance']], 50000], .2, ['case', ['>=', ['number',['get','distance']], 40000], .3, ['case', ['<', ['number',['get','distance']], 40000], .5,.1]]];
-        let distance_width = ['case', ['>=', ['number',['get','distance']], 50000], 2, ['case', ['>=', ['number',['get','distance']], 40000], 2, ['case', ['<', ['number',['get','distance']], 40000], 1,1]]];
+        let distance_filter = ['case', ['>=', ['number',['get','distance']], 46000], 'red',  ['case', ['>=', ['number',['get','distance']], 32000], 'yellow', ['case', ['<', ['number',['get','distance']], 32000], 'white','green']]];
+        let distance_opacity = ['case', ['>=', ['number',['get','distance']], 46000], .2, ['case', ['>=', ['number',['get','distance']], 32000], .3, ['case', ['<', ['number',['get','distance']], 32000], .5,.1]]];
+        let distance_width = ['case', ['>=', ['number',['get','distance']], 46000], 2, ['case', ['>=', ['number',['get','distance']], 32000], 2, ['case', ['<', ['number',['get','distance']], 32000], 1,1]]];
         map.on('load', function () {
         // CA Layer
             map.addSource('1k-15k_15-60_miles-dy18pa', {
