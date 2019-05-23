@@ -1,0 +1,37 @@
+{
+  "version": 8,
+  "name": "Custom",
+  "metadata": {
+    "mapbox:autocomposite": true
+  },
+  "glyphs": "mapbox://fonts/mapbox/{fontstack}/{range}.pbf",
+  "sources": {
+    "composite": {
+      "type": "vector",
+      "tiles": ["http://localhost:5500/tiles/{z}/{x}/{y}.pbf"],
+      "minzoom": 0,
+      "maxzoom": 15
+    }
+  },
+  "layers": [
+    {
+      "id": "background",
+      "type": "background",
+      "paint": {
+        "background-color": "#e3decb"
+      }
+    },
+    {
+      "id": "21",
+      "type": "line",
+      "source": "composite",
+      "source-layer": "21",
+      "minzoom": 0,
+      "maxzoom": 22,
+      "paint": {
+          "line-color": "#FFFFFF",
+          "line-width": 0.5
+      }
+    }
+  ]
+}

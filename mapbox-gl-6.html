@@ -42,47 +42,30 @@
         // let filter = ['match', ['get', 'id'], [1, 2, 3], true, false]
         // map.setFilter('layer_name',filter)
         let se01_filter = ['case', ['>=',['number',['get', 'se01']], 1], true, false];
-        let distance_filter = ['case', ['>=', ['number',['get','distance']], 50000], 'red',  ['case', ['>=', ['number',['get','distance']], 30000], 'yellow', ['case', ['<', ['number',['get','distance']], 30000], 'white','green']]];
-        let distance_opacity = ['case', ['>=', ['number',['get','distance']], 50000], .03, ['case', ['>=', ['number',['get','distance']], 30000], .09, ['case', ['<', ['number',['get','distance']], 30000], .13,.001]]];
+        let distance_filter = ['case', ['>=', ['number',['get','distance']], 50000], 'red',  ['case', ['>=', ['number',['get','distance']], 40000], 'yellow', ['case', ['<', ['number',['get','distance']], 40000], 'white','green']]];
+        let distance_opacity = ['case', ['>=', ['number',['get','distance']], 50000], .2, ['case', ['>=', ['number',['get','distance']], 40000], .3, ['case', ['<', ['number',['get','distance']], 40000], .5,.1]]];
+        let distance_width = ['case', ['>=', ['number',['get','distance']], 50000], 2, ['case', ['>=', ['number',['get','distance']], 40000], 2, ['case', ['<', ['number',['get','distance']], 40000], 1,1]]];
         map.on('load', function () {
         // CA Layer
-            map.addSource('06-6e89ef', {
+            map.addSource('1k-15k_15-60_miles-dy18pa', {
                 type: 'vector',
-                url: 'mapbox://mdcruse.b3jn4okr'
+                url: 'mapbox://mdcruse.11zyp9e1'
             });
             map.addLayer({
-                'id': '06-6e89ef',
+                'id': '1k15k_1860_miles',
                 'type': 'line',
-                'source': '06-6e89ef',
+                'source': '1k-15k_15-60_miles-dy18pa',
                 'layout': {
                   'visibility': 'visible' 
                 },
                 'paint': {
                     'line-color': distance_filter,
                     'line-opacity': distance_opacity,
+                    'line-width': 2,
                 },
-                'source-layer': '06',
-            });
-        // KY Layer
-            map.addSource('out-26o3t2', {
-                type: 'vector',
-                url: 'mapbox://mdcruse.9cievwvx'
+                'source-layer': '1k15k_1860_miles',
             });
 
-
-            map.addLayer({
-                'id': 'ky_lines',
-                'type': 'line',
-                'source': 'out-26o3t2',
-                'layout': {
-                   'visibility': 'visible'
-                 },
-                "paint": {
-                    'line-color': distance_filter,
-                    'line-opacity': distance_opacity,
-                },
-                'source-layer': '21',
-            });
 
 //map.setFilter('ky_lines',se01_filter)
 /*
