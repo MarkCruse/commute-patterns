@@ -47,8 +47,7 @@ var longCommuteOptions = {
 
 		var map = L.map('map');
  		var cartodbAttribution = '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, &copy; <a href="http://cartodb.com/attributions">CartoDB</a>'
-		//var mapboxUrl = "https://{s}.tiles.mapbox.com/v4/mapbox.mapbox-streets-v8/{z}/{x}/{y}.vector.pbf?access_token={token}";  //Mapbox Street File
-        var mapboxUrl = "https://b.tiles.mapbox.com/v4/mdcruse.11zyp9e1/{z}/{x}/{y}.vector.pbf?access_token={token}";
+		var mapboxUrl = "https://b.tiles.mapbox.com/v4/mdcruse.6m2upoi2/{z}/{x}/{y}.vector.pbf?access_token={token}";
         distance = 0;
 		var vectorTileOptions = {
 			rendererFactory: L.canvas.tile,
@@ -57,14 +56,13 @@ var longCommuteOptions = {
             getFeatureId: function(feature) {
                 properties = feature.properties;
                 distance = properties.distance;
-                //return distance;
-                
-            console.log(distance);
+                console.log(distance);
+                return distance;
             },	
             vectorTileLayerStyles: {
-                '1k15k_1860_miles': {
+                'age1_1k15k_1560_miles': {
                     fillOpacity: 1,
-                    color: '#e2f1ff', //lt blue
+                    color: 'orange', 
                     opacity: .4,
                     weight: 1
                 }

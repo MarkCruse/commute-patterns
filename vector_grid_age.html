@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+	<title>VectorGrid.Protobuf example</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.0/dist/leaflet.css" />
+
+</head>
+
+<body style='margin:0'>
+
+	<div id="map" style="width: 100vw; height: 100vh; background: black"></div>
+
+	<script type="text/javascript" src="https://unpkg.com/leaflet@1.0.0/dist/leaflet.js"></script>
+	<script type="text/javascript" src="https://unpkg.com/leaflet.vectorgrid@1.2.0"></script>
+	<script>
+		var map = L.map('map', {
+			center: [37, -100],
+			zoom: 5
+		});
+
+
+		var tiles_age1_long=
+			"https://b.tiles.mapbox.com/v4/mdcruse.22esnd76/{z}/{x}/{y}.vector.pbf?access_token={token}"; 
+		var options_age1_long = {
+			vectorTileLayerStyles: {
+				'age1_long': {
+					fill: false,
+                    color: 'red', 
+                    weight: .3,
+                    opacity: 2
+				}
+			},   
+			rendererFactory: L.canvas.tile,
+			token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew",
+			interactive: true
+		}
+		var age1_long = L.vectorGrid.protobuf(tiles_age1_long, options_age1_long).addTo(map);
+
+		var tiles_age1_medium =
+			"https://b.tiles.mapbox.com/v4/mdcruse.9ywjkj1l/{z}/{x}/{y}.vector.pbf?access_token={token}"; 
+		var options_age1_medium = {
+			vectorTileLayerStyles: {
+				'age1_medium': {
+					fill: false,
+					color: 'yellow', 
+                    weight: .6,
+                    opacity: .4
+				}
+			},   
+			rendererFactory: L.canvas.tile,
+			token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew"
+		}
+		var age1_medium = L.vectorGrid.protobuf(tiles_age1_medium, options_age1_medium).addTo(map);
+
+		var tiles_age1_short =
+			"https://b.tiles.mapbox.com/v4/mdcruse.armcbp4c/{z}/{x}/{y}.vector.pbf?access_token={token}"; 
+		var options_age1_short = {
+			vectorTileLayerStyles: {
+				'age1_short': {
+					fill: false,
+					color: 'white', 
+                    weight: .3,
+                    opacity: .3
+				}
+			},   
+			rendererFactory: L.canvas.tile,
+			token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew"
+		}
+		var age1_short = L.vectorGrid.protobuf(tiles_age1_short, options_age1_short).addTo(map);
+
+	</script>
+</body>
+
+</html>

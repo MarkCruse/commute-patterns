@@ -74,8 +74,8 @@
     <script>
 
         let distance_filter = ['case', ['>=', ['number',['get','distance']], 46000], 'red',  ['case', ['>=', ['number',['get','distance']], 32000], 'yellow', ['case', ['<', ['number',['get','distance']], 32000], 'white','green']]];
-        let distance_opacity = ['case', ['>=', ['number',['get','distance']], 46000], .02, ['case', ['>=', ['number',['get','distance']], 32000], .08, ['case', ['<', ['number',['get','distance']], 32000], .1,.01]]];
-        let distance_width = ['case', ['>=', ['number',['get','distance']], 46000], 2, ['case', ['>=', ['number',['get','distance']], 32000], 2, ['case', ['<', ['number',['get','distance']], 32000], 1,1]]];
+        let distance_opacity = ['case', ['>=', ['number',['get','distance']], 46000], .5, ['case', ['>=', ['number',['get','distance']], 32000], 1, ['case', ['<', ['number',['get','distance']], 32000], 3,.1]]];
+        let distance_width = ['case', ['>=', ['number',['get','distance']], 46000], .09, ['case', ['>=', ['number',['get','distance']], 32000], .1, ['case', ['<', ['number',['get','distance']], 32000], .17,.005]]];
    
         mapboxgl.accessToken =
         'pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew';
@@ -86,49 +86,70 @@
             center: [-97.2, 38.5]
         });
         map.on('load', function () {
-            map.addSource('06-6e89ef', {
+            map.addSource('age1-7mtfus', {
                 type: 'vector',
-                url: 'mapbox://mdcruse.b3jn4okr'
+                url: 'mapbox://mdcruse.6m2upoi2'
             });
             map.addLayer({
-                'id': '06',
+                'id': 'age1_1k15k_1560_miles',
                 'type': 'line',
-                'source': '06-6e89ef',
+                'source': 'age1-7mtfus',
                 'layout': {
                     'visibility': 'visible'
                 },
                 'paint': {
                     'line-color': distance_filter,
                     'line-opacity': distance_opacity,
-                    'line-width': 2,
+                    'line-width': distance_width,
                 },
-                'source-layer': '06'
+                'source-layer': 'age1_1k15k_1560_miles'
 
             });
         });
 
         map.on('load', function () {
-            map.addSource('out-26o3t2', {
+            map.addSource('age2-927g9q', {
                 type: 'vector',
-                url: 'mapbox://mdcruse.9cievwvx'
+                url: 'mapbox://mdcruse.bdhmqs9j'
             });
             map.addLayer({
-                'id': '21',
+                'id': 'age2_1k15k_1560_miles',
                 'type': 'line',
-                'source': 'out-26o3t2',
+                'source': 'age2-927g9q',
                 'layout': {
                     'visibility': 'visible'
                 },
                 'paint': {
                     'line-color': distance_filter,
                     'line-opacity': distance_opacity,
-                    'line-width': 2,
+                    'line-width': distance_width,
                 },
-                'source-layer': '21'
+                'source-layer': 'age2_1k15k_1560_miles'
+
+            });
+       }); 
+        map.on('load', function () {
+            map.addSource('age3-8yra04', {
+                type: 'vector',
+                url: 'mapbox://mdcruse.3zic3n9m'
+            });
+            map.addLayer({
+                'id': 'age3_1k15k_1560_miles',
+                'type': 'line',
+                'source': 'age3-8yra04',
+                'layout': {
+                    'visibility': 'visible'
+                },
+                'paint': {
+                    'line-color': distance_filter,
+                    'line-opacity': distance_opacity,
+                    'line-width': distance_width,
+                },
+                'source-layer': 'age3_1k15k_1560_miles'
 
             });
         });
-        var toggleableLayerIds = ['21', '06'];
+        var toggleableLayerIds = ['age1_1k15k_1560_miles', 'age2_1k15k_1560_miles','age3_1k15k_1560_miles'];
 
         for (var i = 0; i < toggleableLayerIds.length; i++) {
             var id = toggleableLayerIds[i];
