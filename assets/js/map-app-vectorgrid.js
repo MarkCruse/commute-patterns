@@ -4,14 +4,14 @@ var $ = d3.select, $$ = d3.selectAll;
 
 // If you change the default loads below. 
 // Be sure to change check-status in index.html!!!
-var map_showing = true,
-    ern1_showing = true,
+var map_showing = false,
+    ern1_showing = false,
     ern2_showing = false,
     ern3_showing = false,
     age1_showing = true,
     age2_showing = false,
     age3_showing = false,
-    ind1_showing = true,
+    ind1_showing = false,
     ind2_showing = false,
     ind3_showing = false;
 
@@ -61,6 +61,10 @@ function initControls() {
     });
     
     $("#map-toggler").on("click", toggleMap);
+    $("#short-toggler").on("click", toggleMap);
+    $("#medium-toggler").on("click", toggleMap);
+    $("#long-toggler").on("click", toggleMap);
+    $("#commute-all-toggler").on("click", toggleMap);
 
     $("#earn1-toggler").on("click", toggleEarn1);
     $("#earn2-toggler").on("click", toggleEarn2);
@@ -110,6 +114,11 @@ function toggleEarn1() {
 function showEarn1() {
     if (ern1_showing) return;
     map.addLayer(earn1LayerGroup);
+    hideEarn2();
+    hideEarn3();
+    hideAge1();
+    hideAge2();
+    hideAge3();
     $("#earn1-toggler").classed("checked", true);
     ern1_showing = true;
 }
@@ -132,6 +141,11 @@ function toggleEarn2() {
 function showEarn2() {
     if (ern2_showing) return;
     map.addLayer(earn2LayerGroup);
+    hideEarn1();
+    hideEarn3();
+    hideAge1();
+    hideAge2();
+    hideAge3();
     $("#earn2-toggler").classed("checked", true);
     ern2_showing = true;
 }
@@ -154,6 +168,11 @@ function toggleEarn3() {
 function showEarn3() {
     if (ern3_showing) return;
     $("#earn3-toggler").classed("checked", true);
+    hideEarn1();
+    hideEarn2();
+    hideAge1();
+    hideAge2();
+    hideAge3();
     map.addLayer(earn3LayerGroup);
     ern3_showing = true;
 }
@@ -178,6 +197,11 @@ function toggleAge1() {
 function showAge1() {
     if (age1_showing) return;
     $("#age1-toggler").classed("checked", true);
+    hideAge2();
+    hideAge3();
+    hideEarn1();
+    hideAge2();
+    hideAge3();
     map.addLayer(age1LayerGroup);
     age1_showing = true;
 }
@@ -198,6 +222,11 @@ function toggleAge2() {
 function showAge2() {
     if (age2_showing) return;
     $("#age2-toggler").classed("checked", true);
+    hideAge1();
+    hideAge3();
+    hideEarn1();
+    hideAge2();
+    hideAge3();
     map.addLayer(age2LayerGroup);
     age2_showing = true;
 }
@@ -218,6 +247,11 @@ function toggleAge3() {
 function showAge3() {
     if (age3_showing) return;
     $("#age3-toggler").classed("checked", true);
+    hideAge1();
+    hideAge2();
+    hideEarn1();
+    hideAge2();
+    hideAge3();
     map.addLayer(age3LayerGroup);
     age3_showing = true;
 }
@@ -310,6 +344,40 @@ function hideInd3() {
 
 }  // end  initControls
 
+
+// *****************************************************
+//                   Color options
+//******************************************************
+// **** Options for various layers 
+// If displaying all lines with not highlight for distance
+var lineOptions = {
+    fillOpacity: 0,
+    color: '#c7dffc', //lt blue
+    opacity: .4,
+    weight: 0.4
+};
+
+// Short commute distance
+var shortCommuteOptions = {
+    color: 'white',
+    weight: .6,
+    opacity: .3
+}
+
+var mediumCommuteOptions = {
+    color: 'yellow',
+    weight: .6,
+    opacity: 1
+}
+
+var longCommuteOptions = {
+    color: 'red',
+    weight: .3,
+    opacity: 2
+}
+
+var mapboxToken = "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew";
+
 //******************************************************
 //
 //                  Age 1                               
@@ -317,50 +385,35 @@ function hideInd3() {
 //******************************************************
 var tiles_age1_long=
 "https://b.tiles.mapbox.com/v4/mdcruse.22esnd76/{z}/{x}/{y}.vector.pbf?access_token={token}"; 
-var options_age1_long = {
-vectorTileLayerStyles: {
-    'age1_long': {
-        fill: false,
-        color: 'red', 
-        weight: .3,
-        opacity: 2
-    }
-},   
-rendererFactory: L.canvas.tile,
-token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew"
-}
+    var options_age1_long = {
+        vectorTileLayerStyles: {
+            'age1_long': longCommuteOptions
+        },   
+        rendererFactory: L.canvas.tile,
+        token: mapboxToken
+        }
 var age1_long = L.vectorGrid.protobuf(tiles_age1_long, options_age1_long).addTo(age1LayerGroup);
 
 var tiles_age1_medium =
 "https://b.tiles.mapbox.com/v4/mdcruse.9ywjkj1l/{z}/{x}/{y}.vector.pbf?access_token={token}"; 
-var options_age1_medium = {
-vectorTileLayerStyles: {
-    'age1_medium': {
-        fill: false,
-        color: 'yellow', 
-        weight: .6,
-        opacity: .4
-    }
-},   
-rendererFactory: L.canvas.tile,
-token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew"
-}
+        var options_age1_medium = {
+        vectorTileLayerStyles: {
+            'age1_medium': mediumCommuteOptions
+        },   
+        rendererFactory: L.canvas.tile,
+        token: mapboxToken
+        }
 var age1_medium = L.vectorGrid.protobuf(tiles_age1_medium, options_age1_medium).addTo(age1LayerGroup);
 
 var tiles_age1_short =
 "https://b.tiles.mapbox.com/v4/mdcruse.armcbp4c/{z}/{x}/{y}.vector.pbf?access_token={token}"; 
-var options_age1_short = {
-vectorTileLayerStyles: {
-    'age1_short': {
-        fill: false,
-        color: 'white', 
-        weight: .3,
-        opacity: .3
+    var options_age1_short = {
+        vectorTileLayerStyles: {
+            'age1_short': shortCommuteOptions
+        },   
+        rendererFactory: L.canvas.tile,
+        token: mapboxToken
     }
-},   
-rendererFactory: L.canvas.tile,
-token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew"
-}
 var age1_short = L.vectorGrid.protobuf(tiles_age1_short, options_age1_short).addTo(age1LayerGroup);
 //******************************************************
 //
@@ -370,12 +423,7 @@ var age1_short = L.vectorGrid.protobuf(tiles_age1_short, options_age1_short).add
 var tiles_age2_long = "https://b.tiles.mapbox.com/v4/mdcruse.9ymk040x/{z}/{x}/{y}.vector.pbf?access_token={token}"; 
 var options_age2_long = {
 vectorTileLayerStyles: {
-'age2_long': {
-    fill: false,
-    color: 'red', 
-    weight: .3,
-    opacity: 2
-}
+'age2_long': longCommuteOptions
 },   
 rendererFactory: L.canvas.tile,
 token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew"
@@ -387,12 +435,7 @@ var tiles_age2_medium =
 "https://b.tiles.mapbox.com/v4/mdcruse.2jwlb9vi/{z}/{x}/{y}.vector.pbf?access_token={token}"; 
 var options_age2_medium = {
 vectorTileLayerStyles: {
-'age2_medium': {
-    fill: false,
-    color: 'yellow', 
-    weight: .6,
-    opacity: .4
-}
+'age2_medium': mediumCommuteOptions
 },   
 rendererFactory: L.canvas.tile,
 token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew"
@@ -403,12 +446,7 @@ var tiles_age2_short =
 "https://b.tiles.mapbox.com/v4/mdcruse.a3h1s2q4/{z}/{x}/{y}.vector.pbf?access_token={token}"; 
 var options_age2_short = {
 vectorTileLayerStyles: {
-'age2_short': {
-    fill: false,
-    color: 'white', 
-    weight: .3,
-    opacity: .3
-}
+'age2_short': shortCommuteOptions
 },   
 rendererFactory: L.canvas.tile,
 token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew"
@@ -425,12 +463,7 @@ var tiles_age3_long=
 "https://b.tiles.mapbox.com/v4/mdcruse.2zq2nl6e/{z}/{x}/{y}.vector.pbf?access_token={token}"; 
 var options_age3_long = {
 vectorTileLayerStyles: {
-    'age3_long': {
-        fill: false,
-        color: 'red', 
-        weight: .3,
-        opacity: 2
-    }
+    'age3_long': longCommuteOptions
 },   
 rendererFactory: L.canvas.tile,
 token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew",
@@ -443,12 +476,7 @@ var tiles_age3_medium =
 "https://b.tiles.mapbox.com/v4/mdcruse.ab0xc43r/{z}/{x}/{y}.vector.pbf?access_token={token}"; 
 var options_age3_medium = {
 vectorTileLayerStyles: {
-    'age3_medium': {
-        fill: false,
-        color: 'yellow', 
-        weight: .6,
-        opacity: .4
-    }
+    'age3_medium': mediumCommuteOptions
 },   
 rendererFactory: L.canvas.tile,
 token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew"
@@ -459,12 +487,7 @@ var tiles_age3_short =
 "https://b.tiles.mapbox.com/v4/mdcruse.5ny6159y/{z}/{x}/{y}.vector.pbf?access_token={token}"; 
 var options_age3_short = {
 vectorTileLayerStyles: {
-    'age3_short': {
-        fill: false,
-        color: 'white', 
-        weight: .3,
-        opacity: .3
-    }
+    'age3_short': shortCommuteOptions
 },   
 rendererFactory: L.canvas.tile,
 token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew"
@@ -481,12 +504,7 @@ var tiles_earn1_long=
 "https://b.tiles.mapbox.com/v4/mdcruse.32mpe10s/{z}/{x}/{y}.vector.pbf?access_token={token}"; 
 var options_earn1_long = {
 vectorTileLayerStyles: {
-    'earn1_long': {
-        fill: false,
-        color: 'red', 
-        weight: .3,
-        opacity: 2
-    }
+    'earn1_long': longCommuteOptions
 },   
 rendererFactory: L.canvas.tile,
 token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew"
@@ -497,12 +515,7 @@ var tiles_earn1_medium =
 "https://b.tiles.mapbox.com/v4/mdcruse.b2iwrf66/{z}/{x}/{y}.vector.pbf?access_token={token}"; 
 var options_earn1_medium = {
 vectorTileLayerStyles: {
-    'earn1_medium': {
-        fill: false,
-        color: 'yellow', 
-        weight: .6,
-        opacity: .4
-    }
+    'earn1_medium': mediumCommuteOptions
 },   
 rendererFactory: L.canvas.tile,
 token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew"
@@ -513,12 +526,7 @@ var tiles_earn1_short =
 "https://b.tiles.mapbox.com/v4/mdcruse.3mkv2spp/{z}/{x}/{y}.vector.pbf?access_token={token}"; 
 var options_earn1_short = {
 vectorTileLayerStyles: {
-    'earn1_short': {
-        fill: false,
-        color: 'white', 
-        weight: .3,
-        opacity: .3
-    }
+    'earn1_short': shortCommuteOptions
 },   
 rendererFactory: L.canvas.tile,
 token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew"
@@ -533,12 +541,7 @@ var earn1_short = L.vectorGrid.protobuf(tiles_earn1_short, options_earn1_short).
 var tiles_earn2_long = "https://b.tiles.mapbox.com/v4/mdcruse.32wi6606/{z}/{x}/{y}.vector.pbf?access_token={token}"; 
 var options_earn2_long = {
 vectorTileLayerStyles: {
-'earn2_long': {
-    fill: false,
-    color: 'red', 
-    weight: .3,
-    opacity: 2
-}
+'earn2_long': longCommuteOptions
 },   
 rendererFactory: L.canvas.tile,
 token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew",
@@ -551,12 +554,7 @@ var tiles_earn2_medium =
 "https://b.tiles.mapbox.com/v4/mdcruse.4gndlcpr/{z}/{x}/{y}.vector.pbf?access_token={token}"; 
 var options_earn2_medium = {
 vectorTileLayerStyles: {
-'earn2_medium': {
-    fill: false,
-    color: 'yellow', 
-    weight: .6,
-    opacity: .4
-}
+'earn2_medium': mediumCommuteOptions
 },   
 rendererFactory: L.canvas.tile,
 token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew"
@@ -567,12 +565,7 @@ var tiles_earn2_short =
 "https://b.tiles.mapbox.com/v4/mdcruse.3a1chitj/{z}/{x}/{y}.vector.pbf?access_token={token}"; 
 var options_earn2_short = {
 vectorTileLayerStyles: {
-'earn2_short': {
-    fill: false,
-    color: 'white', 
-    weight: .3,
-    opacity: .3
-}
+'earn2_short': shortCommuteOptions
 },   
 rendererFactory: L.canvas.tile,
 token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew"
@@ -589,12 +582,7 @@ var tiles_earn3_long=
 "https://b.tiles.mapbox.com/v4/mdcruse.a6ox7rtr/{z}/{x}/{y}.vector.pbf?access_token={token}"; 
 var options_earn3_long = {
 vectorTileLayerStyles: {
-    'earn3_long': {
-        fill: false,
-        color: 'red', 
-        weight: .3,
-        opacity: 2
-    }
+    'earn3_long': longCommuteOptions
 },   
 rendererFactory: L.canvas.tile,
 token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew",
@@ -607,12 +595,7 @@ var tiles_earn3_medium =
 "https://b.tiles.mapbox.com/v4/mdcruse.co1uff7q/{z}/{x}/{y}.vector.pbf?access_token={token}"; 
 var options_earn3_medium = {
 vectorTileLayerStyles: {
-    'earn3_medium': {
-        fill: false,
-        color: 'yellow', 
-        weight: .6,
-        opacity: .4
-    }
+    'earn3_medium': mediumCommuteOptions
 },   
 rendererFactory: L.canvas.tile,
 token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew"
@@ -623,12 +606,7 @@ var tiles_earn3_short =
 "https://b.tiles.mapbox.com/v4/mdcruse.beh83a3k/{z}/{x}/{y}.vector.pbf?access_token={token}"; 
 var options_earn3_short = {
 vectorTileLayerStyles: {
-    'earn3_short': {
-        fill: false,
-        color: 'white', 
-        weight: .3,
-        opacity: .3
-    }
+    'earn3_short': shortCommuteOptions
 },   
 rendererFactory: L.canvas.tile,
 token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew"
