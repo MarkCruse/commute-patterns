@@ -1,0 +1,23 @@
+age1_long: mdcruse.22esnd76
+age1_medi: mdcruse.9ywjkj1l
+age1_ sho: mdcruse.armcbp4c
+
+age2_long: mdcruse.9ymk040x
+age2_medi: mdcruse.2jwlb9vi
+age2_ sho: mdcruse.a3h1s2q4
+
+age3_long: mdcruse.2zq2nl6e
+age3_medi: mdcruse.ab0xc43r
+age3_ sho: mdcruse.5ny6159y
+
+earn1_long: mdcruse.32mpe10s
+earn1_medi: mdcruse.b2iwrf66
+earn1_ sho: mdcruse.3mkv2spp
+
+earn2_long: mdcruse.32wi6606
+earn2_medi: mdcruse.4gndlcpr
+earn2_ sho: mdcruse.3a1chitj
+
+earn3_long: mdcruse.a6ox7rtr
+earn3_medi: mdcruse.co1uff7q
+earn3_ sho: mdcruse.beh83a3k
