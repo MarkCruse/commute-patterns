@@ -13,7 +13,11 @@ var map_showing = false,
     age3_showing = false,
     ind1_showing = false,
     ind2_showing = false,
-    ind3_showing = false;
+    ind3_showing = false,
+    short_showing = true,
+    medium_showing = false,
+    long_showing = false,
+    commute_all_showing = false;
 
 var map = L.map('map', {
     renderer: L.canvas()
@@ -38,6 +42,7 @@ var age3LayerGroup = L.layerGroup();
 var earn1LayerGroup = L.layerGroup();
 var earn2LayerGroup = L.layerGroup();
 var earn3LayerGroup = L.layerGroup();
+var shortLayerGroup = L.layerGroup();
 
 
 
@@ -61,10 +66,10 @@ function initControls() {
     });
     
     $("#map-toggler").on("click", toggleMap);
-    $("#short-toggler").on("click", toggleMap);
-    $("#medium-toggler").on("click", toggleMap);
-    $("#long-toggler").on("click", toggleMap);
-    $("#commute-all-toggler").on("click", toggleMap);
+    $("#short-toggler").on("click", toggleShort);
+ //   $("#medium-toggler").on("click", toggleMedium);
+ //   $("#long-toggler").on("click", toggleLong);
+ //   $("#commute-all-toggler").on("click", toggleCommuteAll);
 
     $("#earn1-toggler").on("click", toggleEarn1);
     $("#earn2-toggler").on("click", toggleEarn2);
@@ -78,6 +83,8 @@ function initControls() {
     $("#trade-toggler").on("click", toggleInd2);
     $("#other-toggler").on("click", toggleInd3);
 */
+
+//************ Show / Hide background map layer  *********
 
 function toggleMap() {
 	if (map_showing) hideMap();
@@ -98,6 +105,34 @@ function hideMap() {
 	$("#map-toggler").classed("checked", false);
 	map_showing = false;
 }
+
+
+//************ Show / Hide short commute layers  *********
+
+function toggleShort() {
+	if (short_showing) hideShort();
+	else showShort();
+}
+
+function showShort() {
+    if (short_showing) return;
+    map.addLayer(shortLayerGroup);
+	$("#short-toggler").classed("checked", true);
+	short_showing = true;
+}
+
+function hideShort() {
+	if (!short_showing) return;
+    map.removeLayer(shortLayerGroup);
+	$("#short-toggler").classed("checked", false);
+	short_showing = false;
+}
+//************ Show / Hide medium commute layers  *********
+
+
+//************ Show / Hide long commute layers  *********
+
+
 
 //************ Show / Hide earnings layers  *********
 
@@ -414,7 +449,8 @@ var tiles_age1_short =
         rendererFactory: L.canvas.tile,
         token: mapboxToken
     }
-var age1_short = L.vectorGrid.protobuf(tiles_age1_short, options_age1_short).addTo(age1LayerGroup);
+    var age1_short = L.vectorGrid.protobuf(tiles_age1_short, options_age1_short).addTo(age1LayerGroup).addTo(shortLayerGroup);
+    var age1_short2 = L.vectorGrid.protobuf(tiles_age1_short, options_age1_short).addTo(shortLayerGroup);
 //******************************************************
 //
 //                  Age 2                               
