@@ -20,4 +20,16 @@ earn2_ sho: mdcruse.3a1chitj
 
 earn3_long: mdcruse.a6ox7rtr
 earn3_medi: mdcruse.co1uff7q
-earn3_ sho: mdcruse.beh83a3k
+earn3_sho: mdcruse.beh83a3k
+
+ind1_long: mdcruse.ca7xo8ab
+ind1_medi: mdcruse.d6s668m0
+ind1_sho:  mdcruse.3m15zfiz
+
+ind2_long: mdcruse.cr0sou8z
+ind2_medi: mdcruse.8usoq2vl
+ind2_sho: mdcruse.7bctg7vj
+
+ind3_long: mdcruse.0k6oqwti
+ind3_medi: mdcruse.5bsqr5lr
+ind3_sho: mdcruse.dtk2tprh
