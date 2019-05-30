@@ -29,10 +29,13 @@ map.createPane('labels');
 map.getPane('labels').style.zIndex = 650;
 map.getPane('labels').style.pointerEvents = 'none';
 
+
+var mapLayerGroup = L.layerGroup();
 tile_layer = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}.png', {
     attribution: '©OpenStreetMap, ©Carto',
     pane: 'labels'
-}).addTo(map);
+}).addTo(mapLayerGroup);
+
 
 initControls();
 
@@ -42,10 +45,10 @@ var age3LayerGroup = L.layerGroup();
 var earn1LayerGroup = L.layerGroup();
 var earn2LayerGroup = L.layerGroup();
 var earn3LayerGroup = L.layerGroup();
-var shortLayerGroup = L.layerGroup();
-
-
-
+var ind1LayerGroup = L.layerGroup();
+var ind2LayerGroup = L.layerGroup();
+var ind3LayerGroup = L.layerGroup();
+//var shortLayerGroup = L.layerGroup();
 
 
 function initControls() {
@@ -66,7 +69,7 @@ function initControls() {
     });
     
     $("#map-toggler").on("click", toggleMap);
-    $("#short-toggler").on("click", toggleShort);
+ //   $("#short-toggler").on("click", toggleShort);
  //   $("#medium-toggler").on("click", toggleMedium);
  //   $("#long-toggler").on("click", toggleLong);
  //   $("#commute-all-toggler").on("click", toggleCommuteAll);
@@ -106,7 +109,7 @@ function hideMap() {
 	map_showing = false;
 }
 
-
+/*
 //************ Show / Hide short commute layers  *********
 
 function toggleShort() {
@@ -127,14 +130,7 @@ function hideShort() {
 	$("#short-toggler").classed("checked", false);
 	short_showing = false;
 }
-//************ Show / Hide medium commute layers  *********
-
-
-//************ Show / Hide long commute layers  *********
-
-
-
-//************ Show / Hide earnings layers  *********
+*/
 
 function toggleEarn1() {
     if (ern1_showing) {
@@ -142,8 +138,6 @@ function toggleEarn1() {
     } else {
         showEarn1();
     }
-    mapLayerGroup.clearLayers();
-    process_arrays(initialArray, ern, age, ind)
 }
 
 function showEarn1() {
@@ -235,8 +229,8 @@ function showAge1() {
     hideAge2();
     hideAge3();
     hideEarn1();
-    hideAge2();
-    hideAge3();
+    hideEarn2();
+    hideEarn3();
     map.addLayer(age1LayerGroup);
     age1_showing = true;
 }
@@ -260,8 +254,8 @@ function showAge2() {
     hideAge1();
     hideAge3();
     hideEarn1();
-    hideAge2();
-    hideAge3();
+    hideEarn2();
+    hideEarn3();
     map.addLayer(age2LayerGroup);
     age2_showing = true;
 }
@@ -285,8 +279,8 @@ function showAge3() {
     hideAge1();
     hideAge2();
     hideEarn1();
-    hideAge2();
-    hideAge3();
+    hideEarn2();
+    hideEarn3();
     map.addLayer(age3LayerGroup);
     age3_showing = true;
 }
@@ -308,9 +302,6 @@ function toggleInd1() {
         showInd1();
         ind = ind + 1;
     }
-    console.log(ind);
-    mapLayerGroup.clearLayers();
-    process_arrays(initialArray, ern, age, ind)
 }
 
 function showInd1() {
@@ -333,9 +324,6 @@ function toggleInd2() {
         showInd2();
         ind = ind + 4;
     }
-    console.log(ind);
-    mapLayerGroup.clearLayers();
-    process_arrays(initialArray, ern, age, ind);
 }
 
 function showInd2() {
@@ -358,9 +346,6 @@ function toggleInd3() {
         showInd3();
         ind = ind + 7;
     }
-    console.log(ind);
-    mapLayerGroup.clearLayers();
-    process_arrays(initialArray, ern, age, ind);
 }
 
 function showInd3() {
@@ -449,8 +434,9 @@ var tiles_age1_short =
         rendererFactory: L.canvas.tile,
         token: mapboxToken
     }
-    var age1_short = L.vectorGrid.protobuf(tiles_age1_short, options_age1_short).addTo(age1LayerGroup).addTo(shortLayerGroup);
-    var age1_short2 = L.vectorGrid.protobuf(tiles_age1_short, options_age1_short).addTo(shortLayerGroup);
+    var age1_short = L.vectorGrid.protobuf(tiles_age1_short, options_age1_short).addTo(age1LayerGroup);
+    //var age1_short2 = L.vectorGrid.protobuf(tiles_age1_short, options_age1_short).addTo(shortLayerGroup);
+
 //******************************************************
 //
 //                  Age 2                               
@@ -483,11 +469,12 @@ var tiles_age2_short =
 var options_age2_short = {
 vectorTileLayerStyles: {
 'age2_short': shortCommuteOptions
-},   
+},
 rendererFactory: L.canvas.tile,
 token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew"
 }
 var age2_short = L.vectorGrid.protobuf(tiles_age2_short, options_age2_short).addTo(age2LayerGroup);
+//var age2_short2 = L.vectorGrid.protobuf(tiles_age2_short, options_age2_short).addTo(shortLayerGroup)
 
 
 //******************************************************
@@ -529,6 +516,8 @@ rendererFactory: L.canvas.tile,
 token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew"
 }
 var age3_short = L.vectorGrid.protobuf(tiles_age3_short, options_age3_short).addTo(age3LayerGroup);
+//var age3_short2 = L.vectorGrid.protobuf(tiles_age3_short, options_age3_short).addTo(shortLayerGroup);
+
 
 //******************************************************
 //
@@ -568,6 +557,8 @@ rendererFactory: L.canvas.tile,
 token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew"
 }
 var earn1_short = L.vectorGrid.protobuf(tiles_earn1_short, options_earn1_short).addTo(earn1LayerGroup);
+
+L.vectorGrid.protobuf(tiles_earn1_short, options_earn1_short).addTo(shortLayerGroup)
 
 //******************************************************
 //
