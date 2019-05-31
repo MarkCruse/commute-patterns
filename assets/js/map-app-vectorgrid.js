@@ -14,7 +14,7 @@ var map_showing = false,
     ind1_showing = false,
     ind2_showing = false,
     ind3_showing = false;
-//short_showing = true,
+    short_showing = true;
 //medium_showing = false,
 //long_showing = false,
 //commute_all_showing = false;
@@ -72,10 +72,10 @@ function initControls() {
     });
 
     $("#map-toggler").on("click", toggleMap);
-    //   $("#short-toggler").on("click", toggleShort);
-    //   $("#medium-toggler").on("click", toggleMedium);
-    //   $("#long-toggler").on("click", toggleLong);
-    //   $("#commute-all-toggler").on("click", toggleCommuteAll);
+       $("#short-toggler").on("click", toggleShort);
+       //$("#medium-toggler").on("click", toggleMedium);
+       //$("#long-toggler").on("click", toggleLong);
+       //$("#commute-all-toggler").on("click", toggleCommuteAll);
 
     $("#earn1-toggler").on("click", toggleEarn1);
     $("#earn2-toggler").on("click", toggleEarn2);
@@ -112,7 +112,7 @@ function initControls() {
         map_showing = false;
     }
 
-    /*
+    
     //************ Show / Hide short commute layers  *********
 
     function toggleShort() {
@@ -122,18 +122,33 @@ function initControls() {
 
     function showShort() {
         if (short_showing) return;
-        map.addLayer(shortLayerGroup);
+        //map.addLayer(shortLayerGroup);
     	$("#short-toggler").classed("checked", true);
     	short_showing = true;
     }
 
     function hideShort() {
     	if (!short_showing) return;
-        map.removeLayer(shortLayerGroup);
+        //map.removeLayer(shortLayerGroup);
+        var longCommuteOptions = {
+            color: 'orange',
+            weight: 0,
+            opacity: .4
+        }
+        
+        showEarn1();
+        showEarn2();
+        showEarn3();
+        showInd1();
+        showInd2();
+        showInd3();
+        showAge1();
+        showAge2();
+        showAge3();
     	$("#short-toggler").classed("checked", false);
-    	short_showing = false;
+        short_showing = false;
     }
-    */
+    
 
     function toggleEarn1() {
         if (ern1_showing) {
@@ -439,12 +454,14 @@ var mediumCommuteOptions = {
     opacity: .6
 }
 //color: '#fed976',
+    //weight: .6,
 var longCommuteOptions = {
     color: 'orange',
     weight: .6,
     opacity: .4
 }
 
+console.log('cheked longCommuteOption');
 var mapboxToken = "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew";
 
 //******************************************************
