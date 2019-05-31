@@ -20,7 +20,8 @@ var map_showing = false,
 //commute_all_showing = false;
 
 var map = L.map('map', {
-    renderer: L.canvas()
+    renderer: L.canvas(),
+    color: '#e0e0e0'
 }).setView([37, -100], 5).setMaxZoom(12).setMinZoom(3);
 
 
@@ -429,7 +430,7 @@ var lineOptions = {
 var shortCommuteOptions = {
     color: '#ffffcc',
     weight: .6,
-    opacity: .1
+    opacity: .2
 }
 
 var mediumCommuteOptions = {
@@ -437,11 +438,11 @@ var mediumCommuteOptions = {
     weight: .6,
     opacity: .6
 }
-
+//color: '#fed976',
 var longCommuteOptions = {
-    color: '#fed976',
+    color: 'orange',
     weight: .6,
-    opacity: .5
+    opacity: .4
 }
 
 var mapboxToken = "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew";
