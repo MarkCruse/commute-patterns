@@ -422,26 +422,26 @@ var lineOptions = {
     fillOpacity: 0,
     color: '#c7dffc', //lt blue
     opacity: .4,
-    weight: 0.4
+    weight: 0.8
 };
 
 // Short commute distance
 var shortCommuteOptions = {
-    color: 'white',
+    color: '#ffffcc',
     weight: .6,
-    opacity: .3
+    opacity: .1
 }
 
 var mediumCommuteOptions = {
-    color: 'yellow',
+    color: '#084594',
     weight: .6,
-    opacity: 1
+    opacity: .6
 }
 
 var longCommuteOptions = {
-    color: 'red',
-    weight: .3,
-    opacity: 2
+    color: '#fed976',
+    weight: .6,
+    opacity: .5
 }
 
 var mapboxToken = "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew";
