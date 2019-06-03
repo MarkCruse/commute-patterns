@@ -1,0 +1,860 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<!-- default layout-->
+<!--map layout see _layouts/map.html-->
+
+<head>
+  <!--meta content and open graph tags for social sharing see _includes/metal.html-->
+  <title>Scott Township Parcel Map</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+  <!-- <link href='//fonts.googleapis.com/css?family=Montserrat:400,700|Open+Sans:400italic,400,800,700|Archivo+Narrow:400,700|Archivo+Black' rel='stylesheet' type='text/css'>-->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js" integrity="sha256-wS9gmOZBqsqWxgIVgA8Y9WcQOa7PgSIX+rPA0VL2rbQ="
+    crossorigin="anonymous"></script>
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<!--<link href="assets/css/leaflet-panel-layers.min.css" rel="stylesheet">-->
+
+  <!-- <script src="https://maps.google.com/maps/api/js?v=3"></script> -->
+  <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.0/dist/leaflet.css" />
+  <script type="text/javascript" src="https://unpkg.com/leaflet@1.0.0/dist/leaflet.js"></script>
+ <script type="text/javascript" src="https://unpkg.com/leaflet.vectorgrid@1.2.0"></script>
+
+  <!-- <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script> -->
+
+  <link rel="stylesheet" href="assets/css/custom-leaflet-0.7.css" />
+  
+  <script src="assets/js/custom-leaflet-0.7.js"></script>
+    <script src="assets/js/leaflet-panel-layers.js"></script>
+
+  <link rel="stylesheet" href="assets/css/custom-ui.css" />
+
+  <style>
+    * {
+      font-family: "Open Sans", sans-serif;
+    }
+    hr {
+      margin-top: 10px;
+      margin-bottom: 10px;
+    }
+    
+  </style>
+
+
+</head>
+
+<body>
+
+  <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-pip/v0.1.0/leaflet-pip.min.js'></script>
+
+  <!-- <div class="blank"><h2 class="animate-flicker" style="text-align:center;margin-top:50px;">Loading...</h2></div> -->
+  <div id='map'>
+    <div id="sidebar">
+      <h2 style="font-family:Archivo Black, sans-serif;">Scott Township</h2>
+      <h3 style="font-family:Archivo Black, sans-serif;">Lackawanna County, Pa.</h3>
+      <h5 style="font-family:Archivo Black, sans-serif;">
+      Address: 1038 Montdale Rd. Scott Township PA 18447<br>
+      Phone: 570-319-1296<br>
+      Fax 570-319-1321<br>
+      Hours: 9:00 A.M. – 3:00 P.M., Monday through Friday<br>
+      E-mail Address: Secretary@Scotttownship.org</span></h5>
+      <hr />
+      <strong>Use zoom controls to navigate the map. Pinch & zoom and double tap to zoom have been disabled.</strong>
+      <hr />
+      <em>The parcels shown are for informational purposes only. <br>Map data is only updated once or so per year.</em>
+
+      <div>
+        <hr />
+        <button id="showTools" type="button" class="btn btn-default btn-xs btn-block">Show Map Tools Legend</button>
+        <button id="hideTools" type="button" class="btn btn-default btn-xs btn-block" style="display:none;">Hide Map Tools Legend</button>
+        <div class="toolLegend" style="display:none;">
+          <hr />
+          <div class="list-group" style="text-align:left;">
+            <li class="list-group-item">
+              <i class='fa fa-bars fa-fw fa-lg'></i> Open Sidebar</li>
+
+            <li class="list-group-item">
+              <i class='fa fa-exchange fa-fw fa-lg'></i> Toggle Address Search</li>
+
+            <li class="list-group-item">
+              <img src="assets/images/fullscreen-img.png" style="padding:0 1px;width:22px;"></img> Fullscreen</li>
+            <li class="list-group-item">
+              <i class='fa fa-globe fa-fw fa-lg'></i> Default Map Extent</li>
+            <li class="list-group-item">
+              <i class='fa fa-map-marker fa-fw fa-lg'></i> Show/Follow Your Location</li>
+
+            <li class="list-group-item">
+              <i class='fa fa-cogs fa-fw fa-lg'></i> Toggle Map Tools (Mobile Only)</li>
+            <li class="list-group-item">
+              <img src="assets/images/layers-bl.png" style="padding:0 1px;width:22px;"></img> Toggle Map Layers</li>
+
+          </div>
+        </div>
+        <hr />
+      </div>
+      <script>
+        $("#showTools").click(function () {
+          $(".toolLegend").toggle();
+          $("#showTools").toggle();
+          $("#hideTools").toggle();
+        });
+        $("#hideTools").click(function () {
+          $(".toolLegend").toggle();
+          $("#showTools").toggle();
+          $("#hideTools").toggle();
+        });
+      </script>
+
+      <h6><a href='http://scotttownship.org' target='_blank' style='text-decoration:none;'>Scott Township</a> | Map data updated 11/2017.</h6>
+      <h6><a href='https://lakedevelopmentgroup.com' target='_blank' style='text-decoration:none;'>By Lake Development Group, Inc</a> | 2016-2018.</h6>
+    </div>
+  </div>
+
+
+
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <script src="https://unpkg.com/leaflet.vectorgrid@latest/dist/Leaflet.VectorGrid.bundled.js"></script>
+
+  <script>
+
+
+    var map = L.map('map', {
+        renderer: L.canvas(),
+        color: '#e0e0e0'
+    }).setView([37, -100], 5).setMaxZoom(12).setMinZoom(3);
+
+    //remove existing attribution control by hiding it only on mobile
+    //make sure the normal control is hidden
+    var style = document.createElement('style');
+    style.type = 'text/css';
+    style.innerHTML = '.leaflet-control-attribution {display: none;};@media screen and (max-width:768px) {.elevation.leaflet-control {display:none}}';
+    document.getElementsByTagName('head')[0].appendChild(style);
+
+    if (L.Browser.mobile) {
+
+      var toggleAttribution = L.Control.extend({
+        options: { position: 'bottomright' },
+        onAdd: function (map) {
+          this._div = L.DomUtil.create('button', 'btn btn-link');
+          this._div.innerHTML = "Leaflet | Map Tiles";
+          L.DomEvent.on(this._div, 'click', this._click);
+          return this._div;
+        },
+
+        _click: function (e) {
+          L.DomEvent.stop(e);
+          x = document.getElementsByClassName("leaflet-control-attribution")[0];
+          x.style.display = x.style.display === 'block' ? '' : 'block';
+        },
+
+      });
+      map.addControl(new toggleAttribution());
+    } else {
+      x = document.getElementsByClassName("leaflet-control-attribution")[0];
+      x.style.display = x.style.display === 'block' ? '' : 'block';
+    }
+
+    document.onload = function () {
+      setTimeout(function () { osmEditAdd() }, 5000);
+    }
+    //End Attribution Toggle
+    //--begin map-tiles
+    /*var ogrip = L.esri.imageMapLayer({
+      url: '//geo.oit.ohio.gov/arcgis/rest/services/OSIP/osip_best_avail_1ft/ImageServer',
+    });
+    var ogripTiles = L.esri.tiledMapLayer({
+      url:'//gis5.oit.ohio.gov/ArcGIS/rest/services/WM_OSIP_II/MapServer/3',
+    });*/
+
+        
+    // add labels & tiles to the map
+    map.createPane('labels');
+    map.getPane('labels').style.zIndex = 650;
+    map.getPane('labels').style.pointerEvents = 'none';
+
+
+    var mapLayerGroup = L.layerGroup();
+    tile_layer = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}.png', {
+        attribution: '©OpenStreetMap, ©Carto',
+        pane: 'labels'
+    }).addTo(mapLayerGroup);
+
+
+
+    var theScale = L.control.scale({ metric: false, imperial: true }).addTo(map);
+
+    var baseLayers = [
+      {
+        active: true,
+        name: "Dark - Only Labels",
+        layer: L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}.png')
+      },
+      {
+        active: false,
+        name: "Satellite",
+        layer: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}')
+      },
+      {
+        active: false,
+        name: "Topography",
+        layer: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}')
+      }
+    ];
+var age1LayerGroup = L.layerGroup().addTo(map);
+var age2LayerGroup = L.layerGroup();
+var age3LayerGroup = L.layerGroup();
+var earn1LayerGroup = L.layerGroup();
+var earn2LayerGroup = L.layerGroup();
+var earn3LayerGroup = L.layerGroup();
+var ind1LayerGroup = L.layerGroup();
+var ind2LayerGroup = L.layerGroup();
+var ind3LayerGroup = L.layerGroup();
+    
+
+// *****************************************************
+//                   Color options
+//******************************************************
+// **** Options for various layers 
+// If displaying all lines with not highlight for distance
+var lineOptions = {
+    fillOpacity: 0,
+    color: '#c7dffc', //lt blue
+    opacity: .4,
+    weight: 0.8
+};
+
+// Short commute distance
+var shortCommuteOptions = {
+    color: '#ffffcc',
+    weight: .6,
+    opacity: .2
+}
+
+var mediumCommuteOptions = {
+    color: '#084594',
+    weight: .6,
+    opacity: .6
+}
+//color: '#fed976',
+    //weight: .6,
+var longCommuteOptions = {
+    color: 'orange',
+    weight: .6,
+    opacity: .4
+}
+//console.log('cheked longCommuteOption');
+var mapboxToken = "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew";
+
+//******************************************************
+//
+//                  Age 1                               
+//
+//******************************************************
+var tiles_age1_long =
+    "https://b.tiles.mapbox.com/v4/mdcruse.22esnd76/{z}/{x}/{y}.vector.pbf?access_token={token}";
+var options_age1_long = {
+    vectorTileLayerStyles: {
+        'age1_long': longCommuteOptions
+    },
+    rendererFactory: L.canvas.tile,
+    token: mapboxToken
+}
+var age1_long = L.vectorGrid.protobuf(tiles_age1_long, options_age1_long).addTo(age1LayerGroup);
+
+var tiles_age1_medium =
+    "https://b.tiles.mapbox.com/v4/mdcruse.9ywjkj1l/{z}/{x}/{y}.vector.pbf?access_token={token}";
+var options_age1_medium = {
+    vectorTileLayerStyles: {
+        'age1_medium': mediumCommuteOptions
+    },
+    rendererFactory: L.canvas.tile,
+    token: mapboxToken
+}
+var age1_medium = L.vectorGrid.protobuf(tiles_age1_medium, options_age1_medium).addTo(age1LayerGroup);
+
+var tiles_age1_short =
+    "https://b.tiles.mapbox.com/v4/mdcruse.armcbp4c/{z}/{x}/{y}.vector.pbf?access_token={token}";
+var options_age1_short = {
+    vectorTileLayerStyles: {
+        'age1_short': shortCommuteOptions
+    },
+    rendererFactory: L.canvas.tile,
+    token: mapboxToken
+}
+var age1_short = L.vectorGrid.protobuf(tiles_age1_short, options_age1_short).addTo(age1LayerGroup);
+//var age1_short2 = L.vectorGrid.protobuf(tiles_age1_short, options_age1_short).addTo(shortLayerGroup);
+
+//******************************************************
+//
+//                  Age 2                               
+//
+//******************************************************
+var tiles_age2_long = "https://b.tiles.mapbox.com/v4/mdcruse.9ymk040x/{z}/{x}/{y}.vector.pbf?access_token={token}";
+var options_age2_long = {
+    vectorTileLayerStyles: {
+        'age2_long': longCommuteOptions
+    },
+    rendererFactory: L.canvas.tile,
+    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew"
+}
+
+var age2_long = L.vectorGrid.protobuf(tiles_age2_long, options_age2_long).addTo(age2LayerGroup);
+
+var tiles_age2_medium =
+    "https://b.tiles.mapbox.com/v4/mdcruse.2jwlb9vi/{z}/{x}/{y}.vector.pbf?access_token={token}";
+var options_age2_medium = {
+    vectorTileLayerStyles: {
+        'age2_medium': mediumCommuteOptions
+    },
+    rendererFactory: L.canvas.tile,
+    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew"
+}
+var age2_medium = L.vectorGrid.protobuf(tiles_age2_medium, options_age2_medium).addTo(age2LayerGroup);
+
+var tiles_age2_short =
+    "https://b.tiles.mapbox.com/v4/mdcruse.a3h1s2q4/{z}/{x}/{y}.vector.pbf?access_token={token}";
+var options_age2_short = {
+    vectorTileLayerStyles: {
+        'age2_short': shortCommuteOptions
+    },
+    rendererFactory: L.canvas.tile,
+    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew"
+}
+var age2_short = L.vectorGrid.protobuf(tiles_age2_short, options_age2_short).addTo(age2LayerGroup);
+//var age2_short2 = L.vectorGrid.protobuf(tiles_age2_short, options_age2_short).addTo(shortLayerGroup)
+
+
+//******************************************************
+//
+//                  Age 3                               
+//
+//******************************************************
+var tiles_age3_long =
+    "https://b.tiles.mapbox.com/v4/mdcruse.2zq2nl6e/{z}/{x}/{y}.vector.pbf?access_token={token}";
+var options_age3_long = {
+    vectorTileLayerStyles: {
+        'age3_long': longCommuteOptions
+    },
+    rendererFactory: L.canvas.tile,
+    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew",
+    interactive: true
+}
+
+var age3_long = L.vectorGrid.protobuf(tiles_age3_long, options_age3_long).addTo(age3LayerGroup);
+
+var tiles_age3_medium =
+    "https://b.tiles.mapbox.com/v4/mdcruse.ab0xc43r/{z}/{x}/{y}.vector.pbf?access_token={token}";
+var options_age3_medium = {
+    vectorTileLayerStyles: {
+        'age3_medium': mediumCommuteOptions
+    },
+    rendererFactory: L.canvas.tile,
+    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew"
+}
+var age3_medium = L.vectorGrid.protobuf(tiles_age3_medium, options_age3_medium).addTo(age3LayerGroup);
+
+var tiles_age3_short =
+    "https://b.tiles.mapbox.com/v4/mdcruse.5ny6159y/{z}/{x}/{y}.vector.pbf?access_token={token}";
+var options_age3_short = {
+    vectorTileLayerStyles: {
+        'age3_short': shortCommuteOptions
+    },
+    rendererFactory: L.canvas.tile,
+    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew"
+}
+var age3_short = L.vectorGrid.protobuf(tiles_age3_short, options_age3_short).addTo(age3LayerGroup);
+//var age3_short2 = L.vectorGrid.protobuf(tiles_age3_short, options_age3_short).addTo(shortLayerGroup);
+
+
+//******************************************************
+//
+//                  Earn 1                               
+//
+//******************************************************
+
+var tiles_earn1_long =
+    "https://b.tiles.mapbox.com/v4/mdcruse.32mpe10s/{z}/{x}/{y}.vector.pbf?access_token={token}";
+var options_earn1_long = {
+    vectorTileLayerStyles: {
+        'earn1_long': longCommuteOptions
+    },
+    rendererFactory: L.canvas.tile,
+    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew"
+}
+var earn1_long = L.vectorGrid.protobuf(tiles_earn1_long, options_earn1_long).addTo(earn1LayerGroup);
+
+var tiles_earn1_medium =
+    "https://b.tiles.mapbox.com/v4/mdcruse.b2iwrf66/{z}/{x}/{y}.vector.pbf?access_token={token}";
+var options_earn1_medium = {
+    vectorTileLayerStyles: {
+        'earn1_medium': mediumCommuteOptions
+    },
+    rendererFactory: L.canvas.tile,
+    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew"
+}
+var earn1_medium = L.vectorGrid.protobuf(tiles_earn1_medium, options_earn1_medium).addTo(earn1LayerGroup);
+
+var tiles_earn1_short =
+    "https://b.tiles.mapbox.com/v4/mdcruse.3mkv2spp/{z}/{x}/{y}.vector.pbf?access_token={token}";
+var options_earn1_short = {
+    vectorTileLayerStyles: {
+        'earn1_short': shortCommuteOptions
+    },
+    rendererFactory: L.canvas.tile,
+    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew"
+}
+var earn1_short = L.vectorGrid.protobuf(tiles_earn1_short, options_earn1_short).addTo(earn1LayerGroup);
+
+//L.vectorGrid.protobuf(tiles_earn1_short, options_earn1_short).addTo(shortLayerGroup);
+
+//******************************************************
+//
+//                  Earn 2                              
+//
+//******************************************************
+var tiles_earn2_long = "https://b.tiles.mapbox.com/v4/mdcruse.32wi6606/{z}/{x}/{y}.vector.pbf?access_token={token}";
+var options_earn2_long = {
+    vectorTileLayerStyles: {
+        'earn2_long': longCommuteOptions
+    },
+    rendererFactory: L.canvas.tile,
+    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew",
+    interactive: true
+}
+
+var earn2_long = L.vectorGrid.protobuf(tiles_earn2_long, options_earn2_long).addTo(earn2LayerGroup);
+
+var tiles_earn2_medium =
+    "https://b.tiles.mapbox.com/v4/mdcruse.4gndlcpr/{z}/{x}/{y}.vector.pbf?access_token={token}";
+var options_earn2_medium = {
+    vectorTileLayerStyles: {
+        'earn2_medium': mediumCommuteOptions
+    },
+    rendererFactory: L.canvas.tile,
+    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew"
+}
+var earn2_medium = L.vectorGrid.protobuf(tiles_earn2_medium, options_earn2_medium).addTo(earn2LayerGroup);
+
+var tiles_earn2_short =
+    "https://b.tiles.mapbox.com/v4/mdcruse.3a1chitj/{z}/{x}/{y}.vector.pbf?access_token={token}";
+var options_earn2_short = {
+    vectorTileLayerStyles: {
+        'earn2_short': shortCommuteOptions
+    },
+    rendererFactory: L.canvas.tile,
+    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew"
+}
+var earn2_short = L.vectorGrid.protobuf(tiles_earn2_short, options_earn2_short).addTo(earn2LayerGroup);
+
+
+//******************************************************
+//
+//                  Earn 3                               
+//
+//******************************************************
+var tiles_earn3_long =
+    "https://b.tiles.mapbox.com/v4/mdcruse.a6ox7rtr/{z}/{x}/{y}.vector.pbf?access_token={token}";
+var options_earn3_long = {
+    vectorTileLayerStyles: {
+        'earn3_long': longCommuteOptions
+    },
+    rendererFactory: L.canvas.tile,
+    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew",
+    interactive: true
+}
+
+var earn3_long = L.vectorGrid.protobuf(tiles_earn3_long, options_earn3_long).addTo(earn3LayerGroup);
+
+var tiles_earn3_medium =
+    "https://b.tiles.mapbox.com/v4/mdcruse.co1uff7q/{z}/{x}/{y}.vector.pbf?access_token={token}";
+var options_earn3_medium = {
+    vectorTileLayerStyles: {
+        'earn3_medium': mediumCommuteOptions
+    },
+    rendererFactory: L.canvas.tile,
+    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew"
+}
+var earn3_medium = L.vectorGrid.protobuf(tiles_earn3_medium, options_earn3_medium).addTo(earn3LayerGroup);
+
+var tiles_earn3_short =
+    "https://b.tiles.mapbox.com/v4/mdcruse.beh83a3k/{z}/{x}/{y}.vector.pbf?access_token={token}";
+var options_earn3_short = {
+    vectorTileLayerStyles: {
+        'earn3_short': shortCommuteOptions
+    },
+    rendererFactory: L.canvas.tile,
+    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew"
+}
+var earn3_short = L.vectorGrid.protobuf(tiles_earn3_short, options_earn3_short).addTo(earn3LayerGroup);
+
+//******************************************************
+//
+//                  Industry 1                               
+//
+//******************************************************
+
+var tiles_ind1_long =
+    "https://b.tiles.mapbox.com/v4/mdcruse.ca7xo8ab/{z}/{x}/{y}.vector.pbf?access_token={token}";
+var options_ind1_long = {
+    vectorTileLayerStyles: {
+        'ind1_long': longCommuteOptions
+    },
+    rendererFactory: L.canvas.tile,
+    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew"
+}
+var ind1_long = L.vectorGrid.protobuf(tiles_ind1_long, options_ind1_long).addTo(ind1LayerGroup);
+
+var tiles_ind1_medium =
+    "https://b.tiles.mapbox.com/v4/mdcruse.d6s668m0/{z}/{x}/{y}.vector.pbf?access_token={token}";
+var options_ind1_medium = {
+    vectorTileLayerStyles: {
+        'ind1_medium': mediumCommuteOptions
+    },
+    rendererFactory: L.canvas.tile,
+    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew"
+}
+var ind1_medium = L.vectorGrid.protobuf(tiles_ind1_medium, options_ind1_medium).addTo(ind1LayerGroup);
+
+var tiles_ind1_short =
+    "https://b.tiles.mapbox.com/v4/mdcruse.3m15zfiz/{z}/{x}/{y}.vector.pbf?access_token={token}";
+var options_ind1_short = {
+    vectorTileLayerStyles: {
+        'ind1_short': shortCommuteOptions
+    },
+    rendererFactory: L.canvas.tile,
+    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew"
+}
+var ind1_short = L.vectorGrid.protobuf(tiles_ind1_short, options_ind1_short).addTo(ind1LayerGroup);
+
+//******************************************************
+//
+//                  Industry 2                              
+//
+//******************************************************
+var tiles_ind2_long = "https://b.tiles.mapbox.com/v4/mdcruse.cr0sou8z/{z}/{x}/{y}.vector.pbf?access_token={token}";
+var options_ind2_long = {
+    vectorTileLayerStyles: {
+        'ind2_long': longCommuteOptions
+    },
+    rendererFactory: L.canvas.tile,
+    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew",
+    interactive: true
+}
+
+var ind2_long = L.vectorGrid.protobuf(tiles_ind2_long, options_ind2_long).addTo(ind2LayerGroup);
+
+var tiles_ind2_medium =
+    "https://b.tiles.mapbox.com/v4/mdcruse.8usoq2vl/{z}/{x}/{y}.vector.pbf?access_token={token}";
+var options_ind2_medium = {
+    vectorTileLayerStyles: {
+        'ind2_medium': mediumCommuteOptions
+    },
+    rendererFactory: L.canvas.tile,
+    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew"
+}
+var ind2_medium = L.vectorGrid.protobuf(tiles_ind2_medium, options_ind2_medium).addTo(ind2LayerGroup);
+
+var tiles_ind2_short =
+    "https://b.tiles.mapbox.com/v4/mdcruse.7bctg7vj/{z}/{x}/{y}.vector.pbf?access_token={token}";
+var options_ind2_short = {
+    vectorTileLayerStyles: {
+        'ind2_short': shortCommuteOptions
+    },
+    rendererFactory: L.canvas.tile,
+    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew"
+}
+var ind2_short = L.vectorGrid.protobuf(tiles_ind2_short, options_ind2_short).addTo(ind2LayerGroup);
+
+
+//******************************************************
+//
+//                  Industry 3                               
+//
+//******************************************************
+var tiles_ind3_long =
+    "https://b.tiles.mapbox.com/v4/mdcruse.0k6oqwti/{z}/{x}/{y}.vector.pbf?access_token={token}";
+var options_ind3_long = {
+    vectorTileLayerStyles: {
+        'ind3_long': longCommuteOptions
+    },
+    rendererFactory: L.canvas.tile,
+    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew",
+    interactive: true
+}
+
+var ind3_long = L.vectorGrid.protobuf(tiles_ind3_long, options_ind3_long).addTo(ind3LayerGroup);
+
+var tiles_ind3_medium =
+    "https://b.tiles.mapbox.com/v4/mdcruse.5bsqr5lr/{z}/{x}/{y}.vector.pbf?access_token={token}";
+var options_ind3_medium = {
+    vectorTileLayerStyles: {
+        'ind3_medium': mediumCommuteOptions
+    },
+    rendererFactory: L.canvas.tile,
+    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew"
+}
+var ind3_medium = L.vectorGrid.protobuf(tiles_ind3_medium, options_ind3_medium).addTo(ind3LayerGroup);
+
+var tiles_ind3_short =
+    "https://b.tiles.mapbox.com/v4/mdcruse.dtk2tprh/{z}/{x}/{y}.vector.pbf?access_token={token}";
+var options_ind3_short = {
+    vectorTileLayerStyles: {
+        'ind3_short': shortCommuteOptions
+    },
+    rendererFactory: L.canvas.tile,
+    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew"
+}
+var ind3_short = L.vectorGrid.protobuf(tiles_ind3_short, options_ind3_short).addTo(ind3LayerGroup);
+/*
+    var overLayers = [
+      {
+        active: false,
+      	name: "Zoning",
+        layer: L.geoJson(zoning, {
+          style: function(feature) {
+            return {
+              weight: 2,
+              opacity: 1,
+              color: 'white',
+              dashArray: '3',
+              fillOpacity: getZoneOpacity(feature.properties.ZONE),
+              fillColor: getZoneColor(feature.properties.ZONE)
+            };                
+            }
+          , onEachFeature: onEachZoningFeature})
+      }
+      ,{
+      	active: false,
+      	name: "Floodplains",
+      	layer: L.geoJson(floodplains, {style: floodplainStyle})
+      }
+      ,{
+      	active: false,
+      	name: "Municipal Boundary",
+      	layer: L.geoJson(muni, {style: muniStyle})
+      }
+      ,{
+      	active: false,
+      	name: "Wetlands",
+      	layer: L.geoJson(wetlands, {style: wetlandsStyle})
+      }
+      ,{
+      	active: false,
+      	name: "Buildings",
+      	layer: L.geoJson(buildings, {style: buildingsStyle})
+      }
+    ];
+*/
+    //var layerControl = new L.Control.PanelLayers(baseLayers, overLayers);
+    
+    var layerControl = new L.Control.PanelLayers(baseLayers);
+    map.addControl(layerControl);
+    
+
+    //--end map-tiles
+    //--custom icons--//
+    var theIcon = L.Icon.extend({
+      options: {
+        //   shadowUrl: 'leaf-shadow.png',
+        iconSize: [32, 37], // size of the icon
+        //   shadowSize:   [50, 64], // size of the shadow
+        iconAnchor: [16, 35], // point of the icon which will correspond to marker's location
+        //  shadowAnchor: [4, 62],  // the same for the shadow
+        popupAnchor: [0, -32] // point from which the popup should open relative to the iconAnchor
+      }
+    });
+    //--//
+    //--End map-tiles.js--//
+
+    // This duplicates the control  var customZoom = L.control.zoom({ position: 'topright' }).addTo(map);
+
+
+
+    //console.log('start map toolbar');
+
+    var theMarker = L.icon({
+      iconUrl: 'assets/images/map-marker.png',
+      //shadowUrl: 'leaf-shadow.png',
+      iconSize: [48, 48], // size of the icon
+      //shadowSize:   [50, 64], // size of the shadow
+      iconAnchor: [24, 42], // point of the icon which will correspond to marker's location - half the width and height of icon
+      //shadowAnchor: [4, 62],  // the same for the shadow
+      popupAnchor: [0, -42] // point from which the popup should open relative to the iconAnchor
+    });
+    //end marker
+
+    var overlays;
+    var sidebar = L.control.sidebar('sidebar', { autoPan: false, closeButton: false });
+    sidebar.addTo(map);
+    
+    
+
+    //Toggle OSM Search and Feature Search - remove if no feature search
+    //var hash = L.hash(map);
+    var gpsLocate = L.control.locate({ follow: true, locateOptions: { enableHighAccuracy: true } });
+    //gpsLocate.addTo(map);
+    var homeExtent = L.control.defaultExtent({});
+    //homeExtent.addTo(map);
+    var fullscreen = L.control.fullscreen();
+
+    var loading = L.Control.loading({ position: 'topright' }).addTo(map);
+    var sidebarToggle = L.easyButton({
+      states: [{
+        stateName: 'open-sidebar',      // name the state
+        icon: 'fa-bars fa-lg',          // and define it's properties
+        title: 'Show Sidebar',          // like it's title
+        onClick: function (btn, map) {  // and it's callback
+          sidebar.show();
+          btn.state('close-sidebar');   // change state on click!
+        }
+      }, {
+        stateName: 'close-sidebar',
+        icon: 'fa-times fa-2x',
+        title: 'Hide Sidebar',
+        onClick: function (btn, map) {
+          sidebar.hide();
+          btn.state('open-sidebar');
+        }
+      }],
+      id: 'menu',
+    });
+    var stogglebar = L.easyBar([sidebarToggle], { id: 'toggle' }).addTo(map);
+    //var leafletprint = L.easyPrint();//
+    //end toolbar
+    sidebar.on('hide', function () {
+      sidebarToggle.state('open-sidebar');
+    });
+    sidebar.on('show', function () {
+      sidebarToggle.state('close-sidebar');
+    });
+    //mobile toolbar menu
+    //--tools toggle on small screens
+    var toolshidden = false;
+    var mobilescreen = false;
+    var tools = L.easyButton({
+      states: [{
+        stateName: 'show-tools',   // name the state
+        icon: 'fa-cogs fa-lg',          // and define it's properties
+        title: 'Show Map Tools', // like it's title
+        onClick: function (btn, map) {  // and it's callback
+          leafletprint.addTo(map);
+          gpsLocate.addTo(map);
+          homeExtent.addTo(map);
+          fullscreen.addTo(map);
+          btn.state('hide-tools'); // change state on click!
+          toolshidden = false;
+          //console.log(toolshidden + ' state changed to hideTools');
+        }
+      }, {
+        stateName: 'hide-tools',
+        icon: 'fa-cogs fa-border fa-lg',
+        title: 'Hide Map Tools',
+        onClick: function (btn, map) {
+          //map.removeControl(leafletprint);
+          map.removeControl(gpsLocate);
+          map.removeControl(homeExtent);
+          map.removeControl(fullscreen);
+          btn.state('show-tools');
+          toolshidden = true;
+          //console.log(toolshidden+ ' state changed to showTools');
+        }
+      }],
+      id: 'tools',
+    });
+
+    var w = window.innerWidth;
+
+    if (w < 481) {
+      tools.addTo(map);
+      toolshidden = true;
+      mobilescreen = true;
+      //console.log('mobile tool toggle');
+      //console.log(toolshidden + "mobilescreen: " + mobilescreen);
+    } else {
+      //leafletprint.addTo(map);
+      gpsLocate.addTo(map);
+      homeExtent.addTo(map);
+      fullscreen.addTo(map);
+      toolshidden = false;
+      //console.log(toolshidden + " " + mobilescreen);
+    }
+    window.onresize = function () {
+      if (toolshidden === true && window.innerWidth > 480 && mobilescreen === true) {
+        //leafletprint.addTo(map);
+        gpsLocate.addTo(map);
+        homeExtent.addTo(map);
+        fullscreen.addTo(map);
+
+        map.removeControl(tools);
+        toolshidden = false;
+        mobilescreen = false;
+        //console.log(toolshidden + " " + mobilescreen);
+      }
+      else if (toolshidden === false && mobilescreen === true && window.innerWidth > 481) {
+        tools.state('show-tools');
+        mobilescreen = false;
+        map.removeControl(tools);
+        //console.log(toolshidden + "" + mobilescreen);
+      }
+      else if (toolshidden === false && window.innerWidth < 481 && mobilescreen === false) {
+        //map.removeControl(leafletprint);
+        map.removeControl(gpsLocate);
+        map.removeControl(homeExtent);
+        map.removeControl(fullscreen);
+        tools.addTo(map);
+        toolshidden = true;
+        mobilescreen = true;
+      }
+      else { }
+    };
+    //--end tools toggle
+
+
+    map.spin(true);
+// map stuff 
+    //map.fitBounds(bounds);
+    $(".blank").fadeOut();
+    map.spin(false);
+    setTimeout(function () { sidebar.show() }, 500);
+
+
+
+
+  </script>
+  <!--End Map Post Content-->
+  <!--_includes/footer.html-->
+</body>
+<footer>
+
+  <!-- Modal -->
+  <div class="modal fade" id="introModal" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h2 class="modal-title">Leaflet & Vector Tiles</h2>
+        </div>
+        <div class="modal-body">
+          Scott Township, Lackawanna County, Pa.
+        </div>
+        <div class="modal-footer">
+          <span id="loadingMessage" class="animate-flicker" style="float:left;color:red;"></span>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</footer>
+
+</html>

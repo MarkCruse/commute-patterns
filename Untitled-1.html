@@ -22,18 +22,25 @@
   <!--Begin Map CSS and JS see _includes/map-header.html-->
   <script src="https://maps.google.com/maps/api/js?v=3"></script>
   
-<!--  <link rel="stylesheet" href="https://www.ovrdc.org/apps/assets/ovrdc-map-plugins-leaflet-v1.css" />-->
- <!-- <script src="https://www.ovrdc.org/apps/assets/ovrdc-map-plugins-leaflet-v1.js"></script>-->
+
   <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css" rel='stylesheet' />
   <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.js"></script>
-  <script src="https://www.ovrdc.org/apps/assets/cssjs/leaflet-mapboxgl/leaflet-mapboxgl.js"></script>
   
 
 
   <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css" rel='stylesheet' />
   <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.js"></script>
 
-  <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.js"</script>
+
+  
+  <link rel="stylesheet" href="assets/css/custom-leaflet-0.7.css" />
+  
+  <script src="assets/js/custom-leaflet-0.7.js"></script>
+    <script src="assets/js/leaflet-panel-layers.js"></script>
+
+  <link rel="stylesheet" href="assets/css/custom-ui.css" />
+
   
   <!-- d3 -->
   <script src="https://d3js.org/d3.v5.min.js"></script>
@@ -180,7 +187,7 @@ $('#introModal').on('shown.bs.modal', setTimeout(function(e) {
 function initiateLeafletMap() {
 
 var windowUrl = window.location.href;
-$("#sidebarFooter").append("<a href='https://docs.google.com/forms/d/e/1FAIpQLSd53cAsweLYkkr75KUpN6lHpsQcKbV9XoRNtJEsFsUHdVIVuw/viewform?entry.1286129613&entry.2022340261&entry.519867356=" + windowUrl + "' target='_blank'>Feedback</a>");
+//$("#sidebarFooter").append("<a href='https://docs.google.com/forms/d/e/1FAIpQLSd53cAsweLYkkr75KUpN6lHpsQcKbV9XoRNtJEsFsUHdVIVuw/viewform?entry.1286129613&entry.2022340261&entry.519867356=" + windowUrl + "' target='_blank'>Feedback</a>");
 
 /*--OVRDC Jekyll Map Layout "template: true" --*/
 var mapOptions;
@@ -266,7 +273,7 @@ document.onload = function() {
 
 var mapboxAtt = '<a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a>| <a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a></div>';
 
-var mapboxToken = "pk.eyJ1Ijoib3ZyZGMiLCJhIjoiY2pjbHpsNTNhMGxpOTJ3cm4xODE3bGpsaSJ9.YvQrP4s_CIuz365le0eMQg";
+var mapboxToken = "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew";
 
 var cdbdark = L.mapboxGL({
   accessToken: mapboxToken,
@@ -583,8 +590,7 @@ map.on('zoomend', function() {
 
 </script>
 
-
-<!--  <script src="assets/js/map-app-vectorgrid.js"></script>-->
+<script src="assets/js/map-app-vectorgrid.js"></script>
 
 <!--end default layout-->
 </html>

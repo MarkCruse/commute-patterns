@@ -4,7 +4,7 @@ var $ = d3.select,
 
 // If you change the default loads below. 
 // Be sure to change check-status in index.html!!!
-var map_showing = false,
+var map_showing = true,
     ern1_showing = false,
     ern2_showing = false,
     ern3_showing = false,
@@ -19,6 +19,7 @@ var map_showing = false,
 //long_showing = false,
 //commute_all_showing = false;
 
+/*
 var map = L.map('map', {
     renderer: L.canvas(),
     color: '#e0e0e0'
@@ -36,7 +37,7 @@ tile_layer = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_only_labels/{z}
     attribution: '©OpenStreetMap, ©Carto',
     pane: 'labels'
 }).addTo(mapLayerGroup);
-
+*/
 
 initControls();
 
