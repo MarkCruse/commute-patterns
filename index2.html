@@ -117,13 +117,10 @@
     </div>
   </div>
 
-
-
   <script src="https://d3js.org/d3.v5.min.js"></script>
   <script src="https://unpkg.com/leaflet.vectorgrid@latest/dist/Leaflet.VectorGrid.bundled.js"></script>
 
   <script>
-
 
     var map = L.map('map', {
         renderer: L.canvas(),
@@ -186,8 +183,6 @@
         pane: 'labels'
     }).addTo(mapLayerGroup);
 
-
-
     var theScale = L.control.scale({ metric: false, imperial: true }).addTo(map);
 
     var baseLayers = [
@@ -207,6 +202,7 @@
         layer: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}')
       }
     ];
+   
 var age1LayerGroup = L.layerGroup().addTo(map);
 var age2LayerGroup = L.layerGroup();
 var age3LayerGroup = L.layerGroup();
@@ -216,7 +212,6 @@ var earn3LayerGroup = L.layerGroup();
 var ind1LayerGroup = L.layerGroup();
 var ind2LayerGroup = L.layerGroup();
 var ind3LayerGroup = L.layerGroup();
-    
 
 // *****************************************************
 //                   Color options
@@ -612,50 +607,33 @@ var options_ind3_short = {
     token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew"
 }
 var ind3_short = L.vectorGrid.protobuf(tiles_ind3_short, options_ind3_short).addTo(ind3LayerGroup);
-/*
-    var overLayers = [
+
+var overLayers = [		
+  {
+    group: "Age1LayerGroup",
+    layers: [
+      { 
+        name: "Age1",
+        layer: L.vectorGrid.protobuf(tiles_age1_long, options_age1_long)
+      },
       {
-        active: false,
-      	name: "Zoning",
-        layer: L.geoJson(zoning, {
-          style: function(feature) {
-            return {
-              weight: 2,
-              opacity: 1,
-              color: 'white',
-              dashArray: '3',
-              fillOpacity: getZoneOpacity(feature.properties.ZONE),
-              fillColor: getZoneColor(feature.properties.ZONE)
-            };                
-            }
-          , onEachFeature: onEachZoningFeature})
-      }
-      ,{
-      	active: false,
-      	name: "Floodplains",
-      	layer: L.geoJson(floodplains, {style: floodplainStyle})
-      }
-      ,{
-      	active: false,
-      	name: "Municipal Boundary",
-      	layer: L.geoJson(muni, {style: muniStyle})
-      }
-      ,{
-      	active: false,
-      	name: "Wetlands",
-      	layer: L.geoJson(wetlands, {style: wetlandsStyle})
-      }
-      ,{
-      	active: false,
-      	name: "Buildings",
-      	layer: L.geoJson(buildings, {style: buildingsStyle})
-      }
-    ];
-*/
-    //var layerControl = new L.Control.PanelLayers(baseLayers, overLayers);
-    
-    var layerControl = new L.Control.PanelLayers(baseLayers);
-    map.addControl(layerControl);
+        name: "Age1",
+        layer: L.vectorGrid.protobuf(tiles_age1_medium, options_age1_medium)  
+      },
+      {
+        name: "Age1",
+        layer: L.vectorGrid.protobuf(tiles_age1_short, options_age1_short)
+      },
+      
+    ],
+  }
+  ];
+
+  var layerControl = new L.Control.PanelLayers(baseLayers, overLayers, {
+    collapsibleGroups: true,
+    collapsed: true
+  });
+  map.addControl(layerControl);
     
 
     //--end map-tiles
