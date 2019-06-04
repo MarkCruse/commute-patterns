@@ -63,7 +63,7 @@
           >
         </div>
         <!--<div id="data-story" class="dashboard-area">
-			<span class="nav-subhead">Freight</span>
+			<span class="nav-subhead">Lines</span>
 			<div class="stat" data-ship-type="3" title="Total number of containers carried by ships shown"><i class="fa fa-th"></i> <span class="name">Containers</span> <div class="result"><span id="stat-teu" class="color-by-ship-type value"></span></div></div>
 			<div class="stat" data-ship-type="0" title="Total drybulk carried by ships shown, kilotonnes"><i class="fa fa-caret-up"></i> <span class="name">Dry</span> <div class="result"><span id="stat-drybulk" class="color-by-ship-type value"></span> kt</div></div>
 			<div class="stat" data-ship-type="1" title="Total wetbulk carried by ships shown, kilotonnes"><i class="fa fa-tint"></i> <span class="name">Liquids</span> <div class="result"><span id="stat-wetbulk" class="color-by-ship-type value"></span> kt</div></div>
@@ -160,48 +160,25 @@
             <p>
               You can pan and zoom in the usual ways. The
               controls at the top right let you show and hide different map
-              layers: Age Ranges, Earnings Level, Industry Typ.
-            </p>
-            <h2>What the are types of ships shown?</h2>
+              layers: Age Ranges, Earnings Level, and Industry Type.
+						</p>
+						<h2>What useful purpose does the map serve?</h2>
+						<p>&nbsp;</p>
+            <h2>What do the 3 colors represent?</h2>
             <p>
-              The merchant fleet is divided into five categories, each of which
-              has a filter and a CO<span class="subscript">2</span> and freight
-              counter for the hour shown on the clock. The ship types and units
-              are as follows:
+							The colors show the 3 distance ranges of commute to work lengths.  The ranges are divided almost evenly across all 3 layer categories.<br>
             </p>
             <ul>
               <li>
-                Container (e.g. manufactured goods): number of container slots
-                equivalent to 20 feet (i.e. a 40-foot container takes two slots)
+								The orange color depicts long commutes. Any distance above 28 miles. <br>
               </li>
               <li>
-                Dry bulk (e.g. coal, aggregates): combined weight of cargo,
-                fuel, water, provisions, passengers and crew a vessel can carry,
-                measured in thousand tonnes
+								The blue color depicts medium commuters. Distance less than 28 miles and greater than 20 miles.
               </li>
-              <li>Tanker (e.g. oil, chemicals): same as dry bulk</li>
-              <li>
-                Gas bulk (e.g. liquified natural gas): capacity for gases,
-                measured in cubic metres
-              </li>
-              <li>Vehicles (e.g. cars): same as dry bulk</li>
+              <li>The white represent short commutes. Distances greater then 9 miles and less than 20 miles.</li>
+
             </ul>
-            <h2>Why do ships sometimes appear to move across land?</h2>
-            <p>
-              In some cases this is because there are ships navigating via
-              canals or rivers that aren’t visible on the map. Generally,
-              though, this effect is an artefact of animating a ship between two
-              recorded positions with missing data between, especially when the
-              positions are separated by a narrow strip of land. We may develop
-              the map to remove this effect in the future.
-            </p>
-            <h2>
-              Why are there fewer ships visible in the first part of the year?
-            </h2>
-            <p>
-              Unfortunately the data we are using for the map is incomplete for
-              the first few months of the year: roughly January to April.
-            </p>
+
             <h2>Who created this map?</h2>
             <p>
               The map was created by
