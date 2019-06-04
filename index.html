@@ -1,46 +1,68 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
 
-<head>
-  <!-- Required meta tags -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=UA-140410707-1"
+    ></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
 
-	<!-- Global site tag (gtag.js) - Google Analytics -->
-	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-140410707-1"></script>
-	<script>
-		window.dataLayer = window.dataLayer || [];
-		function gtag(){dataLayer.push(arguments);}
-		gtag('js', new Date());
+      gtag("config", "UA-140410707-1");
+    </script>
 
-		gtag('config', 'UA-140410707-1');
-	</script>
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Share+Tech+Mono|Abel"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+      integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay"
+      crossorigin="anonymous"
+    />
 
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
-  <link href='https://fonts.googleapis.com/css?family=Share+Tech+Mono|Abel' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
-  integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
+    <title>Spatial Patterns in Commute to Workplace Census Data</title>
 
-  <title>Spatial Patterns in Commute to Workplace Census Data</title>
+    <link href="assets/css/style.css" rel="stylesheet" />
+  </head>
 
-  <link href="assets/css/style.css" rel="stylesheet">
+  <body>
+    <div id="map"></div>
 
-</head>
-
-<body>
-<div id="map"></div>
-
-<div id="nav">
-    
-	<div id="dashboard">
-		<!--<div class="stat" id="time-holder"><span class="result"><span id="timestamp"></span></span></div> -->
-		<div id="heading" class="dashboard-area">
-			<span class="nav-subhead">Spatial Patterns in Commute to Workplace Census Data</span>
-		</div>
-		<!--<div id="data-story" class="dashboard-area">
+    <div id="nav">
+      <div id="dashboard">
+        <!--<div class="stat" id="time-holder"><span class="result"><span id="timestamp"></span></span></div> -->
+        <div id="heading" class="dashboard-area">
+          <span class="nav-subhead"
+            >Spatial Patterns in Commute to Workplace Census Data</span
+          >
+        </div>
+        <!--<div id="data-story" class="dashboard-area">
 			<span class="nav-subhead">Freight</span>
 			<div class="stat" data-ship-type="3" title="Total number of containers carried by ships shown"><i class="fa fa-th"></i> <span class="name">Containers</span> <div class="result"><span id="stat-teu" class="color-by-ship-type value"></span></div></div>
 			<div class="stat" data-ship-type="0" title="Total drybulk carried by ships shown, kilotonnes"><i class="fa fa-caret-up"></i> <span class="name">Dry</span> <div class="result"><span id="stat-drybulk" class="color-by-ship-type value"></span> kt</div></div>
@@ -48,66 +70,183 @@
 			<div class="stat" data-ship-type="2" title="Total gas carried by ships shown, cubic meters"><i class="fa fa-fire"></i> <span class="name">Gas</span> <div class="result"><span id="stat-cbm" class="color-by-ship-type value"></span> m<sup>3</sup></div></div>
 			<div class="stat" data-ship-type="4" title="Dead-weight tonnage of vehicle carriers, kilotonnes"><i class="fa fa-car"></i> <span class="name">Vehicles</span> <div class="result" id="result-vehicles "><span id="stat-vehicles" class="color-by-ship-type value"></span> kt</div></div>
 		</div>  -->
-	</div>
-	<div id="options" class="hoverable">
-		<span class="nav-subhead">Options:</span>
-		<div id="togglers" class="option">
-			<div class="option-name">Show <i class="fa fa-chevron-down"></i></div>
-			<div class="option-menu">
-				<div id="map-toggler" class="btn check check"><i class="fa fa-times"></i> <span class="radio-name">Map</span></div>
-				<!--
+      </div>
+      <div id="options" class="hoverable">
+        <span class="nav-subhead">Options:</span>
+        <div id="togglers" class="option">
+          <div class="option-name">Show <i class="fa fa-chevron-down"></i></div>
+          <div class="option-menu">
+            <div id="map-toggler" class="btn check check">
+              <i class="fa fa-times"></i> <span class="radio-name">Map</span>
+            </div>
+            <!--
 				<div id="short-toggler" class="btn check checked"><i class="fa fa-times"></i> <span class="radio-name">Shrt</span></div>
 				<div id="medium-toggler" class="btn check checked"><i class="fa fa-times"></i> <span class="radio-name">Med</span></div>
 				<div id="long-toggler" class="btn check checked"><i class="fa fa-times"></i> <span class="radio-name">Long</span></div>
 				<div id="commute-all-toggler" class="btn check checked"><i class="fa fa-times"></i> <span class="radio-name">All</span></div>
 				-->
-			</div>
-		</div>
-		<div id="ages" class="option">
-			<div class="option-name">Age Range <i class="fa fa-chevron-down"></i></div>
-			<div class="option-menu">
-				<div id="age1-toggler" class="btn check checked"><i class="fa fa-times"></i> <span class="radio-name">To age 29</span></div>
-				<div id="age2-toggler" class="btn check check"><i class="fa fa-times"></i> <span class="radio-name">30 - 54</span></div>
-				<div id="age3-toggler" class="btn check check"><i class="fa fa-times"></i> <span class="radio-name">55 - older</span></div>
-			</div>
-		</div>
-		<div id="earnings" class="option">
-			<div class="option-name">Earnings <i class="fa fa-chevron-down"></i></div>
-			<div class="option-menu">
-				<div id="earn1-toggler" class="btn check check"><i class="fa fa-times"></i> <span class="radio-name">Low</span></div>
-				<div id="earn2-toggler" class="btn check"><i class="fa fa-times"></i> <span class="radio-name">Medium</span></div>
-				<div id="earn3-toggler" class="btn check"><i class="fa fa-times"></i> <span class="radio-name">High</span></div>
-			</div>
-		</div>
-		<div id="industry" class="option">
-			<div class="option-name">Industry <i class="fa fa-chevron-down"></i></div>
-			<div class="option-menu">
-				<div id="goods-toggler" class="btn check check"><i class="fa fa-times"></i> <span class="radio-name">Goods&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br> Producing</span></div>
-				<div id="trade-toggler" class="btn check check"><i class="fa fa-times"></i> <span class="radio-name">Transportation,<br>Trade, Utilities</span></div>
-				<div id="other-toggler" class="btn check check"><i class="fa fa-times"></i> <span class="radio-name">All Other</span></div>
-			</div>
-		</div>
-	</div>
-</div>
+          </div>
+        </div>
+        <div id="ages" class="option">
+          <div class="option-name">
+            Age Range <i class="fa fa-chevron-down"></i>
+          </div>
+          <div class="option-menu">
+            <div id="age1-toggler" class="btn check checked">
+              <i class="fa fa-times"></i>
+              <span class="radio-name">To age 29</span>
+            </div>
+            <div id="age2-toggler" class="btn check check">
+              <i class="fa fa-times"></i>
+              <span class="radio-name">30 - 54</span>
+            </div>
+            <div id="age3-toggler" class="btn check check">
+              <i class="fa fa-times"></i>
+              <span class="radio-name">55 - older</span>
+            </div>
+          </div>
+        </div>
+        <div id="earnings" class="option">
+          <div class="option-name">
+            Earnings <i class="fa fa-chevron-down"></i>
+          </div>
+          <div class="option-menu">
+            <div id="earn1-toggler" class="btn check check">
+              <i class="fa fa-times"></i> <span class="radio-name">Low</span>
+            </div>
+            <div id="earn2-toggler" class="btn check">
+              <i class="fa fa-times"></i> <span class="radio-name">Medium</span>
+            </div>
+            <div id="earn3-toggler" class="btn check">
+              <i class="fa fa-times"></i> <span class="radio-name">High</span>
+            </div>
+          </div>
+        </div>
+        <div id="industry" class="option">
+          <div class="option-name">
+            Industry <i class="fa fa-chevron-down"></i>
+          </div>
+          <div class="option-menu">
+            <div id="goods-toggler" class="btn check check">
+              <i class="fa fa-times"></i>
+              <span class="radio-name"
+                >Goods&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+                Producing</span
+              >
+            </div>
+            <div id="trade-toggler" class="btn check check">
+              <i class="fa fa-times"></i>
+              <span class="radio-name"
+                >Transportation,<br />Trade, Utilities</span
+              >
+            </div>
+            <div id="other-toggler" class="btn check check">
+              <i class="fa fa-times"></i>
+              <span class="radio-name">All Other</span>
+            </div>
+          </div>
+        </div>
+        <div id="info-panel">
+          <div id="info-open" class="btn"><i class="fa fa-info"></i></div>
+          <div id="info-panel-inner">
+            <div class="info-close btn">
+              <i class="fa fa-arrow-left"></i> Back to map
+            </div>
+            <h2>What do I see?</h2>
+            <p>
+							You can see the commute distance lines between work location and home location.
+            </p>
+            <h2>What can I do?</h2>
+            <p>
+              You can pan and zoom in the usual ways. The
+              controls at the top right let you show and hide different map
+              layers: Age Ranges, Earnings Level, Industry Typ.
+            </p>
+            <h2>What the are types of ships shown?</h2>
+            <p>
+              The merchant fleet is divided into five categories, each of which
+              has a filter and a CO<span class="subscript">2</span> and freight
+              counter for the hour shown on the clock. The ship types and units
+              are as follows:
+            </p>
+            <ul>
+              <li>
+                Container (e.g. manufactured goods): number of container slots
+                equivalent to 20 feet (i.e. a 40-foot container takes two slots)
+              </li>
+              <li>
+                Dry bulk (e.g. coal, aggregates): combined weight of cargo,
+                fuel, water, provisions, passengers and crew a vessel can carry,
+                measured in thousand tonnes
+              </li>
+              <li>Tanker (e.g. oil, chemicals): same as dry bulk</li>
+              <li>
+                Gas bulk (e.g. liquified natural gas): capacity for gases,
+                measured in cubic metres
+              </li>
+              <li>Vehicles (e.g. cars): same as dry bulk</li>
+            </ul>
+            <h2>Why do ships sometimes appear to move across land?</h2>
+            <p>
+              In some cases this is because there are ships navigating via
+              canals or rivers that aren’t visible on the map. Generally,
+              though, this effect is an artefact of animating a ship between two
+              recorded positions with missing data between, especially when the
+              positions are separated by a narrow strip of land. We may develop
+              the map to remove this effect in the future.
+            </p>
+            <h2>
+              Why are there fewer ships visible in the first part of the year?
+            </h2>
+            <p>
+              Unfortunately the data we are using for the map is incomplete for
+              the first few months of the year: roughly January to April.
+            </p>
+            <h2>Who created this map?</h2>
+            <p>
+              The map was created by
+Mark Cruse - link to git
+            </p>
+            <h2>How was the map created?</h2>
+            <p>
+nbsp;
+            </p>
+            <h2>Where did you get the data?</h2>
+            <p>
+&nbsp;
+            </p>
 
-  <!-- -------------------------------------------------------------------------------------- -->
+            <div class="info-close btn">
+              <i class="fa fa-arrow-left"></i> Back to map
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-  <!-- Optional JavaScript -->
-  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
-  </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
-  </script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
-  </script>
-  <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
-  <script src="https://d3js.org/d3.v5.min.js"></script>
-  <script src="https://unpkg.com/leaflet.vectorgrid@latest/dist/Leaflet.VectorGrid.bundled.js"></script>
+    <!-- -------------------------------------------------------------------------------------- -->
 
-  <script src="assets/js/map-app-vectorgrid.js"></script>
-</body>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src="https://unpkg.com/leaflet.vectorgrid@latest/dist/Leaflet.VectorGrid.bundled.js"></script>
 
+    <script src="assets/js/map-app-vectorgrid.js"></script>
+  </body>
 </html>

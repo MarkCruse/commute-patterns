@@ -89,7 +89,41 @@ function initControls() {
     $("#trade-toggler").on("click", toggleInd2);
     $("#other-toggler").on("click", toggleInd3);
 
-
+	$("#info-open").on("click", toggleInfoPanel);
+    $$(".info-close").on("click", hideInfoPanel);
+    
+    var info_panel_showing = false;
+    function toggleInfoPanel() {
+        if (info_panel_showing) hideInfoPanel();
+        else showInfoPanel();
+    }
+    
+    function showInfoPanel() {
+        $("#info-panel")
+            .classed("open", true)
+            .style("overflow-y", "scroll")
+            .transition().duration(750)
+            .style("width", window.innerWidth + "px")
+            .style("height", window.innerHeight + "px")
+            .transition().duration(0)
+            .style("width", "100%")
+            .style("height", "100%");
+        info_panel_showing = true;
+    }
+    
+    function hideInfoPanel() {
+        var info = document.getElementById("info-panel");
+        info.scrollTop = 0;
+        $(info).classed("open", false)
+            .style("overflow-y", "hidden")
+            .style("width", window.innerWidth + "px")
+            .style("height", window.innerHeight + "px")
+            .transition().duration(750)
+            .style("width", "40px") // Do not change here without also changing the initial CSS
+            .style("height", document.getElementById("nav").getBoundingClientRect().height + "px");
+        info_panel_showing = false;
+    }
+    
     //************ Show / Hide background map layer  *********
 
     function toggleMap() {
