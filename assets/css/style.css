@@ -28,8 +28,6 @@
     #info-panel-inner h2 { margin: 1em 0 0; font-size: 18px; }
     #info-panel-inner p { margin: 0.25em 0; }
     #info-panel-inner input { width: 100%; }
-    #iiba-link, #iiba-link:hover { border-bottom: none; }
-    #info-panel-inner #iiba { margin-top: 20px; width: 100px; }
     
     #dashboard { float: left; width: calc(100% - 1000px); top: 0px; left: 0; }
     #dashboard .dashboard-area { display: inline-block; vertical-align: top; text-align: center; }
@@ -38,7 +36,7 @@
 
     #options { display: inline-block; float: right; height: 100%; margin-right: 40px; }
     #options i { width: 1em; text-align: center; display: inline-block; }
-    #options .option { display: inline-block; vertical-align: top; padding: 0 6px 3px; position: relative; font-size: 9px; height: 100%; }
+    #options .option { display: inline-block; vertical-align: top; padding: 0 6px 2px; position: relative; font-size: 9px; height: 100%; }
     #options .option .option-name { height: 100%; width: 800px; }
     #options .option .option-menu { display: none; position: absolute; background: rgba(240, 239, 239, 0.664); width: 100%; padding: 3px 3px; text-align: left; }
     #options .option .option-menu .check.checked i::before { content: "\f00c"; }
@@ -48,9 +46,9 @@
     #options .radio.selected i { visibility: visible; }
     #options .radio-name { display: inline-block; }
     
-    #options #togglers .option-name { font-size: 14px; width: 62px; }
-    #options #earnings .option-name { font-size: 14px; width: 83px; }
+    #options #togglers .option-name { font-size: 14px; width: 69px; }
     #options #ages .option-name { font-size: 14px; width: 90px;}
+    #options #earnings .option-name { font-size: 14px; width: 76px; }
     #options #industry .option-name { font-size: 14px; width: 115px; }
 
     /* Disable the filters menu if it has the .disabled class */

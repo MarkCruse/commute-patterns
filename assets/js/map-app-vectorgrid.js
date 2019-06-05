@@ -5,6 +5,7 @@ var $ = d3.select,
 // If you change the default loads below. 
 // Be sure to change check-status in index.html!!!
 var map_showing = false,
+    label_showing = false,
     ern1_showing = false,
     ern2_showing = false,
     ern3_showing = false,
@@ -22,7 +23,7 @@ var map_showing = false,
 var map = L.map('map', {
     renderer: L.canvas(),
     color: '#e0e0e0'
-}).setView([37, -100], 5).setMaxZoom(12).setMinZoom(3);
+}).setView([37, -100], 5).setMaxZoom(12).setMinZoom(4);
 
 
 // add labels & tiles to the map
@@ -30,11 +31,15 @@ map.createPane('labels');
 map.getPane('labels').style.zIndex = 650;
 map.getPane('labels').style.pointerEvents = 'none';
 
-
+//attribution: '©OpenStreetMap Labels, ©Carto',
 var mapLayerGroup = L.layerGroup();
-tile_layer = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}.png', {
-    attribution: '©OpenStreetMap, ©Carto',
+label_layer = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}.png', {
+    attribution:'&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy; <a href="https://carto.com/attributions">CARTO</a>',
     pane: 'labels'
+}).addTo(mapLayerGroup);
+
+tile_layer = L.tileLayer('https://cartocdn_{s}.global.ssl.fastly.net/base-midnight/{z}/{x}/{y}.png', {
+    attribution:'<a href="https://carto.com/attributions">Midnight_cartodb, CARTO</a>',
 }).addTo(mapLayerGroup);
 
 
@@ -72,7 +77,8 @@ function initControls() {
     });
 
     $("#map-toggler").on("click", toggleMap);
-       $("#short-toggler").on("click", toggleShort);
+    $("#label-toggler").on("click", toggleLabel);
+       //$("#short-toggler").on("click", toggleShort);
        //$("#medium-toggler").on("click", toggleMedium);
        //$("#long-toggler").on("click", toggleLong);
        //$("#commute-all-toggler").on("click", toggleCommuteAll);
@@ -144,6 +150,28 @@ function initControls() {
         map.removeLayer(tile_layer);
         $("#map-toggler").classed("checked", false);
         map_showing = false;
+    }    
+
+    //************ Show / Hide  map label layer  *********
+
+    function toggleLabel() {
+        if (label_showing) hideLabel();
+        else showLabel();
+    }
+
+    function showLabel() {
+        if (label_showing) return;
+        label_layer.addTo(map).bringToBack();
+
+        $("#label-toggler").classed("checked", true);
+        label_showing = true;
+    }
+
+    function hideLabel() {
+        if (!label_showing) return;
+        map.removeLayer(label_layer);
+        $("#label-toggler").classed("checked", false);
+        label_showing = false;
     }
 
     
