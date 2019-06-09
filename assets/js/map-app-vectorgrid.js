@@ -19,13 +19,24 @@ var map_showing = false,
 //medium_showing = false,
 //long_showing = false,
 //commute_all_showing = false;
-
+var maxBounds = [
+    [24.9, -124.1], //Southwest
+    [50.0, -68.9] //Northeast
+];
+//.setView([39, -96.5], 5)
 var map = L.map('map', {
     renderer: L.canvas(),
     color: '#e0e0e0'
-}).setView([37, -100], 5).setMaxZoom(12).setMinZoom(4);
-
-
+}).setMaxZoom(12).setMinZoom(4);
+/*
+var map = L.map('map', {
+    'center': [0, 0],
+    'zoom': 0,
+    'maxBounds': maxBounds
+}).fitBounds(maxBounds);
+*/
+map.setMaxBounds(maxBounds);
+map.fitBounds(maxBounds);
 // add labels & tiles to the map
 map.createPane('labels');
 map.getPane('labels').style.zIndex = 650;
