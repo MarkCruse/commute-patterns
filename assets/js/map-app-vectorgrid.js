@@ -31,7 +31,8 @@ var map = L.map('map', {
 
 map.setMaxBounds(maxBounds);
 map.fitBounds(maxBounds);
-/*
+
+/* This section of code is for the leaflet.locate control https://github.com/domoritz/leaflet-locatecontrol
 var lc = L.control.locate({
     position: 'bottomright', 
     locateOptions: {
