@@ -27,12 +27,12 @@ var maxBounds = [
 var map = L.map('map', {
     renderer: L.canvas(),
     color: '#e0e0e0'
-})
+}).setMaxZoom(12).setMinZoom(4);
 
 map.setMaxBounds(maxBounds);
 map.fitBounds(maxBounds);
 
-map.setView([39, -96.5], 5).setMaxZoom(12).setMinZoom(4);
+map.setView([38.3, -98.5], 5)
 // add labels & tiles to the map
 map.createPane('labels');
 map.getPane('labels').style.zIndex = 650;
