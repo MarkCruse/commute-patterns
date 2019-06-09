@@ -31,8 +31,20 @@ var map = L.map('map', {
 
 map.setMaxBounds(maxBounds);
 map.fitBounds(maxBounds);
+/*
+var lc = L.control.locate({
+    position: 'bottomright', 
+    locateOptions: {
+        maxZoom: 10
+    },
+    drawMarker: 'true',
+    strings: {
+        title: "Show my location"
+    }
+}).addTo(map);
+*/
 
-map.setView([38.3, -98.5], 5)
+map.setView([37.3, -96.6], 5)
 // add labels & tiles to the map
 map.createPane('labels');
 map.getPane('labels').style.zIndex = 650;
