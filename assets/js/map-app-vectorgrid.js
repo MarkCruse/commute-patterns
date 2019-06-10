@@ -20,12 +20,37 @@ var map_showing = false,
 //long_showing = false,
 //commute_all_showing = false;
 
+var stat_short, stat_medium, stat_long;
+var stat_short=12313;
+
+
+var maxBounds = [
+    [16.1, -167.1], //Southwest
+    [64.0, -50.9] //Northeast
+];
+
 var map = L.map('map', {
     renderer: L.canvas(),
     color: '#e0e0e0'
-}).setView([37, -100], 5).setMaxZoom(12).setMinZoom(4);
+}).setMaxZoom(12).setMinZoom(4);
 
+map.setMaxBounds(maxBounds);
+map.fitBounds(maxBounds);
 
+/* This section of code is for the leaflet.locate control https://github.com/domoritz/leaflet-locatecontrol
+var lc = L.control.locate({
+    position: 'bottomright', 
+    locateOptions: {
+        maxZoom: 10
+    },
+    drawMarker: 'true',
+    strings: {
+        title: "Show my location"
+    }
+}).addTo(map);
+*/
+
+map.setView([37.3, -96.6], 5)
 // add labels & tiles to the map
 map.createPane('labels');
 map.getPane('labels').style.zIndex = 650;
@@ -55,6 +80,9 @@ var ind1LayerGroup = L.layerGroup();
 var ind2LayerGroup = L.layerGroup();
 var ind3LayerGroup = L.layerGroup();
 //var shortLayerGroup = L.layerGroup();
+stat_short = $("#stat-short");
+stat_medium = $("#stat-medium");
+stat_long = $("#stat-long");
 
 
 function initControls() {
