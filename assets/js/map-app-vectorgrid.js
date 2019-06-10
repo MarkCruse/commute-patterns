@@ -19,6 +19,11 @@ var map_showing = false,
 //medium_showing = false,
 //long_showing = false,
 //commute_all_showing = false;
+
+var stat_short, stat_medium, stat_long;
+var stat_short=12313;
+
+
 var maxBounds = [
     [16.1, -167.1], //Southwest
     [64.0, -50.9] //Northeast
@@ -75,6 +80,9 @@ var ind1LayerGroup = L.layerGroup();
 var ind2LayerGroup = L.layerGroup();
 var ind3LayerGroup = L.layerGroup();
 //var shortLayerGroup = L.layerGroup();
+stat_short = $("#stat-short");
+stat_medium = $("#stat-medium");
+stat_long = $("#stat-long");
 
 
 function initControls() {

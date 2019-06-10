@@ -67,14 +67,7 @@
             >Spatial Patterns in Commute to Workplace Census Data</span
           >
         </div>
-        <!--<div id="data-story" class="dashboard-area">
-			<span class="nav-subhead">Lines</span>
-			<div class="stat" data-ship-type="3" title="Total number of containers carried by ships shown"><i class="fa fa-th"></i> <span class="name">Containers</span> <div class="result"><span id="stat-teu" class="color-by-ship-type value"></span></div></div>
-			<div class="stat" data-ship-type="0" title="Total drybulk carried by ships shown, kilotonnes"><i class="fa fa-caret-up"></i> <span class="name">Dry</span> <div class="result"><span id="stat-drybulk" class="color-by-ship-type value"></span> kt</div></div>
-			<div class="stat" data-ship-type="1" title="Total wetbulk carried by ships shown, kilotonnes"><i class="fa fa-tint"></i> <span class="name">Liquids</span> <div class="result"><span id="stat-wetbulk" class="color-by-ship-type value"></span> kt</div></div>
-			<div class="stat" data-ship-type="2" title="Total gas carried by ships shown, cubic meters"><i class="fa fa-fire"></i> <span class="name">Gas</span> <div class="result"><span id="stat-cbm" class="color-by-ship-type value"></span> m<sup>3</sup></div></div>
-			<div class="stat" data-ship-type="4" title="Dead-weight tonnage of vehicle carriers, kilotonnes"><i class="fa fa-car"></i> <span class="name">Vehicles</span> <div class="result" id="result-vehicles "><span id="stat-vehicles" class="color-by-ship-type value"></span> kt</div></div>
-		</div>  -->
+
       </div>
       <div id="options" class="hoverable">
         <span class="nav-subhead">Options:</span>
@@ -228,6 +221,25 @@
             </div>
           </div>
         </div>
+        </div>
+      <!-- end nav div-->
+    </div>
+    <div id="foot">
+      <div id="statbar">
+          <span class="foot-subhead">Commute Length:</span>
+          <div class="stat" data-line-type="0" title="Total number of short commute lines">
+              <i class="fas fa-square stat-short-color" aria-hidden="true"></i> <span class="name">24,000 meters </span> 
+              <div class="result" id="result-short"><span id="stat-short" class="color-by-line-type value"></span> </div>
+          </div>
+          <div class="stat" data-line-type="1" title="Total number of medium commute lines">
+              <i class="fas fa-square stat-medium-color"></i> <span class="name">Medium commute</span> 
+              <div class="result" id="result-short"><span id="stat-medium" class="color-by-line-type value"></span></div>
+          </div>
+          <div class="stat" data-line-type="2" title="Total number of long commute lines">
+              <i class="fas fa-square stat-long-color"></i> <span class="name">Long Commute</span> 
+              <div class="result" id="result-short"><span id="stat-long" class="color-by-line-type value"></span></div>
+          </div>
+
       </div>
     </div>
 

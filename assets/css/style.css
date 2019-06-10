@@ -17,6 +17,19 @@
     #nav { position: fixed; top: 0px; left: 0px; width: 100%; height: 25px; background: rgba(50,50,50,0.75); z-index: 1001; padding: 3px 15px 0px; }
     #nav .nav-subhead { font-size: 14px; letter-spacing: 1px; display: inline-block; vertical-align: top; margin-right: 10px; }
 
+    #foot { position: fixed; bottom: 0px; left: 200px; width: 100%; height: 25px; background: rgba(15, 15, 15, 0.39); z-index: 1001; padding: 3px 15px 0px; }
+    #statbar { float: left; width: calc(100% - 510px); text-align: center;  top: 0px; left: 5px; }
+    #statbar .foot-subhead { font-size: 12px; letter-spacing: 1px; display: inline-block; vertical-align: top; margin-right: 10px; }
+    #foot .stat { font-size: 12px; display: inline-block; vertical-align: top; }
+    #foot .stat-short-color {color: #ffffcc; }
+    #foot .stat-medium-color {color: #084594; }
+    #foot .stat-long-color {color: orange; }
+    #foot .stat .value { color: rgb(70, 70, 70); font-family: 'Share Tech Mono'; letter-spacing: -1px; }
+    #foot.color-coded .stat .value { color: red; }
+    #foot .stat #result-short { min-width: 24px; }
+    #foot .stat .result { display: inline-block; line-height: 1; }
+  
+
     #info-panel { position: fixed; right: 0; top: 0; font-size: 18px; height: 25px; width: 40px; background: rgba(255,255,255,0.9); overflow: hidden; z-index: 1003; }
     #info-open { color: black; width: 40px; position: absolute; top: 0; right: 0; padding-top: 0.1em; text-align: center; }
     .info-close { display: none; font-size: 20px; }
@@ -32,7 +45,7 @@
     #dashboard { float: left; width: calc(100% - 1000px); top: 0px; left: 0; }
     #dashboard .dashboard-area { display: inline-block; vertical-align: top; text-align: center; }
 
-    #dashboard .stat, #options .option-name { font-size: 13px; display: inline-block; vertical-align: top; }
+    #dashboard #options .option-name { font-size: 13px; display: inline-block; vertical-align: top; }
 
     #options { display: inline-block; float: right; height: 100%; margin-right: 40px; }
     #options i { width: 1em; text-align: center; display: inline-block; }
@@ -79,13 +92,7 @@
     .option-menu { margin-top: 0px; }
     body.guardian #dashboard { width: 170px; } /*To accommodate wider font*/
     #dashboard .dashboard-area { display: block; }
-    #dashboard .stat { text-align: left; display: block; }
-    #dashboard .stat .result { display: inline-block; }
-    #dashboard #freight .stat { margin: 0; }
-    #dashboard #carbon { float: none; text-align: left; }
-    #dashboard #freight { margin: 0; }
     #map .leaflet-control-zoom { top: 20px; }
-    #dashboard #time-holder { position: relative; text-shadow: none; color: rgb(200,225,255); left: 0; margin-top: 0; }
     #credits { right: auto;  left: 20px; text-align: left; }
   }
 
