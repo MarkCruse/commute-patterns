@@ -14,14 +14,14 @@
     .btn:hover { opacity: 0.5; }
     .btn.selected, .btn.selected:hover { opacity: 1; cursor: default; }
 
-    #nav { position: fixed; top: 0px; left: 0px; width: 100%; height: 25px; background: rgba(50,50,50,0.75); z-index: 1001; padding: 3px 2px 0px; }
+    #nav { position: fixed; top: 0px; left: 0px; width: 100%; height: 25px; background: rgba(50,50,50,0.85); z-index: 1001; padding: 3px 2px 0px; }
     #nav .nav-subhead { font-size: 14px; letter-spacing: 1px; display: inline-block; vertical-align: top; margin-right: 10px; margin-left: 10px; font-weight: bold;}
 
-    #foot { position: fixed; bottom: 0px;  width: 100%; height: 25px; background: rgba(41, 41, 41, 0.454); z-index: 1001; padding: 3px 15px 0px; color: rgba(165, 164, 164, 0.899)}
+    #foot { position: fixed; bottom: 0px; width: calc(100% - 300px); height: 25px; background: rgba(41, 41, 41, 0.454); z-index: 1001; padding: 3px 15px 0px; color: rgba(165, 164, 164, 0.899)}
     #credit { float: left; width: 140px; text-align: left; top: 0px; left: 5px; }
     #credit .credit-line { font-size: 12px; letter-spacing: 1px; display: inline-block; vertical-align: top; margin-right: 2px; }
 
-    #statbar { float: left; width: calc(100% - 310px); text-align: center;  top: 0px; left: 5px; }
+    #statbar { float: left; width: calc(100% - 150px); text-align: center;  top: 0px; left: 5px; }
     #statbar .foot-subhead { font-size: 12px; letter-spacing: 1px; display: inline-block; vertical-align: top; margin-right: 10px; }
 
     #foot .stat { font-size: 12px; display: inline-block; vertical-align: top; }
@@ -33,7 +33,7 @@
     #foot .stat #result-short { min-width: 10px; }
     #foot .stat .result { display: inline-block; line-height: 1; }
   
-    #info-panel { position: fixed; right: 0; top: 0; font-size: 18px; height: 25px; width: 40px; background: rgba(255,255,255,0.9); overflow: hidden; z-index: 1003; }
+    #info-panel { position: fixed; right: 0; top: 0; font-size: 18px; height: 25px; width: 40px; background: rgba(255, 255, 255, 0.952); overflow: hidden; z-index: 1003; }
     #info-open { color: black; width: 40px; position: absolute; top: 0; right: 0; padding-top: 0.1em; text-align: center; }
     .info-close { display: none; font-size: 20px; }
     #info-panel.open #info-open i::before { content: "\f00d"; }
@@ -41,7 +41,7 @@
     #info-panel.open .info-close { margin: 30px 0; }
     #info-panel-inner { position: relative; color: black; text-align: left; margin: 50px auto; height: 100%; padding: 20px 20px; max-width: 600px; font-size: 15px; line-height: 1.2; }
     #info-panel-inner h1 { margin: 1em 0 0; }
-    #info-panel-inner h2 { margin: 1em 0 0; font-size: 18px; }
+    #info-panel-inner h2 { margin: 1em 0 0; font-size: 18px;font-weight: bold; }
     #info-panel-inner p { margin: 0.25em 0; }
     #info-panel-inner input { width: 100%; }
     
