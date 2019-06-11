@@ -14,22 +14,25 @@
     .btn:hover { opacity: 0.5; }
     .btn.selected, .btn.selected:hover { opacity: 1; cursor: default; }
 
-    #nav { position: fixed; top: 0px; left: 0px; width: 100%; height: 25px; background: rgba(50,50,50,0.75); z-index: 1001; padding: 3px 15px 0px; }
+    #nav { position: fixed; top: 0px; left: 0px; width: 100%; height: 25px; background: rgba(50,50,50,0.75); z-index: 1001; padding: 3px 2px 0px; }
     #nav .nav-subhead { font-size: 14px; letter-spacing: 1px; display: inline-block; vertical-align: top; margin-right: 10px; }
 
-    #foot { position: fixed; bottom: 0px; left: 200px; width: 100%; height: 25px; background: rgba(15, 15, 15, 0.39); z-index: 1001; padding: 3px 15px 0px; }
-    #statbar { float: left; width: calc(100% - 510px); text-align: center;  top: 0px; left: 5px; }
+    #foot { position: fixed; bottom: 0px;  width: 100%; height: 25px; background: rgba(41, 41, 41, 0.454); z-index: 1001; padding: 3px 15px 0px; color: rgba(165, 164, 164, 0.899)}
+    #credit { float: left; width: 140px; text-align: left; top: 0px; left: 5px; }
+    #credit .credit-line { font-size: 12px; letter-spacing: 1px; display: inline-block; vertical-align: top; margin-right: 2px; }
+
+    #statbar { float: left; width: calc(100% - 310px); text-align: center;  top: 0px; left: 5px; }
     #statbar .foot-subhead { font-size: 12px; letter-spacing: 1px; display: inline-block; vertical-align: top; margin-right: 10px; }
+
     #foot .stat { font-size: 12px; display: inline-block; vertical-align: top; }
     #foot .stat-short-color {color: #ffffcc; }
-    #foot .stat-medium-color {color: #084594; }
-    #foot .stat-long-color {color: orange; }
+    #foot .stat-medium-color {color: #084594f7; }
+    #foot .stat-long-color {color: rgba(255, 166, 0, 0.913); }
     #foot .stat .value { color: rgb(70, 70, 70); font-family: 'Share Tech Mono'; letter-spacing: -1px; }
     #foot.color-coded .stat .value { color: red; }
-    #foot .stat #result-short { min-width: 24px; }
+    #foot .stat #result-short { min-width: 10px; }
     #foot .stat .result { display: inline-block; line-height: 1; }
   
-
     #info-panel { position: fixed; right: 0; top: 0; font-size: 18px; height: 25px; width: 40px; background: rgba(255,255,255,0.9); overflow: hidden; z-index: 1003; }
     #info-open { color: black; width: 40px; position: absolute; top: 0; right: 0; padding-top: 0.1em; text-align: center; }
     .info-close { display: none; font-size: 20px; }
@@ -42,14 +45,14 @@
     #info-panel-inner p { margin: 0.25em 0; }
     #info-panel-inner input { width: 100%; }
     
-    #dashboard { float: left; width: calc(100% - 1000px); top: 0px; left: 0; }
+    #dashboard { float: left; width: calc(100% - 100px); top: 0px; left: 0; }
     #dashboard .dashboard-area { display: inline-block; vertical-align: top; text-align: center; }
 
     #dashboard #options .option-name { font-size: 13px; display: inline-block; vertical-align: top; }
 
-    #options { display: inline-block; float: right; height: 100%; margin-right: 40px; }
+    #options { display: inline-block; float: right; height: 100%; margin-right: 4px; }
     #options i { width: 1em; text-align: center; display: inline-block; }
-    #options .option { display: inline-block; vertical-align: top; padding: 0 6px 2px; position: relative; font-size: 9px; height: 100%; }
+    #options .option { display: inline-block; vertical-align: top; padding: 0 1px 1px; position: relative; font-size: 9px; height: 100%; }
     #options .option .option-name { height: 100%; width: 400px; }
     #options .option .option-menu { display: none; position: absolute; background: rgba(240, 239, 239, 0.664); width: 100%; padding: 1px 1px; text-align: left; }
     #options .option .option-menu .check.checked i::before { content: "\f00c"; }
@@ -59,10 +62,10 @@
     #options .radio.selected i { visibility: visible; }
     #options .radio-name { display: inline-block; }
     
-    #options #togglers .option-name { font-size: 14px; width: 69px; }
-    #options #ages .option-name { font-size: 14px; width: 90px;}
-    #options #earnings .option-name { font-size: 14px; width: 76px; }
-    #options #industry .option-name { font-size: 14px; width: 115px; }
+    #options #togglers .option-name { font-size: 14px; width: 75px; }
+    #options #ages .option-name { font-size: 14px; width: 95px;}
+    #options #earnings .option-name { font-size: 14px; width: 82px; }
+    #options #industry .option-name { font-size: 14px; width: 121px; }
 
     /* Disable the filters menu if it has the .disabled class */
     #options #filters.disabled .option-name { color: #666; cursor: default; }
@@ -81,18 +84,35 @@
     #options { width: 100%; text-align: center; background: rgba(50,50,50,0.5); float: none; }
     .option-name { padding-top: 0px; }
     .option-menu { margin-top: 0px; }
-  }
+    #foot { width: 100%; left: 0px; height: 35px; }
+    #credit { left: 1px; }
+    #statbar { text-align: right; width: 280px;    }
+    }
+  
 
   @media only screen and (max-width: 820px) {
     #nav .nav-subhead { display: none; }
     #nav, #info-panel { height: 25px; }
     #info-panel  #info-open { padding-top: 0.2em; }
-    #options { width: 100%; text-align: center; background: rgba(50,50,50,0.5); float: none; }
+
+    #options {
+      width: 100%;
+      text-align: left;
+      padding-left: 3px;
+      background: rgba(50, 50, 50, 0.5);
+    }
     .option-name { padding-top: 0px; }
     .option-menu { margin-top: 0px; }
     body.guardian #dashboard { width: 170px; } /*To accommodate wider font*/
     #dashboard .dashboard-area { display: block; }
-    #map .leaflet-control-zoom { top: 20px; }
-    #credits { right: auto;  left: 20px; text-align: left; }
-  }
+    #map .leaflet-control-zoom { bottom: 40px; }
 
+    #foot { width: 100%;
+      left: 0px;
+      height: 35px;
+    }
+    #credit {
+      left: 1px;
+    }
+    #statbar { text-align: right; width: 280px; }
+    }
