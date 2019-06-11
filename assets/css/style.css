@@ -15,7 +15,7 @@
     .btn.selected, .btn.selected:hover { opacity: 1; cursor: default; }
 
     #nav { position: fixed; top: 0px; left: 0px; width: 100%; height: 25px; background: rgba(50,50,50,0.75); z-index: 1001; padding: 3px 2px 0px; }
-    #nav .nav-subhead { font-size: 14px; letter-spacing: 1px; display: inline-block; vertical-align: top; margin-right: 10px; }
+    #nav .nav-subhead { font-size: 14px; letter-spacing: 1px; display: inline-block; vertical-align: top; margin-right: 10px; margin-left: 10px; font-weight: bold;}
 
     #foot { position: fixed; bottom: 0px;  width: 100%; height: 25px; background: rgba(41, 41, 41, 0.454); z-index: 1001; padding: 3px 15px 0px; color: rgba(165, 164, 164, 0.899)}
     #credit { float: left; width: 140px; text-align: left; top: 0px; left: 5px; }
@@ -53,7 +53,7 @@
     #options { display: inline-block; float: right; height: 100%; margin-right: 4px; }
     #options i { width: 1em; text-align: center; display: inline-block; }
     #options .option { display: inline-block; vertical-align: top; padding: 0 1px 1px; position: relative; font-size: 9px; height: 100%; }
-    #options .option .option-name { height: 100%; width: 400px; }
+    #options .option .option-name { height: 100%; width: 400px; left: 5px; }
     #options .option .option-menu { display: none; position: absolute; background: rgba(240, 239, 239, 0.664); width: 100%; padding: 1px 1px; text-align: left; }
     #options .option .option-menu .check.checked i::before { content: "\f00c"; }
     #options.hoverable .option:hover .option-menu,
