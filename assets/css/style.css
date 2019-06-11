@@ -45,7 +45,7 @@
     #info-panel-inner p { margin: 0.25em 0; }
     #info-panel-inner input { width: 100%; }
     
-    #dashboard { float: left; width: calc(100% - 100px); top: 0px; left: 0; }
+    #dashboard { float: left; width: calc(100% - 460px); top: 0px; left: 0; }
     #dashboard .dashboard-area { display: inline-block; vertical-align: top; text-align: center; }
 
     #dashboard #options .option-name { font-size: 13px; display: inline-block; vertical-align: top; }
