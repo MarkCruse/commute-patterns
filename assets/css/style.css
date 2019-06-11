@@ -91,7 +91,7 @@
   
 
   @media only screen and (max-width: 820px) {
-    #nav .nav-subhead .credit-line { display: none; }
+    #nav .nav-subhead { display: none; }
     #nav, #info-panel { height: 25px; }
     #info-panel  #info-open { padding-top: 0.2em; }
 
@@ -112,7 +112,7 @@
       height: 35px;
     }
     #credit {
-      left: 1px;
+      display: none;
     }
     #statbar { text-align: right; width: 280px; }
     }
