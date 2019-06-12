@@ -1,316 +1,293 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
 
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=UA-140410707-1"
-    ></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag("js", new Date());
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 
-      gtag("config", "UA-140410707-1");
-    </script>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-140410707-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
 
-    <!-- Bootstrap CSS -->
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-      crossorigin="anonymous"
-    />
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
-    />
-    <link
-      href="https://fonts.googleapis.com/css?family=Share+Tech+Mono|Abel"
-      rel="stylesheet"
-      type="text/css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
-      integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay"
-      crossorigin="anonymous"
-    />
-    <!-- Leaflet.Locate-->
-    <!--
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+
+    gtag("config", "UA-140410707-1");
+  </script>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" />
+  <link href="https://fonts.googleapis.com/css?family=Share+Tech+Mono|Abel" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
+    integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous" />
+  <!-- Leaflet.Locate-->
+  <!--
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/leaflet-locatecontrol/0.67.0/L.Control.Locate.min.css">
     -->
-    <title>Spatial Patterns in Commute to Workplace Census Data</title>
+  <title>Spatial Patterns in Commute to Workplace Census Data</title>
 
-    <link href="assets/css/style.css" rel="stylesheet" />
-  </head>
+  <link href="assets/css/style.css" rel="stylesheet" />
+</head>
 
-  <body>
-    <div id="map"></div>
+<body>
+  <div id="map"></div>
 
-    <div id="nav">
-      <div id="dashboard">
-        <!--<div class="stat" id="time-holder"><span class="result"><span id="timestamp"></span></span></div> -->
-        <div id="heading" class="dashboard-area">
-          <span class="nav-subhead"
-            >Spatial Patterns in Commute to Workplace Census Data</span
-          >
-        </div>
-
+  <div id="nav">
+    <div id="dashboard">
+      <!--<div class="stat" id="time-holder"><span class="result"><span id="timestamp"></span></span></div> -->
+      <div id="heading" class="dashboard-area">
+        <span class="nav-subhead">Spatial Patterns in Commute to Workplace Census Data</span>
       </div>
-      <div id="options" class="hoverable">
-        <span class="nav-subhead">Options:</span>
-        <div id="togglers" class="option">
-          <div class="option-name">Show <i class="fa fa-chevron-down"></i></div>
-          <div class="option-menu">
-            <div id="map-toggler" class="btn check check">
-              <i class="fa fa-times"></i> <span class="radio-name">Map</span>
-            </div>
-            <div id="label-toggler" class="btn check check">
-              <i class="fa fa-times"></i> <span class="radio-name">Labels</span>
-            </div>
-            <!--
+
+    </div>
+    <div id="options" class="hoverable">
+      <span class="nav-subhead">Options:</span>
+      <div id="togglers" class="option">
+        <div class="option-name">Show <i class="fa fa-chevron-down"></i></div>
+        <div class="option-menu">
+          <div id="map-toggler" class="btn check check">
+            <i class="fa fa-times"></i> <span class="radio-name">Map</span>
+          </div>
+          <div id="label-toggler" class="btn check check">
+            <i class="fa fa-times"></i> <span class="radio-name">Labels</span>
+          </div>
+          <!--
 				<div id="short-toggler" class="btn check checked"><i class="fa fa-times"></i> <span class="radio-name">Shrt</span></div>
 				<div id="medium-toggler" class="btn check checked"><i class="fa fa-times"></i> <span class="radio-name">Med</span></div>
 				<div id="long-toggler" class="btn check checked"><i class="fa fa-times"></i> <span class="radio-name">Long</span></div>
 				<div id="commute-all-toggler" class="btn check checked"><i class="fa fa-times"></i> <span class="radio-name">All</span></div>
 				-->
+        </div>
+      </div>
+      <div id="ages" class="option">
+        <div class="option-name">
+          Age Range <i class="fa fa-chevron-down"></i>
+        </div>
+        <div class="option-menu">
+          <div id="age1-toggler" class="btn check checked">
+            <i class="fa fa-times"></i>
+            <span class="radio-name">To age 29</span>
+          </div>
+          <div id="age2-toggler" class="btn check check">
+            <i class="fa fa-times"></i>
+            <span class="radio-name">30 - 54</span>
+          </div>
+          <div id="age3-toggler" class="btn check check">
+            <i class="fa fa-times"></i>
+            <span class="radio-name">55 - older</span>
           </div>
         </div>
-        <div id="ages" class="option">
-          <div class="option-name">
-            Age Range <i class="fa fa-chevron-down"></i>
+      </div>
+      <div id="earnings" class="option">
+        <div class="option-name">
+          Earnings <i class="fa fa-chevron-down"></i>
+        </div>
+        <div class="option-menu">
+          <div id="earn1-toggler" class="btn check check">
+            <i class="fa fa-times"></i> <span class="radio-name">Low</span>
           </div>
-          <div class="option-menu">
-            <div id="age1-toggler" class="btn check checked">
-              <i class="fa fa-times"></i>
-              <span class="radio-name">To age 29</span>
-            </div>
-            <div id="age2-toggler" class="btn check check">
-              <i class="fa fa-times"></i>
-              <span class="radio-name">30 - 54</span>
-            </div>
-            <div id="age3-toggler" class="btn check check">
-              <i class="fa fa-times"></i>
-              <span class="radio-name">55 - older</span>
-            </div>
+          <div id="earn2-toggler" class="btn check">
+            <i class="fa fa-times"></i> <span class="radio-name">Medium</span>
+          </div>
+          <div id="earn3-toggler" class="btn check">
+            <i class="fa fa-times"></i> <span class="radio-name">High</span>
           </div>
         </div>
-        <div id="earnings" class="option">
-          <div class="option-name">
-            Earnings <i class="fa fa-chevron-down"></i>
+      </div>
+      <div id="industry" class="option">
+        <div class="option-name">
+          Industry <i class="fa fa-chevron-down"></i>
+        </div>
+        <div class="option-menu">
+          <div id="goods-toggler" class="btn check check">
+            <i class="fa fa-times"></i>
+            <span class="radio-name">Goods&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
+              Producing</span>
           </div>
-          <div class="option-menu">
-            <div id="earn1-toggler" class="btn check check">
-              <i class="fa fa-times"></i> <span class="radio-name">Low</span>
-            </div>
-            <div id="earn2-toggler" class="btn check">
-              <i class="fa fa-times"></i> <span class="radio-name">Medium</span>
-            </div>
-            <div id="earn3-toggler" class="btn check">
-              <i class="fa fa-times"></i> <span class="radio-name">High</span>
-            </div>
+          <div id="trade-toggler" class="btn check check">
+            <i class="fa fa-times"></i>
+            <span class="radio-name">Transportation,<br />Trade, Utilities</span>
+          </div>
+          <div id="other-toggler" class="btn check check">
+            <i class="fa fa-times"></i>
+            <span class="radio-name">All Other</span>
           </div>
         </div>
-        <div id="industry" class="option">
-          <div class="option-name">
-            Industry <i class="fa fa-chevron-down"></i>
-          </div>
-          <div class="option-menu">
-            <div id="goods-toggler" class="btn check check">
-              <i class="fa fa-times"></i>
-              <span class="radio-name"
-                >Goods&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br />
-                Producing</span
-              >
-            </div>
-            <div id="trade-toggler" class="btn check check">
-              <i class="fa fa-times"></i>
-              <span class="radio-name"
-                >Transportation,<br />Trade, Utilities</span
-              >
-            </div>
-            <div id="other-toggler" class="btn check check">
-              <i class="fa fa-times"></i>
-              <span class="radio-name">All Other</span>
+      </div>
+      <div id="foot">
+        <div id="credit">
+          <span class="credit-line">Designed by: Mark Cruse</span></div>
+        <div id="statbar">
+          <span class="foot-subhead">Commute Length:</span>
+          <div class="stat" data-line-type="0" title="15 - 19 mile commute">
+            <i class="fas fa-square stat-short-color" aria-hidden="true"></i> <span class="name">Short </span>
+            <div class="result" id="result-short"><span id="stat-short" class="color-by-line-type value"></span>
             </div>
           </div>
+          <div class="stat" data-line-type="1" title="20 - 28 mile commute">
+            <i class="fas fa-square stat-medium-color"></i> <span class="name">Medium</span>
+            <div class="result" id="result-short"><span id="stat-medium" class="color-by-line-type value"></span>
+            </div>
+          </div>
+          <div class="stat" data-line-type="2" title="29 - 62 mile commute">
+            <i class="fas fa-square stat-long-color"></i> <span class="name">Long</span>
+            <div class="result" id="result-short"><span id="stat-long" class="color-by-line-type value"></span>
+            </div>
+          </div>
+
         </div>
+              </div>
+              <!-- end nav div-->
+              </div>
         <div id="info-panel">
           <div id="info-open" class="btn"><i class="fa fa-info"></i></div>
           <div id="info-panel-inner">
             <div class="info-close btn">
               <i class="fa fa-arrow-left"></i> Back to map
             </div>
-      <h2>What do I see?</h2>
-      <p>
-        You can see the commute distance lines between work location and home
-        location. The current dataset is limited to work location Census blocks which
-        contain 1,000 to 15,000 employees. The data is filtered to only
-        include employees who travel at least 24,000 meters (roughly 15
-        miles). The commute distance is also filtered on the high end to
-        remove telecommuters. The high end limit for a commute distance is set to
-        100,000 meters or 62 miles. All distances are calculated as the most
-        direct path between the two points. Travel distances therefore may be
-        greater depending on the available highway routes between locations.
-        <br /><br />The map is pre-set to display the commute lines for all
-        employees within the dataset who are between the ages of 14 - 29 years.
-      </p>
-      <h2>What can I do?</h2>
-      <p>
-        You can pan and zoom in the usual ways. The controls at the top right
-        let you show and hide different map layers: Age Ranges, Earnings
-        Level, and Industry Type. The Show option allows for turning on and
-        off the background map and location labels.
-      </p>
-      <h2>What useful purpose does the map serve?</h2>
-      <p>
-        Residence to workplace employment commute data have a broad interest
-        group including urban and regional planners, social science and
-        transportation researchers, businesses, and emergency management and assessment.
-      </p>
-      <h2>What do the 3 colors represent?</h2>
-      <p>
-        The colors show the 3 distance ranges of commute to work lengths. The
-        ranges are divided almost evenly across all 3 layer categories. Distance is derived from straight line
-        calculation between the workplace and residence locations.<br />
-      </p>
-      <ul>
-        <li>
-          The orange color depicts long commutes - any distance greater than 28 miles.
-          <br />
-        </li>
-        <li>
-          The blue color depicts medium commuters - a distance less than 28
-          miles and 20 or more miles between the workplace and home residence.
-        </li>
-        <li>
-          The white lines represent short commutes - distances between 15 and 20 miles.
-        </li>
-      </ul>
+            <h2>What do I see?</h2>
+            <p>
+              You can see the commute distance lines between work location and home
+              location. The current dataset is limited to work location Census blocks which
+              contain 1,000 to 15,000 employees. The data is filtered to only
+              include employees who travel at least 24,000 meters (roughly 15
+              miles). The commute distance is also filtered on the high end to
+              remove telecommuters. The high end limit for a commute distance is set to
+              100,000 meters or 62 miles. All distances are calculated as the most
+              direct path between the two points. Travel distances therefore may be
+              greater depending on the available highway routes between locations.
+              <br /><br />The map is pre-set to display the commute lines for all
+              employees within the dataset who are between the ages of 14 - 29 years.
+            </p>
+            <h2>What can I do?</h2>
+            <p>
+              You can pan and zoom in the usual ways. The controls at the top right
+              let you show and hide different map layers: Age Ranges, Earnings
+              Level, and Industry Type. The Show option allows for turning on and
+              off the background map and location labels.
+            </p>
+            <h2>What useful purpose does the map serve?</h2>
+            <p>
+              Residence to workplace employment commute data have a broad interest
+              group including urban and regional planners, social science and
+              transportation researchers, businesses, and emergency management and assessment.
+            </p>
+            <h2>What do the 3 colors represent?</h2>
+            <p>
+              The colors show the 3 distance ranges of commute to work lengths. The
+              ranges are divided almost evenly across all 3 layer categories. Distance is derived from straight line
+              calculation between the workplace and residence locations.<br />
+            </p>
+            <ul>
+              <li>
+                The orange color depicts long commutes - any distance greater than 28 miles.
+                <br />
+              </li>
+              <li>
+                The blue color depicts medium commuters - a distance less than 28
+                miles and 20 or more miles between the workplace and home residence.
+              </li>
+              <li>
+                The white lines represent short commutes - distances between 15 and 20 miles.
+              </li>
+            </ul>
 
-      <h2>What do the 3 earnings levels define?</h2>
-      <ul>
-        <li>
-          Low represents earnings less than $1,250 per month.
-          <br />
-        </li>
-        <li>
-          Medium represents earnings between $1,251 and $3,333 per month.
-        </li>
-        <li>
-          High represents earnings greater than $3,333 per month.
-        </li>
-      </ul>
-      <h2>What is included in each of the 3 Industry categories?</h2>
-      <p>Goods Producing is comprised of jobs in the following NAICS sectors:
-        <ul>
-          <li>Agriculture, Forestry, Fishing and Hunting (11)</li>
-          <li>Mining, Quarrying, and Oil and Gas Extraction (21)</li>
-          <li>Construction (23)</li>
-          <li>Manufacturing (31-33)</li>
-        </ul>
-        Transportation, Trade, Utilities is comprised of jobs in the following NAICS sectors:
-        <ul>
-          <li>Utilities (22)</li>
-          <li>Wholesale Trade (42)</li>
-          <li>Retail Trade (44-45)</li>
-          <li>Transportation and Warehousing (48-49)</li>
-        </ul>
-      </p>
-      All Other Services is comprised of jobs in the following NAICS sectors:
-      <ul>
-        <li>Information (51)</li>
-        <li>Finance and Insurance (52)</li>
-        <li>Real Estate and Rental and Leasing (53)</li>
-        <li>Professional, Scientific, and Technical Services (54)</li>
-        <li>Management of Companies and Enterprises (55)</li>
-        <li>Administrative and Support and Waste Management and Remediation Services (56)</li>
-        <li>Educational Services (61)</li>
-        <li>Health Care and Social Assistance (62)</li>
-        <li>Arts, Entertainment, and Recreation (71)</li>
-        <li>Accommodation and Food Services (72)</li>
-        <li>Other Services (except Public Administration) (81)</li>
-        <li>Public Administration (92)</li>
-      </ul>
-      </p>
-      <h2>Where did you get the data?</h2>
-      <p>
-        The data is sourced completely from the Census Bureau, specifically the <a
-          href="https://lehd.ces.census.gov/data/#lodes">LEHD Origin-Destination Employment Statistics (LODES)</a>.
-      </p>
-      <h2>How was the map created?</h2>
-      <p>
-        The LODES data is processed and assimilated into geospatial files using Python. The geospatial data is
-        transitioned into vector tiles using Tippecanoe. The tiles are stored on Mapbox. Leaflet is the main driver of
-        the map utilizing Leaflet Vectorgrid to display the tile sets stored on Mapbox.
-      </p>
+            <h2>What do the 3 earnings levels define?</h2>
+            <ul>
+              <li>
+                Low represents earnings less than $1,250 per month.
+                <br />
+              </li>
+              <li>
+                Medium represents earnings between $1,251 and $3,333 per month.
+              </li>
+              <li>
+                High represents earnings greater than $3,333 per month.
+              </li>
+            </ul>
+            <h2>What is included in each of the 3 Industry categories?</h2>
+            <p>Goods Producing is comprised of jobs in the following NAICS sectors:
+              <ul>
+                <li>Agriculture, Forestry, Fishing and Hunting (11)</li>
+                <li>Mining, Quarrying, and Oil and Gas Extraction (21)</li>
+                <li>Construction (23)</li>
+                <li>Manufacturing (31-33)</li>
+              </ul>
+              Transportation, Trade, Utilities is comprised of jobs in the following NAICS sectors:
+              <ul>
+                <li>Utilities (22)</li>
+                <li>Wholesale Trade (42)</li>
+                <li>Retail Trade (44-45)</li>
+                <li>Transportation and Warehousing (48-49)</li>
+              </ul>
+            </p>
+            All Other Services is comprised of jobs in the following NAICS sectors:
+            <ul>
+              <li>Information (51)</li>
+              <li>Finance and Insurance (52)</li>
+              <li>Real Estate and Rental and Leasing (53)</li>
+              <li>Professional, Scientific, and Technical Services (54)</li>
+              <li>Management of Companies and Enterprises (55)</li>
+              <li>Administrative and Support and Waste Management and Remediation Services (56)</li>
+              <li>Educational Services (61)</li>
+              <li>Health Care and Social Assistance (62)</li>
+              <li>Arts, Entertainment, and Recreation (71)</li>
+              <li>Accommodation and Food Services (72)</li>
+              <li>Other Services (except Public Administration) (81)</li>
+              <li>Public Administration (92)</li>
+            </ul>
+            </p>
+            <h2>Where did you get the data?</h2>
+            <p>
+              The data is sourced completely from the Census Bureau, specifically the <a
+                href="https://lehd.ces.census.gov/data/#lodes">LEHD Origin-Destination Employment Statistics
+                (LODES)</a>.
+            </p>
+            <h2>How was the map created?</h2>
+            <p>
+              The LODES data is processed and assimilated into geospatial files using Python. The geospatial data is
+              transitioned into vector tiles using Tippecanoe. The tiles are stored on Mapbox. Leaflet is the main
+              driver of
+              the map utilizing Leaflet Vectorgrid to display the tile sets stored on Mapbox.
+            </p>
             <div class="info-close btn">
               <i class="fa fa-arrow-left"></i> Back to map
             </div>
           </div>
         </div>
-        </div>
-      <!-- end nav div-->
-    </div>
 
-    <div id="foot">
-      <div id="credit">
-        <span class="credit-line">Designed by: Mark Cruse</span></div>
-      <div id="statbar">
-          <span class="foot-subhead">Commute Length:</span>
-          <div class="stat" data-line-type="0" title="15 - 19 mile commute">
-              <i class="fas fa-square stat-short-color" aria-hidden="true"></i> <span class="name">Short </span> 
-              <div class="result" id="result-short"><span id="stat-short" class="color-by-line-type value"></span> </div>
-          </div>
-          <div class="stat" data-line-type="1" title="20 - 28 mile commute">
-              <i class="fas fa-square stat-medium-color"></i> <span class="name">Medium</span> 
-              <div class="result" id="result-short"><span id="stat-medium" class="color-by-line-type value"></span></div>
-          </div>
-          <div class="stat" data-line-type="2" title="29 - 62 mile commute">
-              <i class="fas fa-square stat-long-color"></i> <span class="name">Long</span> 
-              <div class="result" id="result-short"><span id="stat-long" class="color-by-line-type value"></span></div>
-          </div>
 
-      </div>
-    </div>
 
-    <!-- -------------------------------------------------------------------------------------- -->
+  </div>
 
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script
-      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-      crossorigin="anonymous"
-    ></script>
-    <script
-      src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-      crossorigin="anonymous"
-    ></script>
-    <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
-    <script src="https://d3js.org/d3.v5.min.js"></script>
-    <script src="https://unpkg.com/leaflet.vectorgrid@latest/dist/Leaflet.VectorGrid.bundled.js"></script>
-    <!-- Leaflet.Locate-->
-    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-locatecontrol/0.67.0/L.Control.Locate.min.js"></script>-->
+  <!-- -------------------------------------------------------------------------------------- -->
 
-    <script src="assets/js/map-app-vectorgrid.js"></script>
-  </body>
+  <!-- Optional JavaScript -->
+  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+  </script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+  </script>
+  <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"></script>
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <script src="https://unpkg.com/leaflet.vectorgrid@latest/dist/Leaflet.VectorGrid.bundled.js"></script>
+  <!-- Leaflet.Locate-->
+  <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-locatecontrol/0.67.0/L.Control.Locate.min.js"></script>-->
+
+  <script src="assets/js/map-app-vectorgrid.js"></script>
+</body>
+
 </html>
