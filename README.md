@@ -21,17 +21,19 @@ LEHD Origin-Destination Employment Statistics (LODES) provides annual employment
 
 The [LODES](https://lehd.ces.census.gov/data/#lodes) dataset is the data foundation for this project.  Within LODES this project focuses on the Primary Jobs subset of LODES (JT01 job types). 2015 is the latest data set.  LODES data does not contain any geographic information, therefore is it essential to download the census block Shapefiles from [TIGER/Line](https://www.census.gov/geo/maps-data/data/tiger-line.html). The LODES data and shapefiles are then merged using the GEOID.  
 
-The individual state LODES and TIGER/Line data are extracted using Python. Since shapefiles are rather large, Python code has been designed to download, extract, and save only the needed data from the shapefiles. The Python code also reduces the precision of the geometry to save additional storage space. The data from LODES and the shapefiles are merged together to give the workplace location and place of residence a geographic coordinate.
+The individual state LODES and TIGER/Line data are extracted using Python. Since shapefiles are rather large, Python code has been designed to download, extract, and save only the centroid coordinate information from the shapefiles. The Python code also reduces the precision of the geometry to save additional storage space. The data from LODES and the shapefiles are merged together to give the workplace location and place of residence a geographic coordinate.
 
-The main LODES dataset is also extracted and processed directly from the website. The data is saved in one large CSV file. Currently, the data consists of 109,628,603 unique records. Since it only includes the in-state commuters the size is likely to grow with the addition of records for those that cross state lines to work. The large file is then processed and analyzed in Python using [Pandas dataframes](https://en.wikipedia.org/wiki/Pandas_(software)) and [Dask dataframes](http://docs.dask.org/en/latest/dataframe.html).  The processing aggregates the data to be generated for maps and data visualizations.  
+The main LODES dataset is also extracted and processed directly from the website. The large file is then processed and analyzed in Python using [Pandas dataframes](https://en.wikipedia.org/wiki/Pandas_(software)) and [Dask dataframes](http://docs.dask.org/en/latest/dataframe.html).  The processing aggregates the data to be generated for maps and data visualizations.  
 
 ![](./images/data_process_flow.png)
 
-Python Jupyter Lab notebooks are located in the [python workbooks folder](./python-workbooks/README.md)
+#### Python Jupyter Lab notebooks 
+
+The notebooks described in the [python workbooks folder](./python-workbooks/README.md) document the steps to take to download, process, transform and load the data to create an interactive map.
+
+#### Data Information
+The [data discovery](./data-discovery/README.md) processes are identified in this section of the repository.
+
 
 <sup>1</sup>[LED New Data from the States and the U.S. Census Bureau](https://lehd.ces.census.gov/doc/LEDonepager.pdf)
 
-
-#### Addition Information
-[Data Discovery](./data-discovery/README.md)  
-[Python Workbooks](./python-workbooks/README.md)
