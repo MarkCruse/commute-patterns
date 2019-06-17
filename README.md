@@ -31,6 +31,9 @@ The main LODES dataset is also extracted and processed directly from the website
 
 The notebooks described in the [python workbooks folder](./python-workbooks/README.md) document the steps to take to download, process, transform and load the data to create an interactive map.
 
+#### Tippecanoe - Create Tilesets for Mapbox
+[Shell Script to Create Tiles](tippee_process.sh) creates the tilesets to upload to Mapbox.
+
 #### Data Information
 The [data discovery](./data-discovery/README.md) processes are identified in this section of the repository.
 
