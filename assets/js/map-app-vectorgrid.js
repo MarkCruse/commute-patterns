@@ -550,7 +550,6 @@ var longCommuteOptions = {
     weight: .6,
     opacity: .4
 }
-//console.log('cheked longCommuteOption');
 var mapboxToken = "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew";
 
 //******************************************************
