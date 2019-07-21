@@ -32,7 +32,7 @@ var maxBounds = [
 var map = L.map('map', {
     renderer: L.canvas(),
     color: '#e0e0e0'
-}).setMaxZoom(12).setMinZoom(4);
+}).setMaxZoom(8).setMinZoom(4);
 
 map.setMaxBounds(maxBounds);
 map.fitBounds(maxBounds);
@@ -558,7 +558,7 @@ var mapboxToken = "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMX
 //
 //******************************************************
 var tiles_age1_long =
-    "https://b.tiles.mapbox.com/v4/mdcruse.8oobov5t/{z}/{x}/{y}.vector.pbf?access_token={token}";
+    "https://b.tiles.mapbox.com/v4/mdcruse.3000qcdl/{z}/{x}/{y}.vector.pbf?access_token={token}";
 var options_age1_long = {
     vectorTileLayerStyles: {
         'age1_long': longCommuteOptions
@@ -569,7 +569,7 @@ var options_age1_long = {
 var age1_long = L.vectorGrid.protobuf(tiles_age1_long, options_age1_long).addTo(age1LayerGroup);
 
 var tiles_age1_medium =
-    "https://b.tiles.mapbox.com/v4/mdcruse.83mu7o6p/{z}/{x}/{y}.vector.pbf?access_token={token}";
+    "https://b.tiles.mapbox.com/v4/mdcruse.b4yc1fa7/{z}/{x}/{y}.vector.pbf?access_token={token}";
 var options_age1_medium = {
     vectorTileLayerStyles: {
         'age1_medium': mediumCommuteOptions
@@ -580,7 +580,7 @@ var options_age1_medium = {
 var age1_medium = L.vectorGrid.protobuf(tiles_age1_medium, options_age1_medium).addTo(age1LayerGroup);
 
 var tiles_age1_short =
-    "https://b.tiles.mapbox.com/v4/mdcruse.dp4fjzu8/{z}/{x}/{y}.vector.pbf?access_token={token}";
+    "https://b.tiles.mapbox.com/v4/mdcruse.9vlhza5a/{z}/{x}/{y}.vector.pbf?access_token={token}";
 var options_age1_short = {
     vectorTileLayerStyles: {
         'age1_short': shortCommuteOptions
