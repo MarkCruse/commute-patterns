@@ -558,7 +558,7 @@ var mapboxToken = "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMX
 //
 //******************************************************
 var tiles_age1_long =
-    "https://b.tiles.mapbox.com/v4/mdcruse.cmuoujwg/{z}/{x}/{y}.vector.pbf?access_token={token}";
+    "https://b.tiles.mapbox.com/v4/mdcruse.4xlpiged/{z}/{x}/{y}.vector.pbf?access_token={token}";
 var options_age1_long = {
     vectorTileLayerStyles: {
         'age1_long': longCommuteOptions
@@ -569,7 +569,7 @@ var options_age1_long = {
 var age1_long = L.vectorGrid.protobuf(tiles_age1_long, options_age1_long).addTo(age1LayerGroup);
 
 var tiles_age1_medium =
-    "https://b.tiles.mapbox.com/v4/mdcruse.1kbldv7a/{z}/{x}/{y}.vector.pbf?access_token={token}";
+    "https://b.tiles.mapbox.com/v4/mdcruse.3z476pn3/{z}/{x}/{y}.vector.pbf?access_token={token}";
 var options_age1_medium = {
     vectorTileLayerStyles: {
         'age1_medium': mediumCommuteOptions
@@ -580,7 +580,7 @@ var options_age1_medium = {
 var age1_medium = L.vectorGrid.protobuf(tiles_age1_medium, options_age1_medium).addTo(age1LayerGroup);
 
 var tiles_age1_short =
-    "https://b.tiles.mapbox.com/v4/mdcruse.b7tv12c3/{z}/{x}/{y}.vector.pbf?access_token={token}";
+    "https://b.tiles.mapbox.com/v4/mdcruse.26h0q8qr/{z}/{x}/{y}.vector.pbf?access_token={token}";
 var options_age1_short = {
     vectorTileLayerStyles: {
         'age1_short': shortCommuteOptions
@@ -596,7 +596,7 @@ var age1_short = L.vectorGrid.protobuf(tiles_age1_short, options_age1_short).add
 //                  Age 2                               
 //
 //******************************************************
-var tiles_age2_long = "https://b.tiles.mapbox.com/v4/mdcruse.aztv0e9z/{z}/{x}/{y}.vector.pbf?access_token={token}";
+var tiles_age2_long = "https://b.tiles.mapbox.com/v4/mdcruse.1td34meg/{z}/{x}/{y}.vector.pbf?access_token={token}";
 var options_age2_long = {
     vectorTileLayerStyles: {
         'age2_long': longCommuteOptions
@@ -608,7 +608,7 @@ var options_age2_long = {
 var age2_long = L.vectorGrid.protobuf(tiles_age2_long, options_age2_long).addTo(age2LayerGroup);
 
 var tiles_age2_medium =
-    "https://b.tiles.mapbox.com/v4/mdcruse.8nl6chgs/{z}/{x}/{y}.vector.pbf?access_token={token}";
+    "https://b.tiles.mapbox.com/v4/mdcruse.du8lu9ta/{z}/{x}/{y}.vector.pbf?access_token={token}";
 var options_age2_medium = {
     vectorTileLayerStyles: {
         'age2_medium': mediumCommuteOptions
@@ -619,7 +619,7 @@ var options_age2_medium = {
 var age2_medium = L.vectorGrid.protobuf(tiles_age2_medium, options_age2_medium).addTo(age2LayerGroup);
 
 var tiles_age2_short =
-    "https://b.tiles.mapbox.com/v4/mdcruse.8pqbb729/{z}/{x}/{y}.vector.pbf?access_token={token}";
+    "https://b.tiles.mapbox.com/v4/mdcruse.35vysjjz/{z}/{x}/{y}.vector.pbf?access_token={token}";
 var options_age2_short = {
     vectorTileLayerStyles: {
         'age2_short': shortCommuteOptions
@@ -637,7 +637,7 @@ var age2_short = L.vectorGrid.protobuf(tiles_age2_short, options_age2_short).add
 //
 //******************************************************
 var tiles_age3_long =
-    "https://b.tiles.mapbox.com/v4/mdcruse.cbcbt68j/{z}/{x}/{y}.vector.pbf?access_token={token}";
+    "https://b.tiles.mapbox.com/v4/mdcruse.18nt7xnq/{z}/{x}/{y}.vector.pbf?access_token={token}";
 var options_age3_long = {
     vectorTileLayerStyles: {
         'age3_long': longCommuteOptions
@@ -650,7 +650,7 @@ var options_age3_long = {
 var age3_long = L.vectorGrid.protobuf(tiles_age3_long, options_age3_long).addTo(age3LayerGroup);
 
 var tiles_age3_medium =
-    "https://b.tiles.mapbox.com/v4/mdcruse.62efg6km/{z}/{x}/{y}.vector.pbf?access_token={token}";
+    "https://b.tiles.mapbox.com/v4/mdcruse.4vile4ah/{z}/{x}/{y}.vector.pbf?access_token={token}";
 var options_age3_medium = {
     vectorTileLayerStyles: {
         'age3_medium': mediumCommuteOptions
@@ -661,7 +661,7 @@ var options_age3_medium = {
 var age3_medium = L.vectorGrid.protobuf(tiles_age3_medium, options_age3_medium).addTo(age3LayerGroup);
 
 var tiles_age3_short =
-    "https://b.tiles.mapbox.com/v4/mdcruse.b8jq5vqh/{z}/{x}/{y}.vector.pbf?access_token={token}";
+    "https://b.tiles.mapbox.com/v4/mdcruse.5a0ch397/{z}/{x}/{y}.vector.pbf?access_token={token}";
 var options_age3_short = {
     vectorTileLayerStyles: {
         'age3_short': shortCommuteOptions
@@ -680,7 +680,7 @@ var age3_short = L.vectorGrid.protobuf(tiles_age3_short, options_age3_short).add
 //******************************************************
 
 var tiles_earn1_long =
-    "https://b.tiles.mapbox.com/v4/mdcruse.53a52d54/{z}/{x}/{y}.vector.pbf?access_token={token}";
+    "https://b.tiles.mapbox.com/v4/mdcruse.4ysem3y1/{z}/{x}/{y}.vector.pbf?access_token={token}";
 var options_earn1_long = {
     vectorTileLayerStyles: {
         'earn1_long': longCommuteOptions
@@ -691,7 +691,7 @@ var options_earn1_long = {
 var earn1_long = L.vectorGrid.protobuf(tiles_earn1_long, options_earn1_long).addTo(earn1LayerGroup);
 
 var tiles_earn1_medium =
-    "https://b.tiles.mapbox.com/v4/mdcruse.4bxvojwcs/{z}/{x}/{y}.vector.pbf?access_token={token}";
+    "https://b.tiles.mapbox.com/v4/mdcruse.aovtynrz/{z}/{x}/{y}.vector.pbf?access_token={token}";
 var options_earn1_medium = {
     vectorTileLayerStyles: {
         'earn1_medium': mediumCommuteOptions
@@ -702,7 +702,7 @@ var options_earn1_medium = {
 var earn1_medium = L.vectorGrid.protobuf(tiles_earn1_medium, options_earn1_medium).addTo(earn1LayerGroup);
 
 var tiles_earn1_short =
-    "https://b.tiles.mapbox.com/v4/mdcruse.6bl146ed/{z}/{x}/{y}.vector.pbf?access_token={token}";
+    "https://b.tiles.mapbox.com/v4/mdcruse.5rheg45w/{z}/{x}/{y}.vector.pbf?access_token={token}";
 var options_earn1_short = {
     vectorTileLayerStyles: {
         'earn1_short': shortCommuteOptions
@@ -719,7 +719,7 @@ var earn1_short = L.vectorGrid.protobuf(tiles_earn1_short, options_earn1_short).
 //                  Earn 2                              
 //
 //******************************************************
-var tiles_earn2_long = "https://b.tiles.mapbox.com/v4/mdcruse.b0h9hihz/{z}/{x}/{y}.vector.pbf?access_token={token}";
+var tiles_earn2_long = "https://b.tiles.mapbox.com/v4/mdcruse.aws066t9o/{z}/{x}/{y}.vector.pbf?access_token={token}";
 var options_earn2_long = {
     vectorTileLayerStyles: {
         'earn2_long': longCommuteOptions
@@ -732,7 +732,7 @@ var options_earn2_long = {
 var earn2_long = L.vectorGrid.protobuf(tiles_earn2_long, options_earn2_long).addTo(earn2LayerGroup);
 
 var tiles_earn2_medium =
-    "https://b.tiles.mapbox.com/v4/mdcruse.8a7dq474/{z}/{x}/{y}.vector.pbf?access_token={token}";
+    "https://b.tiles.mapbox.com/v4/mdcruse.5wcp9pbt/{z}/{x}/{y}.vector.pbf?access_token={token}";
 var options_earn2_medium = {
     vectorTileLayerStyles: {
         'earn2_medium': mediumCommuteOptions
@@ -743,7 +743,7 @@ var options_earn2_medium = {
 var earn2_medium = L.vectorGrid.protobuf(tiles_earn2_medium, options_earn2_medium).addTo(earn2LayerGroup);
 
 var tiles_earn2_short =
-    "https://b.tiles.mapbox.com/v4/mdcruse.ckc77ndp/{z}/{x}/{y}.vector.pbf?access_token={token}";
+    "https://b.tiles.mapbox.com/v4/mdcruse.1wjjjlo5/{z}/{x}/{y}.vector.pbf?access_token={token}";
 var options_earn2_short = {
     vectorTileLayerStyles: {
         'earn2_short': shortCommuteOptions
@@ -760,7 +760,7 @@ var earn2_short = L.vectorGrid.protobuf(tiles_earn2_short, options_earn2_short).
 //
 //******************************************************
 var tiles_earn3_long =
-    "https://b.tiles.mapbox.com/v4/mdcruse.7kqoom39/{z}/{x}/{y}.vector.pbf?access_token={token}";
+    "https://b.tiles.mapbox.com/v4/mdcruse.7pai139h/{z}/{x}/{y}.vector.pbf?access_token={token}";
 var options_earn3_long = {
     vectorTileLayerStyles: {
         'earn3_long': longCommuteOptions
@@ -773,7 +773,7 @@ var options_earn3_long = {
 var earn3_long = L.vectorGrid.protobuf(tiles_earn3_long, options_earn3_long).addTo(earn3LayerGroup);
 
 var tiles_earn3_medium =
-    "https://b.tiles.mapbox.com/v4/mdcruse.c8qi7ajd/{z}/{x}/{y}.vector.pbf?access_token={token}";
+    "https://b.tiles.mapbox.com/v4/mdcruse.5iwqgigw/{z}/{x}/{y}.vector.pbf?access_token={token}";
 var options_earn3_medium = {
     vectorTileLayerStyles: {
         'earn3_medium': mediumCommuteOptions
@@ -784,7 +784,7 @@ var options_earn3_medium = {
 var earn3_medium = L.vectorGrid.protobuf(tiles_earn3_medium, options_earn3_medium).addTo(earn3LayerGroup);
 
 var tiles_earn3_short =
-    "https://b.tiles.mapbox.com/v4/mdcruse.5560ie5s/{z}/{x}/{y}.vector.pbf?access_token={token}";
+    "https://b.tiles.mapbox.com/v4/mdcruse.74w656sg/{z}/{x}/{y}.vector.pbf?access_token={token}";
 var options_earn3_short = {
     vectorTileLayerStyles: {
         'earn3_short': shortCommuteOptions
@@ -801,7 +801,7 @@ var earn3_short = L.vectorGrid.protobuf(tiles_earn3_short, options_earn3_short).
 //******************************************************
 
 var tiles_ind1_long =
-    "https://b.tiles.mapbox.com/v4/mdcruse.8kei2gzx/{z}/{x}/{y}.vector.pbf?access_token={token}";
+    "https://b.tiles.mapbox.com/v4/mdcruse.ahblm7ao/{z}/{x}/{y}.vector.pbf?access_token={token}";
 var options_ind1_long = {
     vectorTileLayerStyles: {
         'ind1_long': longCommuteOptions
@@ -812,7 +812,7 @@ var options_ind1_long = {
 var ind1_long = L.vectorGrid.protobuf(tiles_ind1_long, options_ind1_long).addTo(ind1LayerGroup);
 
 var tiles_ind1_medium =
-    "https://b.tiles.mapbox.com/v4/mdcruse.9lo9mtv5/{z}/{x}/{y}.vector.pbf?access_token={token}";
+    "https://b.tiles.mapbox.com/v4/mdcruse.a7l7dl4b/{z}/{x}/{y}.vector.pbf?access_token={token}";
 var options_ind1_medium = {
     vectorTileLayerStyles: {
         'ind1_medium': mediumCommuteOptions
@@ -823,7 +823,7 @@ var options_ind1_medium = {
 var ind1_medium = L.vectorGrid.protobuf(tiles_ind1_medium, options_ind1_medium).addTo(ind1LayerGroup);
 
 var tiles_ind1_short =
-    "https://b.tiles.mapbox.com/v4/mdcruse.3fcnzspt/{z}/{x}/{y}.vector.pbf?access_token={token}";
+    "https://b.tiles.mapbox.com/v4/mdcruse.9j24bc7f/{z}/{x}/{y}.vector.pbf?access_token={token}";
 var options_ind1_short = {
     vectorTileLayerStyles: {
         'ind1_short': shortCommuteOptions
@@ -838,7 +838,7 @@ var ind1_short = L.vectorGrid.protobuf(tiles_ind1_short, options_ind1_short).add
 //                  Industry 2                              
 //
 //******************************************************
-var tiles_ind2_long = "https://b.tiles.mapbox.com/v4/mdcruse.9tuzg9qy/{z}/{x}/{y}.vector.pbf?access_token={token}";
+var tiles_ind2_long = "https://b.tiles.mapbox.com/v4/mdcruse.5hpe3s64/{z}/{x}/{y}.vector.pbf?access_token={token}";
 var options_ind2_long = {
     vectorTileLayerStyles: {
         'ind2_long': longCommuteOptions
@@ -851,7 +851,7 @@ var options_ind2_long = {
 var ind2_long = L.vectorGrid.protobuf(tiles_ind2_long, options_ind2_long).addTo(ind2LayerGroup);
 
 var tiles_ind2_medium =
-    "https://b.tiles.mapbox.com/v4/mdcruse.71g1e97b/{z}/{x}/{y}.vector.pbf?access_token={token}";
+    "https://b.tiles.mapbox.com/v4/mdcruse.3nz912z4/{z}/{x}/{y}.vector.pbf?access_token={token}";
 var options_ind2_medium = {
     vectorTileLayerStyles: {
         'ind2_medium': mediumCommuteOptions
@@ -862,7 +862,7 @@ var options_ind2_medium = {
 var ind2_medium = L.vectorGrid.protobuf(tiles_ind2_medium, options_ind2_medium).addTo(ind2LayerGroup);
 
 var tiles_ind2_short =
-    "https://b.tiles.mapbox.com/v4/mdcruse.c3r2fhw0/{z}/{x}/{y}.vector.pbf?access_token={token}";
+    "https://b.tiles.mapbox.com/v4/mdcruse.6wky7b5g/{z}/{x}/{y}.vector.pbf?access_token={token}";
 var options_ind2_short = {
     vectorTileLayerStyles: {
         'ind2_short': shortCommuteOptions
@@ -879,7 +879,7 @@ var ind2_short = L.vectorGrid.protobuf(tiles_ind2_short, options_ind2_short).add
 //
 //******************************************************
 var tiles_ind3_long =
-    "https://b.tiles.mapbox.com/v4/mdcruse.2aco4ukr/{z}/{x}/{y}.vector.pbf?access_token={token}";
+    "https://b.tiles.mapbox.com/v4/mdcruse.b09brrb9/{z}/{x}/{y}.vector.pbf?access_token={token}";
 var options_ind3_long = {
     vectorTileLayerStyles: {
         'ind3_long': longCommuteOptions
@@ -892,7 +892,7 @@ var options_ind3_long = {
 var ind3_long = L.vectorGrid.protobuf(tiles_ind3_long, options_ind3_long).addTo(ind3LayerGroup);
 
 var tiles_ind3_medium =
-    "https://b.tiles.mapbox.com/v4/mdcruse.362a6ytg/{z}/{x}/{y}.vector.pbf?access_token={token}";
+    "https://b.tiles.mapbox.com/v4/mdcruse.7swq7ywy/{z}/{x}/{y}.vector.pbf?access_token={token}";
 var options_ind3_medium = {
     vectorTileLayerStyles: {
         'ind3_medium': mediumCommuteOptions
@@ -903,7 +903,7 @@ var options_ind3_medium = {
 var ind3_medium = L.vectorGrid.protobuf(tiles_ind3_medium, options_ind3_medium).addTo(ind3LayerGroup);
 
 var tiles_ind3_short =
-    "https://b.tiles.mapbox.com/v4/mdcruse.7moed1d5/{z}/{x}/{y}.vector.pbf?access_token={token}";
+    "https://b.tiles.mapbox.com/v4/mdcruse.9wdhhzvy/{z}/{x}/{y}.vector.pbf?access_token={token}";
 var options_ind3_short = {
     vectorTileLayerStyles: {
         'ind3_short': shortCommuteOptions
