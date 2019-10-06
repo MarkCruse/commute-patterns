@@ -1,0 +1,7 @@
+background-size : cover
+theme : night
+footnote : "Commute Patterns"
+theme-override : presentation/custom.css
+# code-line-numbers : true
+layout : center-left
+# transition : zoom
