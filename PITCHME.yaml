@@ -1,8 +1,18 @@
-background-size : cover
+#background-size : cover
 theme : night
-footnote : "Commute Patterns"
+
 theme-override : presentation/custom.css
 # code-line-numbers : true
 layout : center-left
 # transition : zoom
 pro-menus-hidden : true
+code-line-numbers : true
+
+charts : true
+
+highlight : agate
+
+title : "Commute Patterns within Census Origin to Destination Data"
+description : "GitPitch Live Slideshow Presentation Slides"
+#thumbnail : https://gitpitch.com/gpimg/kitchen-sink-thumb.jpg
+footnote : " "
