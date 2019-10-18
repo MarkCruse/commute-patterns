@@ -8,13 +8,12 @@ Github repo:
 Presentation:  
 @color[#e49436](@size[.9em](bit.ly/commute-patterns-presentation))  
 
-@div[left-50 fragment]
+@div[left-50 map-full fragment]
 ![Diploma](presentation/images/diploma.png)
 @divend
-@div[right-50 fragment]
+@div[right-50 map-full fragment]
 ![NACIS logo](presentation/images/nacis2019_logo.png)
 @divend
-+++
 ---
 @title[Introduction]
 @snap[north headline span-100]
