@@ -9,10 +9,10 @@ Presentation:
 @color[#e49436](@size[.9em](bit.ly/commute-patterns-presentation))  
 
 @div[left-50 map-full fragment]
-![Diploma](presentation/images/diploma.png)
+![Diploma](nacis2019-presentation/images/diploma.png)
 @divend
 @div[right-50 map-full fragment]
-![NACIS logo](presentation/images/nacis2019_logo.png)
+![NACIS logo](nacis2019-presentation/images/nacis2019_logo.png)
 @divend
 ---
 @title[Introduction]
@@ -37,7 +37,7 @@ Presentation:
 @snapend
 
 @snap[midpoint map-full span-100]
-![](presentation/images/map_to_age_29.png)
+![](nacis2019-presentation/images/map_to_age_29.png)
 @snapend
 
 @snap[south byline span-100]
@@ -107,7 +107,7 @@ Note:
 Data Source
 @snapend
 @snap[east span-60]
-![](presentation/images/lodes_about.png)
+![](nacis2019-presentation/images/lodes_about.png)
 @snapend
 @snap[south text-center]
 https://lehd.ces.census.gov/
@@ -121,7 +121,7 @@ LODES is a part of the Longitudinal Employer-Household Dynamics data products fr
 @snapend
 
 @snap[east span-40]
-![](presentation/images/lodes_about.png)
+![](nacis2019-presentation/images/lodes_about.png)
 @snapend
 
 +++ 
@@ -135,7 +135,7 @@ LODES consist of, the Unemployment Insurance earnings data and Quarterly Census 
 @snapend
 
 @snap[east span-40]
-![](presentation/images/lodes_about.png)
+![](nacis2019-presentation/images/lodes_about.png)
 @snapend
 
 +++ 
@@ -151,7 +151,7 @@ https://lehd.ces.census.gov/
 @snapend
 
 @snap[east span-40]
-![](presentation/images/lodes_about.png)
+![](nacis2019-presentation/images/lodes_about.png)
 @snapend
 
 +++   
@@ -167,7 +167,7 @@ Jobs of workers who are employed in the state and reside out of state.
 @snapend
 
 @snap[east span-40]
-![](presentation/images/od_recs_al_ftp.png)
+![](nacis2019-presentation/images/od_recs_al_ftp.png)
 @snapend
 
 +++
@@ -184,7 +184,7 @@ __JT05__ - Federal Primary Jobs
 @snapend
 
 @snap[east span-40]
-![](presentation/images/od_recs_al_ftp.png)
+![](nacis2019-presentation/images/od_recs_al_ftp.png)
 @snapend
 
 +++?image=presentation/images/map_to_age_29.png&size=cover&opacity=50
@@ -193,7 +193,7 @@ __JT05__ - Federal Primary Jobs
 
 +++
 @snap[midpoint span-100]
-![](presentation/images/Origin-Destination_Record_Level_Structure.png)
+![](nacis2019-presentation/images/Origin-Destination_Record_Level_Structure.png)
 @snapend
 Note:
 - The data is very detailed and will requeire some aggregation
@@ -204,27 +204,27 @@ Note:
 @title[Data Wrangling Tools]
 @snap[north map-full span-100]
 Data Wrangling Tools
-![](presentation/images/wranglingbigdata.jpg)
+![](nacis2019-presentation/images/wranglingbigdata.jpg)
 @snapend
 @snap[south map-full span-40]
-![](presentation/images/jupyter-python.png)
+![](nacis2019-presentation/images/jupyter-python.png)
 @snapend
 
 +++
 @title[Workflow]
 @snap[north map-full span-100]
 Data Workflow
-![](presentation/images/data_process_flow.png)
+![](nacis2019-presentation/images/data_process_flow.png)
 @snapend
 +++
 @title[Workflow]
 @snap[north img-blur span-90]
 @css[gray-it](Data Workflow)
-![](presentation/images/data_process_flow.png)
+![](nacis2019-presentation/images/data_process_flow.png)
 @snapend
 @snap[south map-full span-80]
 Python Libraries
-![](presentation/images/pandas-geopandas.png)
+![](nacis2019-presentation/images/pandas-geopandas.png)
 @snapend
 ---
 @title[Jupyter Notebooks]
@@ -236,7 +236,7 @@ Python Libraries
 
 @snap[midpoint map-full span-80]
 <br> 
-![](presentation/images/python_workbooks.png)
+![](nacis2019-presentation/images/python_workbooks.png)
 @snapend
 
 ---
