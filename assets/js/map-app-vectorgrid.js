@@ -25,8 +25,8 @@ var stat_short=12313;
 
 
 var maxBounds = [
-    [16.1, -167.1], //Southwest
-    [64.0, -50.9] //Northeast
+    [23.06, -123.80], //Southwest
+    [47.95, -62.5] //Northeast
 ];
 
 var map = L.map('map', {
