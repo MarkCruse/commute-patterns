@@ -1,3 +1,6 @@
+----?image=presentation/images/joe_madden_quote.jpg
+@title[Joe quote]
+---
 @title[Me & Repo]
 
 ### Mark Cruse
