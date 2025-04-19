@@ -15,13 +15,13 @@ var map_showing = false,
     ind1_showing = false,
     ind2_showing = false,
     ind3_showing = false;
-    short_showing = true;
+short_showing = true;
 //medium_showing = false,
 //long_showing = false,
 //commute_all_showing = false;
 
 var stat_short, stat_medium, stat_long;
-var stat_short=12313;
+var stat_short = 12313;
 
 
 var maxBounds = [
@@ -59,12 +59,12 @@ map.getPane('labels').style.pointerEvents = 'none';
 //attribution: '©OpenStreetMap Labels, ©Carto',
 var mapLayerGroup = L.layerGroup();
 label_layer = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_only_labels/{z}/{x}/{y}.png', {
-    attribution:'&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy; <a href="https://carto.com/attributions">CARTO</a>',
+    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>, &copy; <a href="https://carto.com/attributions">CARTO</a>',
     pane: 'labels'
 }).addTo(mapLayerGroup);
 
 tile_layer = L.tileLayer('https://cartocdn_{s}.global.ssl.fastly.net/base-midnight/{z}/{x}/{y}.png', {
-    attribution:'<a href="https://carto.com/attributions">Midnight_cartodb, CARTO</a>',
+    attribution: '<a href="https://carto.com/attributions">Midnight_cartodb, CARTO</a>',
 }).addTo(mapLayerGroup);
 
 
@@ -106,10 +106,10 @@ function initControls() {
 
     $("#map-toggler").on("click", toggleMap);
     $("#label-toggler").on("click", toggleLabel);
-       //$("#short-toggler").on("click", toggleShort);
-       //$("#medium-toggler").on("click", toggleMedium);
-       //$("#long-toggler").on("click", toggleLong);
-       //$("#commute-all-toggler").on("click", toggleCommuteAll);
+    //$("#short-toggler").on("click", toggleShort);
+    //$("#medium-toggler").on("click", toggleMedium);
+    //$("#long-toggler").on("click", toggleLong);
+    //$("#commute-all-toggler").on("click", toggleCommuteAll);
 
     $("#earn1-toggler").on("click", toggleEarn1);
     $("#earn2-toggler").on("click", toggleEarn2);
@@ -123,15 +123,15 @@ function initControls() {
     $("#trade-toggler").on("click", toggleInd2);
     $("#other-toggler").on("click", toggleInd3);
 
-	$("#info-open").on("click", toggleInfoPanel);
+    $("#info-open").on("click", toggleInfoPanel);
     $$(".info-close").on("click", hideInfoPanel);
-    
+
     var info_panel_showing = false;
     function toggleInfoPanel() {
         if (info_panel_showing) hideInfoPanel();
         else showInfoPanel();
     }
-    
+
     function showInfoPanel() {
         $("#info-panel")
             .classed("open", true)
@@ -144,7 +144,7 @@ function initControls() {
             .style("height", "100%");
         info_panel_showing = true;
     }
-    
+
     function hideInfoPanel() {
         var info = document.getElementById("info-panel");
         info.scrollTop = 0;
@@ -157,7 +157,7 @@ function initControls() {
             .style("height", document.getElementById("nav").getBoundingClientRect().height + "px");
         info_panel_showing = false;
     }
-    
+
     //************ Show / Hide background map layer  *********
 
     function toggleMap() {
@@ -178,7 +178,7 @@ function initControls() {
         map.removeLayer(tile_layer);
         $("#map-toggler").classed("checked", false);
         map_showing = false;
-    }    
+    }
 
     //************ Show / Hide  map label layer  *********
 
@@ -202,30 +202,30 @@ function initControls() {
         label_showing = false;
     }
 
-    
+
     //************ Show / Hide short commute layers  *********
 
     function toggleShort() {
-    	if (short_showing) hideShort();
-    	else showShort();
+        if (short_showing) hideShort();
+        else showShort();
     }
 
     function showShort() {
         if (short_showing) return;
         //map.addLayer(shortLayerGroup);
-    	$("#short-toggler").classed("checked", true);
-    	short_showing = true;
+        $("#short-toggler").classed("checked", true);
+        short_showing = true;
     }
 
     function hideShort() {
-    	if (!short_showing) return;
+        if (!short_showing) return;
         //map.removeLayer(shortLayerGroup);
         var longCommuteOptions = {
             color: 'orange',
             weight: 0,
             opacity: .4
         }
-        
+
         showEarn1();
         showEarn2();
         showEarn3();
@@ -235,10 +235,10 @@ function initControls() {
         showAge1();
         showAge2();
         showAge3();
-    	$("#short-toggler").classed("checked", false);
+        $("#short-toggler").classed("checked", false);
         short_showing = false;
     }
-    
+
 
     function toggleEarn1() {
         if (ern1_showing) {
@@ -544,13 +544,13 @@ var mediumCommuteOptions = {
     opacity: .6
 }
 //color: '#fed976',
-    //weight: .6,
+//weight: .6,
 var longCommuteOptions = {
     color: 'orange',
     weight: .6,
     opacity: .4
 }
-var mapboxToken = "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew";
+var mapboxToken = "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjbTlvZGljZmIweWFmMmlwdjhxc3d0anl2In0.uPUj9yZh0yPjwjiApe7bOw";
 
 //******************************************************
 //

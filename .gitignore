@@ -10,3 +10,7 @@
 /data
 /data/blocks
 /build-tiles
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
