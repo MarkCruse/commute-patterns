@@ -602,7 +602,7 @@ var options_age2_long = {
         'age2_long': longCommuteOptions
     },
     rendererFactory: L.canvas.tile,
-    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew"
+    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjbTlvZGljZmIweWFmMmlwdjhxc3d0anl2In0.uPUj9yZh0yPjwjiApe7bOw"
 }
 
 var age2_long = L.vectorGrid.protobuf(tiles_age2_long, options_age2_long).addTo(age2LayerGroup);
@@ -614,7 +614,7 @@ var options_age2_medium = {
         'age2_medium': mediumCommuteOptions
     },
     rendererFactory: L.canvas.tile,
-    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew"
+    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjbTlvZGljZmIweWFmMmlwdjhxc3d0anl2In0.uPUj9yZh0yPjwjiApe7bOw"
 }
 var age2_medium = L.vectorGrid.protobuf(tiles_age2_medium, options_age2_medium).addTo(age2LayerGroup);
 
@@ -625,7 +625,7 @@ var options_age2_short = {
         'age2_short': shortCommuteOptions
     },
     rendererFactory: L.canvas.tile,
-    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew"
+    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjbTlvZGljZmIweWFmMmlwdjhxc3d0anl2In0.uPUj9yZh0yPjwjiApe7bOw"
 }
 var age2_short = L.vectorGrid.protobuf(tiles_age2_short, options_age2_short).addTo(age2LayerGroup);
 //var age2_short2 = L.vectorGrid.protobuf(tiles_age2_short, options_age2_short).addTo(shortLayerGroup)
@@ -643,7 +643,7 @@ var options_age3_long = {
         'age3_long': longCommuteOptions
     },
     rendererFactory: L.canvas.tile,
-    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew",
+    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjbTlvZGljZmIweWFmMmlwdjhxc3d0anl2In0.uPUj9yZh0yPjwjiApe7bOw",
     interactive: true
 }
 
@@ -656,7 +656,7 @@ var options_age3_medium = {
         'age3_medium': mediumCommuteOptions
     },
     rendererFactory: L.canvas.tile,
-    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew"
+    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjbTlvZGljZmIweWFmMmlwdjhxc3d0anl2In0.uPUj9yZh0yPjwjiApe7bOw"
 }
 var age3_medium = L.vectorGrid.protobuf(tiles_age3_medium, options_age3_medium).addTo(age3LayerGroup);
 
@@ -667,7 +667,7 @@ var options_age3_short = {
         'age3_short': shortCommuteOptions
     },
     rendererFactory: L.canvas.tile,
-    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew"
+    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjbTlvZGljZmIweWFmMmlwdjhxc3d0anl2In0.uPUj9yZh0yPjwjiApe7bOw"
 }
 var age3_short = L.vectorGrid.protobuf(tiles_age3_short, options_age3_short).addTo(age3LayerGroup);
 //var age3_short2 = L.vectorGrid.protobuf(tiles_age3_short, options_age3_short).addTo(shortLayerGroup);
@@ -686,7 +686,7 @@ var options_earn1_long = {
         'earn1_long': longCommuteOptions
     },
     rendererFactory: L.canvas.tile,
-    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew"
+    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjbTlvZGljZmIweWFmMmlwdjhxc3d0anl2In0.uPUj9yZh0yPjwjiApe7bOw"
 }
 var earn1_long = L.vectorGrid.protobuf(tiles_earn1_long, options_earn1_long).addTo(earn1LayerGroup);
 
@@ -697,7 +697,7 @@ var options_earn1_medium = {
         'earn1_medium': mediumCommuteOptions
     },
     rendererFactory: L.canvas.tile,
-    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew"
+    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjbTlvZGljZmIweWFmMmlwdjhxc3d0anl2In0.uPUj9yZh0yPjwjiApe7bOw"
 }
 var earn1_medium = L.vectorGrid.protobuf(tiles_earn1_medium, options_earn1_medium).addTo(earn1LayerGroup);
 
@@ -708,7 +708,7 @@ var options_earn1_short = {
         'earn1_short': shortCommuteOptions
     },
     rendererFactory: L.canvas.tile,
-    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew"
+    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjbTlvZGljZmIweWFmMmlwdjhxc3d0anl2In0.uPUj9yZh0yPjwjiApe7bOw"
 }
 var earn1_short = L.vectorGrid.protobuf(tiles_earn1_short, options_earn1_short).addTo(earn1LayerGroup);
 
@@ -725,7 +725,7 @@ var options_earn2_long = {
         'earn2_long': longCommuteOptions
     },
     rendererFactory: L.canvas.tile,
-    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew",
+    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjbTlvZGljZmIweWFmMmlwdjhxc3d0anl2In0.uPUj9yZh0yPjwjiApe7bOw",
     interactive: true
 }
 
@@ -738,7 +738,7 @@ var options_earn2_medium = {
         'earn2_medium': mediumCommuteOptions
     },
     rendererFactory: L.canvas.tile,
-    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew"
+    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjbTlvZGljZmIweWFmMmlwdjhxc3d0anl2In0.uPUj9yZh0yPjwjiApe7bOw"
 }
 var earn2_medium = L.vectorGrid.protobuf(tiles_earn2_medium, options_earn2_medium).addTo(earn2LayerGroup);
 
@@ -749,7 +749,7 @@ var options_earn2_short = {
         'earn2_short': shortCommuteOptions
     },
     rendererFactory: L.canvas.tile,
-    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew"
+    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjbTlvZGljZmIweWFmMmlwdjhxc3d0anl2In0.uPUj9yZh0yPjwjiApe7bOw"
 }
 var earn2_short = L.vectorGrid.protobuf(tiles_earn2_short, options_earn2_short).addTo(earn2LayerGroup);
 
@@ -766,7 +766,7 @@ var options_earn3_long = {
         'earn3_long': longCommuteOptions
     },
     rendererFactory: L.canvas.tile,
-    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew",
+    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjbTlvZGljZmIweWFmMmlwdjhxc3d0anl2In0.uPUj9yZh0yPjwjiApe7bOw",
     interactive: true
 }
 
@@ -779,7 +779,7 @@ var options_earn3_medium = {
         'earn3_medium': mediumCommuteOptions
     },
     rendererFactory: L.canvas.tile,
-    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew"
+    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjbTlvZGljZmIweWFmMmlwdjhxc3d0anl2In0.uPUj9yZh0yPjwjiApe7bOw"
 }
 var earn3_medium = L.vectorGrid.protobuf(tiles_earn3_medium, options_earn3_medium).addTo(earn3LayerGroup);
 
@@ -790,7 +790,7 @@ var options_earn3_short = {
         'earn3_short': shortCommuteOptions
     },
     rendererFactory: L.canvas.tile,
-    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew"
+    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjbTlvZGljZmIweWFmMmlwdjhxc3d0anl2In0.uPUj9yZh0yPjwjiApe7bOw"
 }
 var earn3_short = L.vectorGrid.protobuf(tiles_earn3_short, options_earn3_short).addTo(earn3LayerGroup);
 
@@ -807,7 +807,7 @@ var options_ind1_long = {
         'ind1_long': longCommuteOptions
     },
     rendererFactory: L.canvas.tile,
-    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew"
+    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjbTlvZGljZmIweWFmMmlwdjhxc3d0anl2In0.uPUj9yZh0yPjwjiApe7bOw"
 }
 var ind1_long = L.vectorGrid.protobuf(tiles_ind1_long, options_ind1_long).addTo(ind1LayerGroup);
 
@@ -818,7 +818,7 @@ var options_ind1_medium = {
         'ind1_medium': mediumCommuteOptions
     },
     rendererFactory: L.canvas.tile,
-    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew"
+    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjbTlvZGljZmIweWFmMmlwdjhxc3d0anl2In0.uPUj9yZh0yPjwjiApe7bOw"
 }
 var ind1_medium = L.vectorGrid.protobuf(tiles_ind1_medium, options_ind1_medium).addTo(ind1LayerGroup);
 
@@ -829,7 +829,7 @@ var options_ind1_short = {
         'ind1_short': shortCommuteOptions
     },
     rendererFactory: L.canvas.tile,
-    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew"
+    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjbTlvZGljZmIweWFmMmlwdjhxc3d0anl2In0.uPUj9yZh0yPjwjiApe7bOw"
 }
 var ind1_short = L.vectorGrid.protobuf(tiles_ind1_short, options_ind1_short).addTo(ind1LayerGroup);
 
@@ -844,7 +844,7 @@ var options_ind2_long = {
         'ind2_long': longCommuteOptions
     },
     rendererFactory: L.canvas.tile,
-    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew",
+    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjbTlvZGljZmIweWFmMmlwdjhxc3d0anl2In0.uPUj9yZh0yPjwjiApe7bOw",
     interactive: true
 }
 
@@ -857,7 +857,7 @@ var options_ind2_medium = {
         'ind2_medium': mediumCommuteOptions
     },
     rendererFactory: L.canvas.tile,
-    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew"
+    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjbTlvZGljZmIweWFmMmlwdjhxc3d0anl2In0.uPUj9yZh0yPjwjiApe7bOw"
 }
 var ind2_medium = L.vectorGrid.protobuf(tiles_ind2_medium, options_ind2_medium).addTo(ind2LayerGroup);
 
@@ -868,7 +868,7 @@ var options_ind2_short = {
         'ind2_short': shortCommuteOptions
     },
     rendererFactory: L.canvas.tile,
-    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew"
+    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjbTlvZGljZmIweWFmMmlwdjhxc3d0anl2In0.uPUj9yZh0yPjwjiApe7bOw"
 }
 var ind2_short = L.vectorGrid.protobuf(tiles_ind2_short, options_ind2_short).addTo(ind2LayerGroup);
 
@@ -885,7 +885,7 @@ var options_ind3_long = {
         'ind3_long': longCommuteOptions
     },
     rendererFactory: L.canvas.tile,
-    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew",
+    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjbTlvZGljZmIweWFmMmlwdjhxc3d0anl2In0.uPUj9yZh0yPjwjiApe7bOw",
     interactive: true
 }
 
@@ -898,7 +898,7 @@ var options_ind3_medium = {
         'ind3_medium': mediumCommuteOptions
     },
     rendererFactory: L.canvas.tile,
-    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew"
+    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjbTlvZGljZmIweWFmMmlwdjhxc3d0anl2In0.uPUj9yZh0yPjwjiApe7bOw"
 }
 var ind3_medium = L.vectorGrid.protobuf(tiles_ind3_medium, options_ind3_medium).addTo(ind3LayerGroup);
 
@@ -909,6 +909,6 @@ var options_ind3_short = {
         'ind3_short': shortCommuteOptions
     },
     rendererFactory: L.canvas.tile,
-    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjanZvN25kaHQxdzAxNDhwZjM4NDNvMXV4In0.s4GSawMNB7Jo4Vf7LXKEew"
+    token: "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjbTlvZGljZmIweWFmMmlwdjhxc3d0anl2In0.uPUj9yZh0yPjwjiApe7bOw"
 }
 var ind3_short = L.vectorGrid.protobuf(tiles_ind3_short, options_ind3_short).addTo(ind3LayerGroup);
