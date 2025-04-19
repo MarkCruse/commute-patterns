@@ -551,6 +551,7 @@ var longCommuteOptions = {
     opacity: .4
 }
 var mapboxToken = "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjbTlvZGljZmIweWFmMmlwdjhxc3d0anl2In0.uPUj9yZh0yPjwjiApe7bOw";
+//var mapboxToken = "pk.eyJ1IjoibWRjcnVzZSIsImEiOiJjbTZtOTVocGEwYnFyMnFxNXdndzJheW9vIn0.lJ9K99heIvPDCABZwrcsdQ";
 
 //******************************************************
 //
